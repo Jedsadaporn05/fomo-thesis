@@ -1,0 +1,82 @@
+[
+  {
+    "id": "start",
+    "content": "คุณตื่นขึ้นมาในป่าลึกลับ 🌲 รอบตัวเงียบสงัด มีเพียงทางเดินเล็ก ๆ เบื้องหน้า",
+    "interactionType": "clickStart",
+    "choices": [
+      { "text": "เดินไปทางซ้าย", "nextSceneId": "river" },
+      { "text": "เดินไปทางขวา", "nextSceneId": "cave" },
+      { "text": "นั่งพักใต้ต้นไม้", "nextSceneId": "rest" }
+    ]
+  },
+  {
+    "id": "river",
+    "content": "คุณเจอลำธารใสไหลผ่าน 🏞 มีสะพานไม้เก่า ๆ และมีเรือลำเล็กผูกอยู่",
+    "interactionType": "clickRiver",
+    "choices": [
+      { "text": "ข้ามสะพาน", "nextSceneId": "trapBridge" },
+      { "text": "พายเรือข้ามไป", "nextSceneId": "island" },
+      { "text": "ย้อนกลับ", "nextSceneId": "start" }
+    ]
+  },
+  {
+    "id": "cave",
+    "content": "คุณเจอถ้ำมืดมิด 🕳 มีเสียงประหลาดดังออกมา",
+    "interactionType": "clickCave",
+    "choices": [
+      { "text": "เข้าไปในถ้ำ", "nextSceneId": "treasure" },
+      { "text": "จุดไฟแล้วเดินเข้าไป", "nextSceneId": "monster" },
+      { "text": "ถอยกลับ", "nextSceneId": "start" }
+    ]
+  },
+  {
+    "id": "rest",
+    "content": "คุณเผลองีบหลับไป... 🌙 และฝันเห็นวิญญาณโบราณมาเตือนว่า 'อย่าไว้ใจความมืด'",
+    "interactionType": "dream",
+    "choices": [
+      { "text": "ตื่นขึ้นและไปทางแม่น้ำ", "nextSceneId": "river" },
+      { "text": "ตื่นขึ้นและไปทางถ้ำ", "nextSceneId": "cave" }
+    ]
+  },
+  {
+    "id": "trapBridge",
+    "content": "สะพานขาด! คุณตกลงไปในน้ำเชี่ยว 🌊",
+    "choices": [],
+    "endingType": "bad"
+  },
+  {
+    "id": "island",
+    "content": "คุณพายเรือไปถึงเกาะเล็ก ๆ 🏝 มีหีบสมบัติอยู่กลางเกาะ",
+    "interactionType": "clickBox",
+    "choices": [
+      { "text": "เปิดหีบ", "nextSceneId": "treasure" },
+      { "text": "เมินเฉยแล้วกลับฝั่ง", "nextSceneId": "lockedDoor" }
+    ]
+  },
+  {
+    "id": "lockedDoor",
+    "content": "คุณเจอประตูเก่าที่ล็อกอยู่ 🏰 ต้องใช้กุญแจ",
+    "interactionType": "dragKey",
+    "choices": [{ "text": "เปิดประตู", "nextSceneId": "treasure" }]
+  },
+  {
+    "id": "treasure",
+    "content": "🎉 คุณเจอสมบัติ! นี่คือ Happy Ending!",
+    "choices": [],
+    "endingType": "happy"
+  },
+  {
+    "id": "monster",
+    "content": "คุณพบสัตว์ประหลาดในถ้ำ 🐉 มันพ่นไฟ!",
+    "choices": [
+      { "text": "สู้", "nextSceneId": "trapMonster" },
+      { "text": "หนีออกมา", "nextSceneId": "start" }
+    ]
+  },
+  {
+    "id": "trapMonster",
+    "content": "สัตว์ประหลาดพ่นไฟเผาคุณ... 🔥",
+    "choices": [],
+    "endingType": "bad"
+  }
+]

@@ -8,9 +8,9 @@ export default function KnowledgeSection() {
         </h2>
         {/* Content */}
         <div className="w-full h-full grid grid-cols-3 gap-10">
-          <div className="w-full h-[500px] grid col-span-1 rounded-2xl bg-[#CACACA]" />
-          <div className="w-full h-[500px] grid col-span-1 rounded-2xl bg-[#CACACA]" />
-          <div className="w-full h-[500px] grid col-span-1 rounded-2xl bg-[#CACACA]" />
+          <div className="w-full h-[500px] grid col-span-1 rounded-2xl bg-[#CACACA] hover:bg-[#2b2b2b] cursor-pointer" />
+          <div className="w-full h-[500px] grid col-span-1 rounded-2xl bg-[#CACACA] hover:bg-[#2b2b2b] cursor-pointer" />
+          <div className="w-full h-[500px] grid col-span-1 rounded-2xl bg-[#CACACA] hover:bg-[#2b2b2b] cursor-pointer" />
         </div>
       </div>
     </div>

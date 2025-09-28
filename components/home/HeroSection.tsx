@@ -15,7 +15,10 @@ export default function HeroSection() {
                 <span className="text-primary">G</span>racie
               </h2>
               {/* Button */}
-              <Link href={"/game/intro"} className="w-full flex flex-col justify-center items-center gap-6 cursor-pointer transition-all duration-300 hover:[&>*]:text-primary">
+              <Link
+                href={"/story"}
+                className="w-full flex flex-col justify-center items-center gap-6 cursor-pointer transition-all duration-300 hover:[&>*]:text-primary"
+              >
                 <div className="w-full py-[2px] rounded-full bg-gradient-to-r from-transparent via-white to-transparent" />
                 <p className="text-3xl font-medium text-white">
                   คลิกเพื่อเข้าสู่เรื่องราว

@@ -10,7 +10,7 @@ const prompt = Prompt({
 });
 
 export const metadata: Metadata = {
-  title: "Graice",
+  title: "Gracie",
   description: "interactive 2d animation storytelling website",
 };
 

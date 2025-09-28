@@ -158,7 +158,7 @@
 }
 /* Custom scrollbar styles */
 .custom-scrollbar::-webkit-scrollbar {
-  width: 5px; /* Adjust width of scrollbar */
+  width: 7px; /* Adjust width of scrollbar */
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
