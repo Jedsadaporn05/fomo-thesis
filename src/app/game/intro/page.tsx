@@ -1,5 +1,5 @@
 export default function IntroPage() {
   return (
-    <div className="text-5xl font-semibold text-black text-center py-12">Intro</div>
+    <div className="w-full min-h-screen text-5xl font-semibold text-black text-center py-12 bg-[#CACACA]">Intro</div>
   )
 }

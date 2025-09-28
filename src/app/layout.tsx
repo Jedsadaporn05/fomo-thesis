@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Prompt } from "next/font/google";
 import "./globals.css";
+import Providers from "./Providers";
+import { ViewTransitions } from "next-view-transitions";
 
 const prompt = Prompt({
   subsets: ["latin", "thai"],
@@ -8,7 +10,7 @@ const prompt = Prompt({
 });
 
 export const metadata: Metadata = {
-  title: "Gracie",
+  title: "Graice",
   description: "interactive 2d animation storytelling website",
 };
 
@@ -22,8 +24,13 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </head>
-      <body className={`${prompt.className} antialiased`}>
-        <main>{children}</main>
+      <body
+        className={`${prompt.className} antialiased custom-scrollbar`}
+        suppressHydrationWarning
+      >
+        <ViewTransitions>
+          <Providers>{children}</Providers>
+        </ViewTransitions>
       </body>
     </html>
   );

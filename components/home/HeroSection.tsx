@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Banner from "@/public/home/hero-section/gracie.svg";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 export default function HeroSection() {
   return (
@@ -11,7 +11,7 @@ export default function HeroSection() {
           <div className="container mx-atuo w-full h-full flex flex-col justify-center items-end">
             <div className="w-[450px] h-full flex flex-col justify-center items-center">
               {/* Title */}
-              <h2 className="text-[111px] font-medium text-white tracking-normal">
+              <h2 className="text-[130px] font-medium text-white tracking-normal">
                 <span className="text-primary">G</span>racie
               </h2>
               {/* Button */}
@@ -34,7 +34,7 @@ export default function HeroSection() {
           className="w-full h-[900px] object-cover object-center"
         />
         {/* Blur Bottom */}
-        <div className="absolute bottom-0 left-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#878787] to-transparent" />
+        <div className="absolute bottom-0 left-0 w-full h-[8rem] pointer-events-none bg-gradient-to-t from-[#878787] to-transparent" />
       </div>
     </div>
   );
