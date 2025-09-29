@@ -25,7 +25,7 @@ export default function ChoiceList({
       {choices.map((c) => (
         <button
           key={c.text}
-          onClick={() => setScene(c.nextSceneId)}
+          onClick={() => setScene(c.nextSceneId, c)}
           className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 transition"
         >
           {c.text}
