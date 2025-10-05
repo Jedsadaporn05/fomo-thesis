@@ -23,10 +23,16 @@ export default function EndingScreen({
       <div className="flex gap-3">
         <button
           onClick={restart}
-          className="px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700"
+          className="text-white px-4 py-2 rounded-xl bg-red-600 hover:bg-red-700"
         >
           เริ่มใหม่
         </button>
+        {/* <button
+          onClick={restart}
+          className="text-white px-4 py-2 rounded-xl bg-green-600 hover:bg-green-700"
+        >
+          กลับสู่หน้าหลัก
+        </button> */}
       </div>
     </div>
   );

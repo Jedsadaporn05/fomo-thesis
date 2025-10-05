@@ -1,6 +1,6 @@
 export default function ContactSection() {
   return (
-    <div className="w-full min-h-full py-12 bg-[#ff1655]">
+    <div className="w-full min-h-full py-12 bg-[#2258D0]">
       <div className="container mx-auto flex flex-col gap-24">
         {/* Title */}
         <h2 className="text-5xl font-bold text-white tracking-normal text-center">

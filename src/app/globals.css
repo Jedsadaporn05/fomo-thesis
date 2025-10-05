@@ -67,7 +67,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-grey-text: var(--grey-text);
   --color-primary-background: var(--primary-background);
-  --color-gray-white: #F4F5F8;
+  --color-gray-white: #f4f5f8;
 }
 
 :root {
@@ -139,7 +139,6 @@
   --sidebar-ring: oklch(0.645 0.246 16.439);
 }
 
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -177,4 +176,31 @@
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+}
+
+/* Hide scrollbar all pages ( IE, Edge, Firefox ) and -webkit-scrollbar for Chrome, Safari, Opera */
+/* html,
+body {
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+} */
+
+/* Blink animation for Button */
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink 3s infinite;
 }

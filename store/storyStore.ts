@@ -42,25 +42,32 @@ export const useStoryStore = create<StoryState>((set, get) => ({
       } else {
         id = "badRoute";
       }
-      console.log("Score at decision :", score);
+      console.log("Result score:", score);
     }
-    console.log("Prev Scene:", get().currentSceneId);
-    console.log("Choice Picked:", choice);
+    console.log("Choice picked:", choice?.text);
+    console.log("Score change:", choice?.scoreChange)
 
     const scene = (storyData as Scene[]).find((s) => s.id === id);
     if (!scene) return;
 
-    set((state) => ({
-      currentSceneId: id,
-      history: [...state.history, id],
-      interactionCompleted: false,
-      endingType: scene.endingType,
-      score: state.score + (choice?.scoreChange ?? 0), // Update Score
-    }));
-    try {
-      localStorage.setItem("story-progress", id);
-      localStorage.setItem("story-score", String(get().score));
-    } catch (e) {}
+    set((state) => {
+      const newScore = state.score + (choice?.scoreChange ?? 0);
+
+      try {
+        localStorage.setItem("story-progress", id);
+        localStorage.setItem("story-score", String(newScore));
+      } catch (_error) {
+        console.error("Failed to save progress", _error);
+      }
+
+      return {
+        currentSceneId: id,
+        history: [...state.history, id],
+        interactionCompleted: false,
+        endingType: scene.endingType,
+        score: newScore, // Update Score
+      };
+    });
   },
 
   setInteractionCompleted: (done: boolean) =>
@@ -77,7 +84,9 @@ export const useStoryStore = create<StoryState>((set, get) => ({
     try {
       localStorage.removeItem("story-progress");
       localStorage.removeItem("story-score");
-    } catch (e) {}
+    } catch (_error) {
+      console.error("Failed to reset progress", _error);
+    }
   },
 
   loadProgress: () => {
@@ -95,6 +104,8 @@ export const useStoryStore = create<StoryState>((set, get) => ({
             score: savedScore ? parseInt(savedScore, 10) : 0, // Restore Score
           });
       }
-    } catch (e) {}
+    } catch (_error) {
+      console.error("Failed to load progress", _error);
+    }
   },
 }));

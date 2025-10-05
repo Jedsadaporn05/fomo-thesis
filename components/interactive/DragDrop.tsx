@@ -21,7 +21,9 @@ export default function DragDrop() {
     const handleDragStart = (e: DragEvent) => {
       try {
         e.dataTransfer?.setData("text/plain", "key");
-      } catch (e) {}
+      } catch (_error) {
+        console.error("Failed to set drag data", _error);
+      }
     };
     const handleDrop = (e: DragEvent) => {
       e.preventDefault();
