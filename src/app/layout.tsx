@@ -1,13 +1,7 @@
 import type { Metadata } from "next";
-import { Prompt } from "next/font/google";
 import "./globals.css";
 import Providers from "./Providers";
 import { ViewTransitions } from "next-view-transitions";
-
-const prompt = Prompt({
-  subsets: ["latin", "thai"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-});
 
 export const metadata: Metadata = {
   title: "Gracie",
@@ -23,11 +17,22 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        {/* <link
+          rel="preload"
+          href="/fonts/LINESeedSansTH/LINESeedSansTH_W_Rg.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/LINESeedSansEN/LINESeedSansEN_W_Rg.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        /> */}
       </head>
-      <body
-        className={`${prompt.className} antialiased custom-scrollbar`}
-        suppressHydrationWarning
-      >
+      <body className={`antialiased custom-scrollbar`} suppressHydrationWarning>
         <ViewTransitions>
           <Providers>{children}</Providers>
         </ViewTransitions>

@@ -15,7 +15,7 @@ export default function SceneRenderer({ scene }: Readonly<{ scene: Scene }>) {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.35 }}
       >
-        <h2 className="text-2xl font-semibold mb-4 text-white">
+        <h2 className="text-2xl font-bold mb-4 text-white">
           {scene.content}
         </h2>
 
