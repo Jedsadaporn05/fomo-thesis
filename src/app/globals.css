@@ -156,35 +156,30 @@
   font-weight: 300;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans TH";
   src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_Rg.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans TH";
   src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_He.woff2") format("woff2");
   font-weight: 600;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans TH";
   src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_Bd.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans TH";
   src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_XBd.woff2") format("woff2");
   font-weight: 800;
   font-display: swap;
 }
-
 /* fonts LINE Seed Sans EN */
 @font-face {
   font-family: "LINE Seed Sans EN";
@@ -192,28 +187,24 @@
   font-weight: 300;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans EN";
   src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_Rg.woff2") format("woff2");
   font-weight: 400;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans EN";
   src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_He.woff2") format("woff2");
   font-weight: 600;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans EN";
   src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_Bd.woff2") format("woff2");
   font-weight: 700;
   font-display: swap;
 }
-
 @font-face {
   font-family: "LINE Seed Sans EN";
   src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_XBd.woff2") format("woff2");
@@ -224,15 +215,23 @@
 /* Hide scrollbar all pages ( IE, Edge, Firefox ) and -webkit-scrollbar for Chrome, Safari, Opera */
 html,
 body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #faeade;
+  color: #523122;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
   font-family: var(--font-line);
-  /* overflow-y: scroll;
+  overflow-y: scroll;
   -ms-overflow-style: none;
-  scrollbar-width: none; */
+  scrollbar-width: none;
 }
-/* html::-webkit-scrollbar,
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
-} */
+}
 
 /* Custom scrollbar styles with left-side scrollbar */
 .custom-scrollbar {
@@ -245,15 +244,12 @@ body::-webkit-scrollbar {
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px; /* Adjust width of scrollbar */
 }
-
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #394050; /* Color of the thumb */
 }
-
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Color of the track */
 }
-
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -276,4 +272,41 @@ body::-webkit-scrollbar {
 }
 .blink {
   animation: blink 3s infinite;
+}
+
+/* GSAP Tailwind CSS */
+@theme {
+  --color-black: #222123;
+  --color-main-bg: #232224;
+  --color-white: #ffffff;
+  --color-dark-brown: #523122;
+  --color-mid-brown: #a26833;
+  --color-light-brown: #e3a458;
+  --color-red-brown: #7f3b2d;
+  --color-yellow-brown: #a26833;
+  --color-milk-yellow: #e3d3bc;
+  --color-red: #a02128;
+  --color-milk: #faeade;
+  --font-sans: "Antonio", sans-serif;
+  --font-paragraph: "ProximaNova, sans-serif";
+}
+@layer components {
+  .paragraph-line {
+    @apply text-nowrap overflow-hidden;
+  }
+}
+.nutrition-section {
+  background-color: #faeade00;
+  background-image: radial-gradient(circle, #f3ece2, #dcccb0);
+}
+.spin-circle {
+  animation: spin 20s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

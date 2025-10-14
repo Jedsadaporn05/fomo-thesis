@@ -9,16 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@gsap/react": "^2.1.2",
     "@radix-ui/react-slot": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.23.22",
+    "gsap": "^3.13.0",
     "lucide-react": "^0.544.0",
     "motion": "^12.23.22",
     "next": "15.5.4",
     "next-view-transitions": "^0.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-responsive": "^10.0.1",
     "tailwind-merge": "^3.3.1",
     "zustand": "^5.0.8"
   },

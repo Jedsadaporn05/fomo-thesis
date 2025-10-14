@@ -1,9 +1,29 @@
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import { Link } from "next-view-transitions";
 
 export default function HeroSection() {
+  useGSAP(() => {
+    const heroTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: ".hero-container",
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    heroTl.to(".hero-container", {
+      rotate: 7,
+      scale: 0.9,
+      yPercent: 30,
+      ease: "power1.inOut",
+    });
+  });
+
   return (
-    <div className="w-full min-h-full h-[100dvh]">
-      <div className="relative w-full h-full">
+    <div className="w-full min-h-full h-[100dvh] bg-black">
+      <div className="hero-container relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
           <div className="container mx-atuo w-full h-full flex flex-col justify-center items-center">
