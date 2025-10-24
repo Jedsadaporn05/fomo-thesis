@@ -52,15 +52,17 @@ export default function DragDrop() {
   }, []);
 
   return (
-    <div className="flex items-center gap-6">
+    <div className="flex items-center gap-6 text-white">
       <div
         ref={keyRef}
         draggable={!dropped}
         className={`w-20 h-20 rounded-md flex items-center justify-center select-none ${
-          dropped ? "opacity-40" : "bg-amber-400 cursor-grab"
+          dropped
+            ? "opacity-60 border bg-slate-800"
+            : "bg-amber-400 cursor-grab"
         }`}
       >
-        🔑
+        กุญแจ
       </div>
 
       <div
@@ -71,7 +73,7 @@ export default function DragDrop() {
             : "border-slate-600 bg-slate-800"
         } flex items-center justify-center`}
       >
-        {dropped ? "🔓 เปิดแล้ว" : "ลากกุญแจมาที่นี่"}
+        {dropped ? "เปิดแล้ว" : "ลากกุญแจมาที่นี่"}
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ export function ClickBox() {
           clicked ? "bg-green-500" : "bg-gray-500"
         }`}
       >
-        {clicked ? "✅ เปิดแล้ว" : "📦 คลิกเพื่อเปิด"}
+        {clicked ? "เปิดแล้ว" : "คลิกเพื่อเปิด"}
       </button>
     </div>
   );

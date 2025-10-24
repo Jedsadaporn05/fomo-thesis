@@ -36,13 +36,13 @@
   },
   {
     "id": "goodRoute",
-    "content": "🎉 คุณเลือกทางที่ดี ผลลัพธ์คือ Happy Ending!",
+    "content": "คุณเลือกทางที่ดี ผลลัพธ์คือ Happy Ending!",
     "choices": [],
     "endingType": "happy"
   },
   {
     "id": "badRoute",
-    "content": "💀 คุณเลือกทางที่แย่ ผลลัพธ์คือ Bad Ending!",
+    "content": "คุณเลือกทางที่แย่ ผลลัพธ์คือ Bad Ending!",
     "choices": [],
     "endingType": "bad"
   }

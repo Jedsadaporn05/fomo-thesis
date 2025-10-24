@@ -21,7 +21,7 @@ export default function ClickBox() {
           clicked ? "bg-green-500" : "bg-slate-600"
         }`}
       >
-        {clicked ? "✅ เปิดแล้ว" : "📦 คลิกเพื่อเปิด"}
+        {clicked ? "เปิดแล้ว" : "คลิกเพื่อเปิด"}
       </button>
       <div className="text-slate-300">คลิกที่กล่องเพื่อค้นหา</div>
     </div>

@@ -24,7 +24,7 @@ export default function ClipPathTitle({
         className={`${className} border-[.5vw] text-nowrap opacity-0`}
       >
         <div
-          className="pb-5 px-3 md:px-14 pt-3 md:pt-0"
+          className="px-3 md:px-14 pt-3 md:pt-0"
           style={{
             backgroundColor: bg,
           }}

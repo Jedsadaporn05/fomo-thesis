@@ -37,18 +37,24 @@ export default function VideoPinSection() {
           clipPath: isMobile
             ? "circle(100% at 50% 50%)"
             : "circle(6% at 50% 50%)",
+          willChange: "clip-path",
         }}
         className="size-full video-box"
       >
         {/* Video */}
-        <video
-          src="/gsap/videos/pin-video.mp4"
-          playsInline
-          muted
-          loop
-          autoPlay
-          className="size-full absolute inset-0 object-cover"
-        />
+        <div className="size-full absolute inset-0 object-cover bg-gray-900">
+          <div className="w-full h-full flex flex-col justify-center">
+            <h1 className="text-[12rem] font-semibold text-start text-white">
+              HELLO
+            </h1>
+            {/* <h1 className="text-[10rem] font-semibold text-center text-white">
+              SSSSS
+            </h1> */}
+            <h1 className="text-[12rem] font-semibold text-end text-white">
+              WORLD
+            </h1>
+          </div>
+        </div>
         {/* Button */}
         <div className="abs-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-200 md:scale-100">
           {/* Circle Text */}

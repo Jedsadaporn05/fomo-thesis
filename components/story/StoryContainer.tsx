@@ -16,7 +16,7 @@ export default function StoryContainer() {
   if (!scene) return <div className="p-6">Scene not found</div>;
 
   return (
-    <div className="w-full min-h-screen flex justify-center items-center p-6 bg-[#ff1655]">
+    <div className="w-full min-h-screen flex justify-center items-center p-6 bg-black">
       <SceneRenderer scene={scene} />
     </div>
   );

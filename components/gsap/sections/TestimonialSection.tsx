@@ -1,11 +1,9 @@
 import { cards } from "@/data/gsap/index";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import { useRef } from "react";
+import Image from "next/image";
 
 export default function TestimonialSection() {
-  const vdRef = useRef<(HTMLVideoElement | null)[]>([]);
-
   useGSAP(() => {
     gsap.set(".testimonials-section", {
       marginTop: "-140vh",
@@ -55,55 +53,32 @@ export default function TestimonialSection() {
     });
   });
 
-  // Hover Play function
-  const handlePlay = (index: number) => {
-    const video = vdRef.current[index];
-    if (video) {
-      video.play();
-    }
-  };
-  // Leave Hover Play to Pause function
-  const handlePause = (index: number) => {
-    const video = vdRef.current[index];
-    if (video) {
-      video.pause();
-    }
-  };
-
   return (
-    <div className="testimonials-section bg-milk relative w-full h-[120dvh]">
+    <div className="testimonials-section bg-black relative w-full h-[120dvh]">
       {/* Text */}
       <div className="absolute size-full flex flex-col items-center pt-[5vw]">
-        <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-black first-title">
-          What’s
+        <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-milk first-title">
+          OUR
         </h1>
-        <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-light-brown second-title">
-          Everyone
+        <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] pr-120 font-bold text-light-brown second-title">
+          MEMBER
         </h1>
-        <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-black third-title">
+        {/* <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-milk third-title">
           Talking
-        </h1>
+        </h1> */}
       </div>
       {/* Cards */}
-      <div className="pin-box flex items-center justify-center w-full ps-52 absolute 2xl:bottom-32 bottom-[50vh]">
-        {cards.map((card, index) => (
+      <div className="pin-box flex items-center justify-center gap-24 w-full absolute 2xl:bottom-32 bottom-[50vh]">
+        {cards.map((card) => (
           <div
             key={card.name}
-            className={`vd-card md:w-96 w-80 flex-none md:rounded-[2vw] rounded-3xl -ms-44 overflow-hidden 2xl:relative absolute border-[.5vw] border-milk ${card.translation} ${card.rotation}`}
-            onMouseEnter={() => handlePlay(index)}
-            onMouseLeave={() => handlePause(index)}
+            className={`vd-card md:w-96 w-80 flex-none md:rounded-[2vw] rounded-3xl  overflow-hidden 2xl:relative absolute border-[.5vw] border-milk ${card.translation} ${card.rotation}`}
           >
-            {/* Videos */}
-            <video
-              ref={(el) => {
-                vdRef.current[index] = el;
-              }}
-              src={card.src}
-              playsInline
-              muted
-              loop
-              className="size-full object-cover"
-            />
+            <div className="absolute left-1/2 -translate-x-1/2 top-[40%] uppercase text-5xl font-semibold text-white text-center leading-normal">
+              <h2>{card.text}</h2>
+            </div>
+            {/* Members */}
+            <div className="min-h-[70dvh] size-full object-cover bg-gray-900" />
           </div>
         ))}
       </div>

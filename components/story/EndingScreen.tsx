@@ -15,7 +15,7 @@ export default function EndingScreen({
           endingType === "happy" ? "text-green-300" : "text-red-300"
         }`}
       >
-        {endingType === "happy" ? "🎉 Happy Ending!" : "💀 Bad Ending"}
+        {endingType === "happy" ? "Happy Ending!" : "Bad Ending"}
       </div>
       <div className="text-slate-300">
         คุณสามารถเริ่มเล่นใหม่หรือย้อนดูเส้นทางที่เลือก

@@ -43,14 +43,14 @@ export default function BenefitSection() {
   });
 
   return (
-    <div className="benefit-section min-h-full md:min-h-dvh bg-[#222123] overflow-hidden relative">
+    <div className="benefit-section min-h-full md:min-h-dvh bg-gray overflow-hidden relative bg-black">
       {/* label with clipPath */}
       <div className="container mx-auto pt-20">
         <div className="col-center flex flex-col justify-center items-center">
           {/* Header description */}
           <p className="text-milk font-paragraph text-center text-lg">
-            Unlock the Advantages: <br />
-            Explore the Key Benefits of Choosing SPYLT
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            <br /> Quas itaque harum quasi vitae, repellendus eius.
           </p>
           {/* Text with clipPath components */}
           <div className="mt-20 col-center flex flex-col justify-center items-center">
@@ -86,7 +86,7 @@ export default function BenefitSection() {
             />
           </div>
           {/* Footer description */}
-          <div className="mt-10 md:mt-0">
+          <div className="mt-10 md:mt-0 text-milk">
             <p>And much more ...</p>
           </div>
         </div>

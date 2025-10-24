@@ -24,14 +24,14 @@ export default function FlavorSlider() {
             scrollTrigger: {
               trigger: ".flavor-section",
               start: "top top",
-              end: `+=${scrollAmount + 1500}`,
+              end: `+=${scrollAmount + 1200}`,
               scrub: true,
               pin: true,
             },
           });
 
           tl.to(".flavor-section", {
-            x: `-${scrollAmount + 1500}`,
+            x: `-${scrollAmount + 1200}`,
             ease: "none",
           });
         }
@@ -74,41 +74,18 @@ export default function FlavorSlider() {
   return (
     <div
       ref={sliderRef}
-      className="slider-wrapper lg:h-dvh min-h-dvh md:min-h-fit w-full mt-0 md:mt-20 xl:mt-0"
+      className="slider-wrapper lg:h-dvh min-h-dvh md:min-h-fit w-full mt-0 md:mt-20 xl:mt-0 px-[8rem]"
     >
       {/* Cards */}
       <div className="flavors h-full w-full flex md:flex-row flex-col items-center 2xl:gap-72 lg:gap-52 md:gap-24 gap-7 flex-nowrap">
         {flavorlists.map((flavor) => (
           <div
             key={flavor.name}
-            className={`relative z-30 w-96 md:w-[90vw] lg:w-[50vw] h-80 md:h-[50vh] lg:h-[70vh] flex-none ${flavor.rotation}`}
+            className={`relative z-30 w-96 md:w-[90vw] lg:w-[50vw] h-80 md:h-[50vh] lg:h-[70vh] flex-none ${flavor.rotation} rounded-4xl cursor-pointer`}
+            style={{ backgroundColor: `${flavor.color}` }}
           >
-            {/* Background */}
-            <Image
-              src={`/gsap/images/${flavor.color}-bg.svg`}
-              alt=""
-              width={1920}
-              height={1080}
-              className="absolute bottom-0"
-            />
-            {/* Drinks */}
-            <Image
-              src={`/gsap/images/${flavor.color}-drink.webp`}
-              alt=""
-              width={1920}
-              height={1080}
-              className="w-auto drinks absolute left-1/2 -translate-x-1/2 bottom-0 md:h-full h-80"
-            />
-            {/* Elements */}
-            <Image
-              src={`/gsap/images/${flavor.color}-elements.webp`}
-              alt=""
-              width={1920}
-              height={1080}
-              className="elements absolute md:top-0 md:bottom-auto bottom-10 w-full"
-            />
             {/* Text on Cards */}
-            <h1 className="absolute md:bottom-10 md:left-10 bottom-5 left-5 text-milk md:text-6xl text-3xl font-semibold uppercase tracking-tighter">
+            <h1 className="absolute md:bottom-10 md:left-10 bottom-5 left-5 text-white md:text-6xl text-3xl font-semibold uppercase tracking-tighter whitespace-pre-line">
               {flavor.name}
             </h1>
           </div>

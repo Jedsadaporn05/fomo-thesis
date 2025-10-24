@@ -1,12 +1,7 @@
 "use client";
 
-import HeroSection from "@/components/home/HeroSection";
-// import KnowledgeSection from "@/components/home/KnowledgeSection";
-// import ContactSection from "@/components/home/ContactSection";
-// import MemberSection from "@/components/home/MemberSection";
-
 import dynamic from "next/dynamic";
-import HeroSectionGSAP from "@/components/gsap/sections/HeroSection";
+import HeroSection from "@/components/home/HeroSection";
 import Footer from "@/components/gsap/layout/Footer";
 
 const MessageSection = dynamic(
@@ -32,6 +27,7 @@ const TestimonialSection = dynamic(
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger, ScrollSmoother } from "gsap/all";
+import Navbar from "@/components/gsap/layout/Navbar";
 
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -51,17 +47,13 @@ export default function HomePage() {
 
   return (
     <section>
+      <Navbar />
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <HeroSection />
-          {/* <KnowledgeSection />
-          <ContactSection />
-          <MemberSection /> */}
-
-          {/* <HeroSectionGSAP /> */}
           <MessageSection />
           <FlavorSection />
-          <NutritionSection />
+          {/* <NutritionSection /> */}
           <div>
             <BenefitSection />
             <TestimonialSection />
