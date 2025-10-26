@@ -224,14 +224,14 @@ body {
   scroll-behavior: smooth;
 
   font-family: var(--font-line);
-  /* overflow-y: scroll;
+  overflow-y: scroll;
   -ms-overflow-style: none;
-  scrollbar-width: none; */
+  scrollbar-width: none;
 }
-/* html::-webkit-scrollbar,
+html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
-} */
+}
 
 /* Custom scrollbar styles with left-side scrollbar */
 .custom-scrollbar {

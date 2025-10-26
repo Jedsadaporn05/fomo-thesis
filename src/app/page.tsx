@@ -4,11 +4,9 @@ import dynamic from "next/dynamic";
 
 import MainNav from "@/components/layout/MainNav";
 import MainHeroSection from "@/components/home/MainHeroSection";
-
 const KnowledgeSection = dynamic(
   () => import("@/components/home/KnowledgeSection")
 );
-
 const MemberSection = dynamic(() => import("@/components/home/MemberSection"));
 
 import GsapHeroSection from "@/components/gsap/sections/GsapHeroSection";
@@ -24,7 +22,6 @@ const BenefitSection = dynamic(
 const TestimonialSection = dynamic(
   () => import("@/components/gsap/sections/TestimonialSection")
 );
-
 import Footer from "@/components/gsap/layout/Footer";
 
 import gsap from "gsap";
@@ -57,6 +54,10 @@ export default function HomePage() {
 
       <div id="smooth-wrapper">
         <div id="smooth-content">
+          <MainHeroSection />
+          <KnowledgeSection />
+          <MemberSection />
+
           <GsapHeroSection />
           <MessageSection />
           <FlavorSection />

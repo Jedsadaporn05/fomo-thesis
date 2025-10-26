@@ -10,6 +10,9 @@ export default function MainNav() {
       <Image
         src={navLogo}
         alt="navLogo"
+        width={300}
+        height={300}
+        priority
         className="w-20 md:w-30 cursor-pointer"
       />
     </nav>

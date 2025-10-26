@@ -1,7 +1,6 @@
 import { cards } from "@/data/gsap/index";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Image from "next/image";
 
 export default function TestimonialSection() {
   useGSAP(() => {
@@ -63,9 +62,6 @@ export default function TestimonialSection() {
         <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] pr-120 font-bold text-light-brown second-title">
           MEMBER
         </h1>
-        {/* <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-milk third-title">
-          Talking
-        </h1> */}
       </div>
       {/* Cards */}
       <div className="pin-box flex items-center justify-center gap-24 w-full absolute 2xl:bottom-32 bottom-[50vh]">

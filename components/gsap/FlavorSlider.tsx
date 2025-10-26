@@ -3,7 +3,6 @@
 import { flavorlists } from "@/data/gsap/index";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import Image from "next/image";
 import { useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 
