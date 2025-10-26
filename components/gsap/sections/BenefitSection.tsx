@@ -55,21 +55,21 @@ export default function BenefitSection() {
           {/* Text with clipPath components */}
           <div className="mt-20 col-center flex flex-col justify-center items-center">
             <ClipPathTitle
-              title={"Shelf stable"}
+              title={"Lorem ipsum"}
               color={"#faeade"}
               bg={"#c88e64"}
               className={"first-title rotate-[3deg] relative z-10"}
               borderColor={"#222123"}
             />
             <ClipPathTitle
-              title={"Protein + Caffeine"}
+              title={"Lorem + sit amet"}
               color={"#222123"}
               bg={"#faeade"}
               className={"second-title rotate-[-1deg] md:-translate-y-5"}
               borderColor={"#222123"}
             />
             <ClipPathTitle
-              title={"Infinitely recyclable"}
+              title={"consectetur adipisi"}
               color={"#faeade"}
               bg={"#7F3B2D"}
               className={
@@ -78,7 +78,7 @@ export default function BenefitSection() {
               borderColor={"#222123"}
             />
             <ClipPathTitle
-              title={"Lactose free"}
+              title={"itaque harum"}
               color={"#2E2D2F"}
               bg={"#FED775"}
               className={"fourth-title rotate-[-5deg] md:-translate-y-12"}

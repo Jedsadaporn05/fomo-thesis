@@ -1,6 +1,9 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link } from "next-view-transitions";
+import Image from "next/image";
+import Logo from "@/public/logo/LogoGracie.png";
+import HeroImg from "@/public/home/hero-section/Hero.jpg";
 
 export default function GsapHeroSection() {
   useGSAP(() => {
@@ -26,35 +29,55 @@ export default function GsapHeroSection() {
       <div className="hero-container relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
-          <div className="container mx-atuo w-full h-full flex flex-col justify-center items-center">
+          <div className="container mx-atuo w-full h-full flex flex-col justify-center items-center md:items-end">
             {/* Logo and Start Button */}
             <div className="w-full max-w-[300px] lg:max-w-[450px] h-full flex flex-col justify-center items-center gap-4 lg:gap-6">
-              {/* Title */}
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold text-white tracking-normal transition-all blink">
+              {/* Logo Title */}
+              <div className="flex flex-col justify-center items-center">
+                <Image
+                  src={Logo}
+                  alt="Logo"
+                  width={500}
+                  height={500}
+                  className="w-full h-full object-cover object-center"
+                />
+                <p className="text-xl font-medium text-[#FF2D77] text-center">
+                  THE MISSING OUT
+                </p>
+              </div>
+              {/* <h2 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold text-white tracking-normal transition-all blink">
                 Gracie
-              </h2>
+              </h2> */}
               {/* Button */}
               <Link
                 href={"/story"}
-                className="w-full flex flex-col justify-center items-center gap-2 lg:gap-3 cursor-pointer transition-all blink hover:[&>*]:text-primary"
+                className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:[&>*]:text-primary"
               >
                 <div className="w-full h-[2px] lg:h-[3px] rounded-md bg-gradient-to-r from-transparent via-white/80 to-transparent" />
                 <p className="text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-bold text-white/90">
-                  เข้าสู่เรื่องราว
+                  คลิกเพื่อเข้าสู่เรื่องราว
                 </p>
                 <div className="w-full h-[2px] lg:h-[3px] rounded-md bg-gradient-to-r from-transparent via-white/80 to-transparent" />
               </Link>
             </div>
           </div>
         </div>
-        {/* Video Background */}
-        <video
+        {/* Video, Image Background */}
+        <Image
+          src={HeroImg}
+          alt="hero-section"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover object-center pointer-events-none"
+        />
+        {/* <video
           src="/home/hero-section/PreStart.mp4"
           muted
           autoPlay
           loop
           className="w-full h-full object-cover object-center pointer-events-none"
-        />
+        /> */}
+
         {/* Blur Bottom */}
         {/* <div className="absolute bottom-0 left-0 w-full h-[8rem] pointer-events-none bg-gradient-to-t from-[#ff1655] to-transparent" /> */}
       </div>

@@ -9,11 +9,8 @@ const KnowledgeSection = dynamic(
   () => import("@/components/home/KnowledgeSection")
 );
 
-const MemberSection = dynamic(
-  () => import("@/components/home/MemberSection")
-);
+const MemberSection = dynamic(() => import("@/components/home/MemberSection"));
 
-import Navbar from "@/components/gsap/layout/Navbar";
 import GsapHeroSection from "@/components/gsap/sections/GsapHeroSection";
 const MessageSection = dynamic(
   () => import("@/components/gsap/sections/MessageSection")
@@ -37,29 +34,32 @@ import { ScrollTrigger, ScrollSmoother } from "gsap/all";
 gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export default function HomePage() {
-  // useGSAP(() => {
-  //   const smoother = ScrollSmoother.create({
-  //     wrapper: "#smooth-wrapper",
-  //     content: "#smooth-content",
-  //     smooth: 1.5,
-  //     effects: true,
-  //   });
+  useGSAP(() => {
+    const smoother = ScrollSmoother.create({
+      wrapper: "#smooth-wrapper",
+      content: "#smooth-content",
+      smooth: 1.5,
+      effects: true,
+    });
 
-  //   return () => {
-  //     smoother.kill();
-  //   };
-  // }, []);
+    return () => {
+      smoother.kill();
+    };
+  }, []);
 
   return (
     <section>
       <MainNav />
-      <MainHeroSection />
+      {/* <MainHeroSection />
       <KnowledgeSection />
-      <MemberSection />
+      <MemberSection /> */}
 
-      {/* <div id="smooth-wrapper">
+      <div id="smooth-wrapper">
         <div id="smooth-content">
-          <Navbar />
+          <MainHeroSection />
+          <KnowledgeSection />
+          <MemberSection />
+
           <GsapHeroSection />
           <MessageSection />
           <FlavorSection />
@@ -69,7 +69,7 @@ export default function HomePage() {
           </div>
           <Footer />
         </div>
-      </div> */}
+      </div>
     </section>
   );
 }
