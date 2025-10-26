@@ -1,6 +1,6 @@
 export default function KnowledgeSection() {
   return (
-    <div className="w-full min-h-full py-12 bg-[#2258D0] relative">
+    <div className="w-full min-h-full py-12 bg-black relative">
       <div className="container mx-auto flex flex-col gap-24">
         {/* Title */}
         <h2 className="text-4xl font-extrabold text-white tracking-normal text-center pt-24">

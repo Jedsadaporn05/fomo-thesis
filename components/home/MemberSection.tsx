@@ -1,6 +1,6 @@
 export default function MemberSection() {
   return (
-    <div className="w-full min-h-full py-12 pb-24 bg-[#2258D0]">
+    <div className="w-full min-h-full py-12 pb-24 bg-black">
       <div className="container mx-auto flex flex-col gap-24">
         {/* Title */}
         <h2 className="text-4xl font-extrabold text-white tracking-normal text-center pt-10">

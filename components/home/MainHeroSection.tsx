@@ -2,7 +2,7 @@ import { Link } from "next-view-transitions";
 
 export default function MainHeroSection() {
   return (
-    <div className="w-full min-h-full h-[100dvh] bg-black">
+    <div className="w-full min-h-full h-[100dvh]">
       <div className="relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
