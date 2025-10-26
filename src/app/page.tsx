@@ -9,7 +9,9 @@ const KnowledgeSection = dynamic(
   () => import("@/components/home/KnowledgeSection")
 );
 
-const MemberSection = dynamic(() => import("@/components/home/MemberSection"));
+const MemberSection = dynamic(
+  () => import("@/components/home/MemberSection")
+);
 
 import Navbar from "@/components/gsap/layout/Navbar";
 import GsapHeroSection from "@/components/gsap/sections/GsapHeroSection";
@@ -58,7 +60,7 @@ export default function HomePage() {
       {/* <div id="smooth-wrapper">
         <div id="smooth-content">
           <Navbar />
-          <MainHeroSection />
+          <GsapHeroSection />
           <MessageSection />
           <FlavorSection />
           <div>
