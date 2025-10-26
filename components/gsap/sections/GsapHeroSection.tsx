@@ -2,7 +2,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { Link } from "next-view-transitions";
 
-export default function HeroSection() {
+export default function GsapHeroSection() {
   useGSAP(() => {
     const heroTl = gsap.timeline({
       scrollTrigger: {

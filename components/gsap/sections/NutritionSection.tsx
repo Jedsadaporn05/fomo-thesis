@@ -70,21 +70,21 @@ export default function NutritionSection() {
   return (
     <div className="nutrition-section min-h-dvh 2xl:h-[120dvh] overflow-hidden relative">
       {/* Background top sliderDip */}
-      <Image
+      {/* <Image
         src={sliderDip}
         alt="sliderDip"
         width={1920}
         height={1080}
         className="w-full object-cover"
-      />
+      /> */}
       {/* Background Product Image */}
-      <Image
+      {/* <Image
         src={bgImage}
         alt="bgImage"
         width={1920}
         height={1080}
         className="big-img w-full absolute 2xl:h-full md:h-2/3 h-1/2 left-0 bottom-0 object-bottom 2xl:object-contain object-cover"
-      />
+      /> */}
       {/* Content */}
       <div className="flex flex-col md:flex-row justify-between px-5 md:px-10 mt-14 md:mt-0">
         <div className="relative inline-block md:translate-y-20">
@@ -102,7 +102,7 @@ export default function NutritionSection() {
               }}
               className="nutrition-text-scroll rotate-[-3deg] border-[.5vw] border-[#e3d3bc] text-nowrap opacity-0 md:-mt-32 -mt-24 place-self-start"
             >
-              <div className="bg-yellow-brown pb-5 pt-3 md:pt-0 px-3 md:px-5 inline-block">
+              <div className="bg-yellow-brown pt-3 md:pt-0 px-3 md:px-5 inline-block">
                 <h2 className="text-milk">Body Good</h2>
               </div>
             </div>
