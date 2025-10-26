@@ -1,4 +1,7 @@
 import { Link } from "next-view-transitions";
+import Image from "next/image";
+import Logo from "@/public/logo/LogoGracie.png";
+import HeroImg from "@/public/home/hero-section/Hero.png";
 
 export default function MainHeroSection() {
   return (
@@ -9,10 +12,17 @@ export default function MainHeroSection() {
           <div className="container mx-atuo w-full h-full flex flex-col justify-center items-center">
             {/* Logo and Start Button */}
             <div className="w-full max-w-[300px] lg:max-w-[450px] h-full flex flex-col justify-center items-center gap-4 lg:gap-6">
-              {/* Title */}
-              <h2 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold text-white tracking-normal transition-all blink">
+              {/* Logo Title */}
+              <Image
+                src={Logo}
+                alt="Logo"
+                width={300}
+                height={300}
+                className="object-cover object-center"
+              />
+              {/* <h2 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold text-white tracking-normal transition-all blink">
                 Gracie
-              </h2>
+              </h2> */}
               {/* Button */}
               <Link
                 href={"/story"}
@@ -28,15 +38,22 @@ export default function MainHeroSection() {
           </div>
         </div>
         {/* Video Background */}
-        <video
+        {/* <Image
+          src={HeroImg}
+          alt="hero-section"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover object-center pointer-events-none"
+        /> */}
+        {/* <video
           src="/home/hero-section/PreStart.mp4"
           muted
           autoPlay
           loop
           className="w-full h-full object-cover object-center pointer-events-none"
-        />
+        /> */}
         {/* Blur Bottom */}
-        {/* <div className="absolute bottom-0 left-0 w-full h-[8rem] pointer-events-none bg-gradient-to-t from-[#ff1655] to-transparent" /> */}
+        <div className="absolute bottom-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#0E2865] to-transparent" />
       </div>
     </div>
   );

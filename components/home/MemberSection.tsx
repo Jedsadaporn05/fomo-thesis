@@ -1,21 +1,52 @@
 export default function MemberSection() {
+  const cards = [
+    {
+      id: 1,
+      title: "",
+    },
+    {
+      id: 2,
+      title: "",
+    },
+    {
+      id: 3,
+      title: "",
+    },
+  ];
+
   return (
-    <div className="w-full min-h-full py-12 pb-24 bg-black">
-      <div className="container mx-auto flex flex-col gap-24">
+    <div className="w-full min-h-full py-12 pb-36 relative">
+      <div className="flex flex-col gap-24 px-50">
         {/* Title */}
-        <h2 className="text-4xl font-extrabold text-white tracking-normal text-center pt-10">
+        <h2 className="text-7xl font-bold bg-gradient-to-r from-white from-[40%] to-[#FF2D77] to-[60%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
           ผู้จัดทำ
         </h2>
         {/* Content */}
-        <div className="w-full h-full grid grid-cols-3 gap-10">
-          <div className="w-full h-[450px] grid col-span-1 rounded-2xl bg-[#CACACA] hover:bg-[#ffffff] cursor-pointer" />
-          <div className="w-full h-[450px] grid col-span-1 rounded-2xl bg-[#CACACA] hover:bg-[#ffffff] cursor-pointer" />
-          <div className="w-full h-[450px] grid col-span-1 rounded-2xl bg-[#CACACA] hover:bg-[#ffffff] cursor-pointer" />
+        <div className="w-full h-full grid grid-cols-3 gap-24">
+          {/* Border Card */}
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className="w-full min-w-[300px] h-[600px] grid col-span-1 rounded-4xl bg-gradient-to-b from-[#ff0059] via-[#d00148]/80 to-[#470019] cursor-pointer"
+            >
+              <div className="border-4 border-gray-400/90 m-3 rounded-4xl">
+                <div className="w-full h-full flex flex-col justify-center items-center">
+                  <h2 className="text-4xl font-bold text-white whitespace-pre-line text-center">
+                    {card.title}
+                  </h2>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="text-4xl font-extrabold text-white tracking-normal text-center pt-10">
+      </div>
+      <div className="w-full h-full py-12 pt-30">
+        <p className="text-5xl font-bold text-white tracking-normal text-center">
           ผลงานศิลปนิพนธ์ INTERACTIVE STORYTELLING WEBSITE
         </p>
       </div>
+      {/* Blur Bottom */}
+      <div className="absolute bottom-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#0E2865] to-transparent" />
     </div>
   );
 }
