@@ -27,11 +27,11 @@ export default function MemberSection() {
           {cards.map((card) => (
             <div
               key={card.id}
-              className="min-w-full 2xl:min-w-[300px] h-full min-h-[300px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] 2xl:min-h-[600px] grid col-span-1 rounded-4xl bg-gradient-to-b from-[#ff0059] via-[#d00148]/80 to-[#470019] cursor-pointer"
+              className="group min-w-full 2xl:min-w-[300px] h-full min-h-[300px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] 2xl:min-h-[600px] grid col-span-1 rounded-4xl bg-gradient-to-b from-[#ff0059] via-[#d00148]/80 to-[#470019] cursor-pointer hover:scale-105 hover:[&>div]:border-white transition-all duration-500 ease-in-out"
             >
               <div className="border-4 border-gray-400/90 m-3 rounded-4xl">
                 <div className="w-full h-full flex flex-col justify-center items-center">
-                  <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold text-white whitespace-pre-line text-center">
+                  <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold text-white group-hover:text-white whitespace-pre-line text-center">
                     {card.title}
                   </h2>
                 </div>

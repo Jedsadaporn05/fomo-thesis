@@ -50,16 +50,13 @@ export default function HomePage() {
   return (
     <section>
       <MainNav />
-      {/* <MainHeroSection />
+      {/* <MainNav />
+      <MainHeroSection />
       <KnowledgeSection />
       <MemberSection /> */}
 
       <div id="smooth-wrapper">
         <div id="smooth-content">
-          <MainHeroSection />
-          <KnowledgeSection />
-          <MemberSection />
-
           <GsapHeroSection />
           <MessageSection />
           <FlavorSection />

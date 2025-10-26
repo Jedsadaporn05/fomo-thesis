@@ -21,7 +21,7 @@ export default function MainHeroSection() {
                   height={500}
                   className="w-full h-full object-cover object-center"
                 />
-                <p className="text-sm md:text-base lg:text-lg xl:text-xl font-medium text-[#FF2D77] text-center">
+                <p className="text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#FF2D77] text-center">
                   THE MISSING OUT
                 </p>
               </div>
