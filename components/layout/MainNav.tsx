@@ -115,7 +115,7 @@ export default function MainNav() {
           <Button
             variant="outline"
             size="icon"
-            className="w-10 h-10 fixed top-0 right-0 z-50 m-3 md:m-9 bg-black border-black"
+            className="w-12 h-12 fixed top-0 right-0 z-50 m-3 md:m-9 bg-black border-black rounded-full"
           >
             <Menu className="size-auto" />
             <span className="sr-only">Menu</span>
@@ -143,7 +143,7 @@ export default function MainNav() {
                 onClick={() => scrollToSection(item.id)}
                 key={item.id}
                 onMouseEnter={handleMouseOver}
-                className={`group relative flex items-center text-2xl font-semibold  pl-8 py-2 cursor-pointer transition-colors hover:text-white/80
+                className={`group relative flex items-center text-2xl font-bold pl-8 py-2 cursor-pointer transition-colors hover:text-white/80
                   ${activeSection === item.id ? "text-white" : "text-white/70"}
                   `}
               >

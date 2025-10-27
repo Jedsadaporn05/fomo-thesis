@@ -57,30 +57,30 @@ export default function KnowledgeDialog({
         </DialogTrigger>
         {/* Content Dialog */}
         <DialogContent
-          className="w-full min-w-[70dvw] h-auto border-black rounded-4xl bg-gradient-to-b from-[#000000] to-[#071A44]"
+          className="w-full min-w-[85dvw] 2xl:min-w-[70dvw] h-auto border-black rounded-4xl bg-gradient-to-b from-[#000000] to-[#071A44]"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           {/* Title */}
-          <div className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-6 px-15 bg-gradient-to-r from-[#FF0059] to-[#D6004B]">
-            <h2 className="text-5xl font-bold text-white whitespace-nowrap">
+          <div className="absolute top-0 md:-top-3 lg:-top-5 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-3 md:py-5 xl:py-6 px-8 md:px-10 lg:px-12 xl:px-15 bg-gradient-to-r from-[#FF0059] to-[#D6004B]">
+            <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white whitespace-nowrap">
               {card.title}
             </h2>
           </div>
           {/* Content Details */}
-          <DialogTitle className="border-6 border-white rounded-3xl p-12 py-24 pt-28">
+          <DialogTitle className="border-6 border-white rounded-3xl px-6 md:px-8 xl:px-12 py-8 md:py-12 2xl:py-24 pt-15 md:pt-20 xl:pt-24 2xl:pt-28">
             <DialogDescription asChild>
-              <div className="flex flex-col gap-12">
+              <div className="flex flex-col gap-6 md:gap-8 lg:gap-10 xl:gap-12">
                 {card.contentDialog ? (
                   card.contentDialog?.map((block) => (
                     <p key={block.id}>
                       {block.spans?.map((text) => (
                         <span
                           key={text.text}
-                          className={`text-3xl ${
+                          className={`text-sm md:text-base lg:text-lg xl:text-2xl 2xl:text-3xl ${
                             text.isColor
                               ? "text-[#FF5D96] font-bold"
                               : "text-white font-medium"
-                          } whitespace-pre-line`}
+                          } md:whitespace-pre-line`}
                         >
                           {text.text}
                         </span>
@@ -95,9 +95,9 @@ export default function KnowledgeDialog({
                 {/* Button */}
                 <button
                   onClick={handleOpenConsult}
-                  className={`w-fit py-4 px-6 rounded-full border-5 border-[#588CFF] cursor-pointer hover:bg-[#588CFF]/70 hover:scale-105 transition-all duration-300 ease-in-out
+                  className={`w-fit py-3 md:py-4 px-4 md:px-6 rounded-full border-4 md:border-5 border-[#588CFF] cursor-pointer hover:bg-[#588CFF]/70 hover:scale-105 transition-all duration-300 ease-in-out
                         ${card.btnText ? "block" : "hidden"}
-                        text-2xl font-bold text-white whitespace-nowrap
+                        text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold text-white whitespace-nowrap
                       `}
                 >
                   {card.btnText}
@@ -111,22 +111,22 @@ export default function KnowledgeDialog({
       <Dialog open={isConsultOpen} onOpenChange={setConsultOpen}>
         <DialogContent className="w-full min-w-[70dvw] h-auto border-black rounded-4xl bg-gradient-to-b from-[#000000] to-[#390316]">
           {/* Title */}
-          <div className="absolute -top-5 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-6 px-15 bg-[#214BA9]">
-            <h2 className="text-5xl font-bold text-white whitespace-nowrap">
+          <div className="absolute top-0 md:-top-3 lg:-top-5 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-3 md:py-5 xl:py-6 px-8 md:px-10 lg:px-12 xl:px-15 bg-[#214BA9]">
+            <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white whitespace-nowrap">
               {card.btnText}
             </h2>
           </div>
           {/* Content Details */}
-          <DialogTitle className="border-6 borderwhite rounded-3xl p-12 py-24 pt-28">
+          <DialogTitle className="border-6 borderwhite rounded-3xl px-6 md:px-8 xl:px-12 py-8 md:py-12 2xl:py-24 pt-15 md:pt-20 xl:pt-24 2xl:pt-28">
             <DialogDescription asChild>
-              <div className="flex flex-col gap-12">
+              <div className="flex flex-col gap-6 md:gap-8 lg:gap-10 xl:gap-12">
                 {card.newDialog ? (
                   card.newDialog?.map((block) => (
                     <p key={block.id}>
                       {block.spans?.map((text) => (
                         <span
                           key={text.text}
-                          className={`text-3xl ${
+                          className={`text-sm md:text-base lg:text-lg xl:text-2xl 2xl:text-3xl ${
                             text.isColor
                               ? "text-[#8DB0FF] font-bold"
                               : "text-white font-medium"
