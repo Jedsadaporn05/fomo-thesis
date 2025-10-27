@@ -73,7 +73,10 @@ export default function MessageSection() {
   });
 
   return (
-    <div className="message-content bg-gray-900 text-milk min-h-dvh overflow-hidden flex justify-center items-center relative z-20">
+    <div
+      id="secondKnowledge"
+      className="message-content bg-gray-900 text-milk min-h-dvh overflow-hidden flex justify-center items-center relative z-20"
+    >
       <div className="relative container mx-auto flex-center flex justify-center items-center py-28">
         {/* Content */}
         <div className="w-full h-full">

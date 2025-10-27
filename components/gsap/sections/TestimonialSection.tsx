@@ -53,7 +53,10 @@ export default function TestimonialSection() {
   });
 
   return (
-    <div className="testimonials-section bg-black relative w-full h-[120dvh]">
+    <div
+      id="secondMembers"
+      className="testimonials-section bg-black relative w-full h-[120dvh]"
+    >
       {/* Text */}
       <div className="absolute size-full flex flex-col items-center pt-[5vw]">
         <h1 className="uppercase text-[20.5vw] leading-[105%] tracking-[-.4vw] ml-[2vw] font-bold text-milk first-title">

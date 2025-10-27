@@ -43,7 +43,10 @@ export default function BenefitSection() {
   });
 
   return (
-    <div className="benefit-section min-h-full md:min-h-dvh bg-gray overflow-hidden relative bg-black">
+    <div
+      id="preview"
+      className="benefit-section min-h-full md:min-h-dvh bg-gray overflow-hidden relative bg-black"
+    >
       {/* label with clipPath */}
       <div className="container mx-auto pt-20">
         <div className="col-center flex flex-col justify-center items-center">

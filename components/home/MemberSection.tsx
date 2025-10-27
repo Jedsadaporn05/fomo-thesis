@@ -15,7 +15,7 @@ export default function MemberSection() {
   ];
 
   return (
-    <div className="w-full min-h-dvh py-12 pb-36 relative">
+    <div id="members" className="w-full min-h-dvh py-12 pb-36 relative">
       <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12">
         {/* Title */}
         <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold bg-gradient-to-r from-white from-[40%] to-[#FF2D77] to-[60%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">

@@ -25,7 +25,7 @@ export default function GsapHeroSection() {
   });
 
   return (
-    <div className="w-full min-h-full h-[100dvh] bg-black">
+    <div id="secondHero" className="w-full min-h-full h-[100dvh] bg-black">
       <div className="hero-container relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
