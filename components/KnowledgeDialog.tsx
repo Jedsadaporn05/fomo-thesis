@@ -58,7 +58,7 @@ export default function KnowledgeDialog({
         </DialogTrigger>
         {/* Content Dialog 1 */}
         <DialogContent
-          className="w-full min-w-[70dvw] sm:min-w-[85dvw] lg:min-w-[75dvw] 2xl:min-w-[70dvw] h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#071A44]"
+          className="w-[90dvw] sm:w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl 2xl:max-w-6xl h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#071A44]"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           {/* Border */}
@@ -69,7 +69,7 @@ export default function KnowledgeDialog({
             </h2>
           </div>
           {/* Content Details */}
-          <DialogTitle className="flex justify-center border-2 sm:border-3 md:border-4 2xl:border-5 border-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 py-6 sm:py-10 md:py-14 lg:py-16 xl:py-18 pt-10 sm:pt-14 md:pt-20 lg:pt-22 xl:pt-24">
+          <DialogTitle className="flex justify-center border-2 sm:border-3 md:border-4 2xl:border-5 border-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 py-6 sm:py-10 md:py-14 lg:py-16 pt-10 sm:pt-14 md:pt-20 lg:pt-21 xl:pt-22">
             <DialogDescription asChild>
               <div className="flex flex-col gap-3 sm:gap-5 md:gap-7 lg:gap-9 xl:gap-10">
                 {card.contentDialog ? (
@@ -114,7 +114,7 @@ export default function KnowledgeDialog({
       </Dialog>
       {/* Content Dialog 2 */}
       <Dialog open={isConsultOpen} onOpenChange={setConsultOpen}>
-        <DialogContent className="w-full min-w-[70dvw] sm:min-w-[85dvw] lg:min-w-[75dvw] 2xl:min-w-[70dvw] h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#390316]">
+        <DialogContent className="w-[90dvw] sm:w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl 2xl:max-w-6xl h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#390316]">
           {/* Title */}
           <div className="absolute -top-1 sm:-top-2 md:-top-3 lg:-top-4 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-2 sm:py-3 md:py-4 lg:py-5 px-6 sm:px-8 md:px-10 lg:px-12 bg-[#214BA9]">
             <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold text-white whitespace-nowrap">
@@ -122,7 +122,7 @@ export default function KnowledgeDialog({
             </h2>
           </div>
           {/* Content Details */}
-          <DialogTitle className="flex justify-center border-2 sm:border-3 md:border-4 2xl:border-5 border-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 py-6 sm:py-10 md:py-14 lg:py-16 xl:py-18 pt-10 sm:pt-14 md:pt-20 lg:pt-22 xl:pt-24">
+          <DialogTitle className="flex justify-center border-2 sm:border-3 md:border-4 2xl:border-5 border-white rounded-2xl md:rounded-3xl p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12 py-6 sm:py-10 md:py-14 lg:py-16 pt-10 sm:pt-14 md:pt-20 lg:pt-21 xl:pt-22">
             <DialogDescription asChild>
               <div className="flex flex-col gap-3 sm:gap-5 md:gap-7 lg:gap-9 xl:gap-10">
                 {card.newDialog ? (
