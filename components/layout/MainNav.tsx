@@ -79,6 +79,7 @@ export default function MainNav() {
   };
 
   return (
+<<<<<<< HEAD
     <header className="fixed top-5 sm:top-7 left-5 sm:left-7 z-50">
       <nav>
         {/* Left Side */}
@@ -102,6 +103,55 @@ export default function MainNav() {
                 variant="outline"
                 size="icon"
                 className="fixed top-5 sm:top-7 right-5 sm:right-7 z-50 p-0 sm:p-3 md:p-4 lg:p-5 rounded-sm bg-black hover:bg-black border-black text-white/90 hover:text-white"
+=======
+    <header className="fixed top-0 left-0 z-50 p-3 md:p-9">
+      {/* Logo */}
+      <Image
+        src={navLogo}
+        alt="navLogo"
+        width={300}
+        height={300}
+        priority
+        className="w-20 md:w-30 cursor-pointer"
+      />
+      {/* Dropdown */}
+      <HoverCard openDelay={100} closeDelay={100}>
+        <HoverCardTrigger asChild>
+          <Button
+            variant="outline"
+            size="icon"
+            className="w-12 h-12 fixed top-0 right-0 z-50 m-3 md:m-9 bg-black border-black rounded-full"
+          >
+            <Menu className="size-auto" />
+            <span className="sr-only">Menu</span>
+          </Button>
+        </HoverCardTrigger>
+        <HoverCardContent
+          side="right"
+          align="start"
+          className="w-[300px] flex flex-col text-white rounded-2xl border-none bg-black p-8"
+        >
+          <nav
+            className="relative flex flex-col gap-4"
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="absolute left-[10px] top-0 w-0.5 h-full bg-white/50 -translate-x-1/2" />
+            <div
+              className={`absolute w-2.5 h-2.5 left-[10px] -translate-x-1/2 -translate-y-1/2 bg-white rounded-full transition-all duration-300 ease-in-out`}
+              style={{
+                top: dotTop,
+                opacity: dotOpacity,
+              }}
+            />
+            {menuItems.map((item) => (
+              <button
+                onClick={() => scrollToSection(item.id)}
+                key={item.id}
+                onMouseEnter={handleMouseOver}
+                className={`group relative flex items-center text-2xl font-bold pl-8 py-2 cursor-pointer transition-colors hover:text-white/80
+                  ${activeSection === item.id ? "text-white" : "text-white/70"}
+                  `}
+>>>>>>> 37f5f2663788403d2226c40f228fbd496c56af6b
               >
                 <Menu className="size-4 sm:size-5 lg:size-6" />
               </Button>
