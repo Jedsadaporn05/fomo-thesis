@@ -9,21 +9,6 @@ const KnowledgeSection = dynamic(
 );
 const MemberSection = dynamic(() => import("@/components/home/MemberSection"));
 
-import GsapHeroSection from "@/components/gsap/sections/GsapHeroSection";
-const MessageSection = dynamic(
-  () => import("@/components/gsap/sections/MessageSection")
-);
-const FlavorSection = dynamic(
-  () => import("@/components/gsap/sections/FlavorSection")
-);
-const BenefitSection = dynamic(
-  () => import("@/components/gsap/sections/BenefitSection")
-);
-const TestimonialSection = dynamic(
-  () => import("@/components/gsap/sections/TestimonialSection")
-);
-import Footer from "@/components/gsap/layout/Footer";
-
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger, ScrollSmoother } from "gsap/all";
@@ -35,7 +20,7 @@ export default function HomePage() {
     const smoother = ScrollSmoother.create({
       wrapper: "#smooth-wrapper",
       content: "#smooth-content",
-      smooth: 1.5,
+      smooth: 1.25,
       effects: true,
     });
 
@@ -47,27 +32,15 @@ export default function HomePage() {
   return (
     <section>
       <MainNav />
-      {/* <MainNav />
-      <MainHeroSection />
-      <KnowledgeSection />
-      <MemberSection /> */}
-
+      {/* Start Gsap ScrollSmoother div */}
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <MainHeroSection />
           <KnowledgeSection />
           <MemberSection />
-
-          <GsapHeroSection />
-          <MessageSection />
-          <FlavorSection />
-          <div>
-            <BenefitSection />
-            <TestimonialSection />
-          </div>
-          <Footer />
         </div>
       </div>
+      {/* End Gsap ScrollSmoother div */}
     </section>
   );
 }

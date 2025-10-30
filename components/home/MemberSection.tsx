@@ -15,10 +15,13 @@ export default function MemberSection() {
   ];
 
   return (
-    <div id="members" className="w-full min-h-dvh py-12 pb-36 relative">
+    <div
+      id="members"
+      className="w-full min-h-dvh py-12 pb-36 relative flex flex-col justify-center items-center"
+    >
       <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12">
         {/* Title */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold bg-gradient-to-r from-white from-[40%] to-[#FF2D77] to-[60%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-white from-[40%] to-[#FF2D77] to-[60%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
           ผู้จัดทำ
         </h2>
         {/* Content */}
@@ -27,11 +30,11 @@ export default function MemberSection() {
           {cards.map((card) => (
             <div
               key={card.id}
-              className="group min-w-full 2xl:min-w-[300px] h-full min-h-[300px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] 2xl:min-h-[600px] grid col-span-1 rounded-4xl bg-gradient-to-b from-[#ff0059] via-[#d00148]/80 to-[#470019] cursor-pointer hover:scale-105 hover:[&>div]:border-white transition-all duration-500 ease-in-out"
+              className="group w-full 2xl:min-w-[300px] h-full min-h-[250px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] 2xl:min-h-[600px] grid col-span-1 rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#ff0059] via-[#d00148]/80 to-[#470019] cursor-pointer hover:scale-105 hover:[&>div]:border-white transition-all duration-500 ease-in-out"
             >
-              <div className="border-4 border-gray-400/90 m-3 rounded-4xl">
+              <div className="border-3 sm:border-4 border-gray-400/80 m-2 sm:m-3 rounded-2xl sm:rounded-3xl">
                 <div className="w-full h-full flex flex-col justify-center items-center">
-                  <h2 className="text-2xl md:text-3xl 2xl:text-4xl font-bold text-white group-hover:text-white whitespace-pre-line text-center">
+                  <h2 className="text-lg sm:text-xl md:text-2xl 2xl:text-3xl font-bold text-white group-hover:text-white whitespace-pre-line text-center">
                     {card.title}
                   </h2>
                 </div>
@@ -41,7 +44,7 @@ export default function MemberSection() {
         </div>
       </div>
       <div className="w-full h-full py-12 pt-30 px-12">
-        <p className="text-xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white tracking-normal text-center">
+        <p className="text-xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white tracking-normal leading-normal text-center">
           ผลงานศิลปนิพนธ์ INTERACTIVE STORYTELLING WEBSITE
         </p>
       </div>

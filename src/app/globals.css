@@ -149,89 +149,26 @@
   }
 }
 
-/* fonts LINE Seed Sans TH */
-@font-face {
-  font-family: "LINE Seed Sans TH";
-  src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_Th.woff2") format("woff2");
-  font-weight: 300;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans TH";
-  src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_Rg.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans TH";
-  src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_He.woff2") format("woff2");
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans TH";
-  src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_Bd.woff2") format("woff2");
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans TH";
-  src: url("/fonts/LINESeedSansTH/LINESeedSansTH_W_XBd.woff2") format("woff2");
-  font-weight: 800;
-  font-display: swap;
-}
-/* fonts LINE Seed Sans EN */
-@font-face {
-  font-family: "LINE Seed Sans EN";
-  src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_Th.woff2") format("woff2");
-  font-weight: 300;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans EN";
-  src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_Rg.woff2") format("woff2");
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans EN";
-  src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_He.woff2") format("woff2");
-  font-weight: 600;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans EN";
-  src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_Bd.woff2") format("woff2");
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: "LINE Seed Sans EN";
-  src: url("/fonts/LINESeedSansEN/LINESeedSansEN_W_XBd.woff2") format("woff2");
-  font-weight: 800;
-  font-display: swap;
-}
-
 /* Hide scrollbar all pages ( IE, Edge, Firefox ) and -webkit-scrollbar for Chrome, Safari, Opera */
 html,
 body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  background-color: #0A1738;
-  color: #FFFFFF;
+  background-color: #0a1738;
+  color: #ffffff;
   overflow-x: hidden;
   scroll-behavior: smooth;
-
   font-family: var(--font-line);
-  overflow-y: scroll;
+
+  /* overflow-y: scroll;
   -ms-overflow-style: none;
-  scrollbar-width: none;
+  scrollbar-width: none; */
 }
-html::-webkit-scrollbar,
+/* html::-webkit-scrollbar,
 body::-webkit-scrollbar {
   display: none;
-}
+} */
 
 /* Custom scrollbar styles with left-side scrollbar */
 .custom-scrollbar {
@@ -250,15 +187,6 @@ body::-webkit-scrollbar {
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f1f1f1; /* Color of the track */
 }
-/* Hide scrollbar for Chrome, Safari and Opera */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-/* Hide scrollbar for IE, Edge and Firefox */
-.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
 
 /* Blink animation for Button */
 @keyframes blink {
@@ -274,7 +202,7 @@ body::-webkit-scrollbar {
   animation: blink 3s infinite;
 }
 
-/* GSAP Tailwind CSS */
+/* Start GSAP Tailwind CSS */
 @theme {
   --color-black: #222123;
   --color-main-bg: #232224;
@@ -310,3 +238,4 @@ body::-webkit-scrollbar {
     transform: rotate(360deg);
   }
 }
+/* End GSAP Tailwind CSS */

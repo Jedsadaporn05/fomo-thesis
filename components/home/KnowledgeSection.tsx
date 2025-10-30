@@ -247,12 +247,17 @@ export default function KnowledgeSection() {
   ];
 
   return (
-    <div id="knowledge" className="w-full min-h-dvh py-12 pb-40 relative">
+    <div
+      id="knowledge"
+      className="w-full min-h-dvh py-12 pb-40 relative flex flex-col justify-center items-center"
+    >
       <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12">
         {/* Title */}
-        <h2 className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl font-bold bg-gradient-to-r from-white from-[30%] to-[#FF2D77] to-[70%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
-          FEAR OF MISSING OUT
-        </h2>
+        <div className="w-full h-full">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-white from-[30%] to-[#FF2D77] to-[70%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
+            FEAR OF MISSING OUT
+          </h2>
+        </div>
         {/* Content */}
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-12 2xl:gap-24">
           {cards.map((card) => (

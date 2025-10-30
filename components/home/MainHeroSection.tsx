@@ -19,25 +19,22 @@ export default function MainHeroSection() {
                   alt="Logo"
                   width={500}
                   height={500}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full max-w-[250px] sm:max-w-full h-full object-cover object-center"
                 />
-                <p className="text-sm md:text-base lg:text-lg xl:text-xl font-bold text-[#FF2D77] text-center">
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold text-[#FF2D77] text-center">
                   THE MISSING OUT
                 </p>
               </div>
-              {/* <h2 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-extrabold text-white tracking-normal transition-all blink">
-                Gracie
-              </h2> */}
               {/* Button */}
               <Link
                 href={"/story"}
                 className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:[&>*]:text-primary"
               >
-                <div className="w-full h-[2px] lg:h-[3px] rounded-md bg-gradient-to-r from-transparent via-white/80 to-transparent" />
-                <p className="text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-bold text-white/90">
+                <div className="w-full h-[3px] lg:h-[4px] rounded-md bg-gradient-to-r from-transparent via-[#FF2D77] to-transparent" />
+                <p className="text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-semibold text-white/90">
                   คลิกเพื่อเข้าสู่เรื่องราว
                 </p>
-                <div className="w-full h-[2px] lg:h-[3px] rounded-md bg-gradient-to-r from-transparent via-white/80 to-transparent" />
+                <div className="w-full h-[3px] lg:h-[4px] rounded-md bg-gradient-to-r from-transparent via-[#FF2D77] to-transparent" />
               </Link>
             </div>
           </div>
@@ -59,7 +56,7 @@ export default function MainHeroSection() {
         /> */}
 
         {/* Blur Bottom */}
-        {/* <div className="absolute bottom-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#0E2865] to-transparent" /> */}
+        <div className="absolute bottom-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent" />
       </div>
     </div>
   );
