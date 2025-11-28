@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Link from "next/link";
-import navLogo from "@/public/logo/LogoGracie.png";
+import navLogo from "@/public/logo/LogoGracieShadow.png";
 
 const menuItems = [
   {
@@ -96,7 +96,7 @@ export default function MainNav() {
         {/* Right Side */}
         <div className="w-full h-full">
           {/* Menu Bar */}
-          <HoverCard openDelay={100} closeDelay={100}>
+          {/* <HoverCard openDelay={100} closeDelay={100}>
             <HoverCardTrigger asChild>
               <Button
                 variant="outline"
@@ -106,13 +106,11 @@ export default function MainNav() {
                 <Menu className="size-4 sm:size-5 lg:size-6" />
               </Button>
             </HoverCardTrigger>
-            {/* Hover Contents */}
             <HoverCardContent
               side="left"
               align="start"
               className="w-fit h-auto flex flex-col rounded-sm border-none bg-black p-3 sm:p-4 lg:p-5"
             >
-              {/* Details */}
               <div className="w-full h-full flex flex-col justify-center items-start gap-3">
                 {menuItems.map((item) => (
                   <button
@@ -120,13 +118,6 @@ export default function MainNav() {
                     className="w-full h-full flex flex-row items-center cursor-pointer gap-3 transition-all duration-200 ease-in-out"
                     onClick={() => scrollToSection(item.id)}
                   >
-                    {/* Circle */}
-                    {/* <div
-                      className={`p-1 rounded-full
-                      ${activeSection === item.id ? "bg-white" : "bg-black"}
-                      `}
-                    /> */}
-                    {/* Text */}
                     <p
                       className={`w-full text-sm sm:text-base lg:text-lg font-semibold text-start text-white/90 hover:text-white`}
                     >
@@ -136,7 +127,7 @@ export default function MainNav() {
                 ))}
               </div>
             </HoverCardContent>
-          </HoverCard>
+          </HoverCard> */}
         </div>
       </nav>
     </header>

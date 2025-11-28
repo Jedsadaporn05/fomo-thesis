@@ -112,11 +112,12 @@ export default function KnowledgeDialog({
           </DialogTitle>
         </DialogContent>
       </Dialog>
-      {/* Content Dialog 2 */}
       <Dialog open={isConsultOpen} onOpenChange={setConsultOpen}>
+        {/* Content Dialog 2 */}
         <DialogContent className="w-[90dvw] sm:w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl 2xl:max-w-6xl h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#390316]">
-          {/* Title */}
+          {/* Border */}
           <div className="absolute -top-1 sm:-top-2 md:-top-3 lg:-top-4 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-2 sm:py-3 md:py-4 lg:py-5 px-6 sm:px-8 md:px-10 lg:px-12 bg-[#214BA9]">
+            {/* Title */}
             <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-bold text-white whitespace-nowrap">
               {card.btnText}
             </h2>

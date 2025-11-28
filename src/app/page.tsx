@@ -32,7 +32,6 @@ export default function HomePage() {
   return (
     <section>
       <MainNav />
-      {/* Start Gsap ScrollSmoother div */}
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <MainHeroSection />
@@ -40,7 +39,6 @@ export default function HomePage() {
           <MemberSection />
         </div>
       </div>
-      {/* End Gsap ScrollSmoother div */}
     </section>
   );
 }

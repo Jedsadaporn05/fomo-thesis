@@ -1,6 +1,6 @@
 import { Link } from "next-view-transitions";
 import Image from "next/image";
-import Logo from "@/public/logo/LogoGracie.png";
+import Logo from "@/public/logo/LogoGracieShadow.png";
 import HeroImg from "@/public/home/hero-section/Hero.jpg";
 
 export default function MainHeroSection() {
