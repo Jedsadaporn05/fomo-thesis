@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Providers from "./Providers";
-import { ViewTransitions } from "next-view-transitions";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import SmoothScrolling from "@/components/SmoothScrolling";
+import { SoundProvider } from "@/context/SoundContext";
+import SoundConsentModal from "@/components/SoundConsentModal";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -12,8 +13,8 @@ const ibmPlexSansThai = IBM_Plex_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "Gracie The Missing Out",
-  description: "interactive 2d animation storytelling website",
+  title: "Gracie - The Missing Out",
+  description: "Interactive 2D Animation Storytelling Website",
 };
 
 export default function RootLayout({
@@ -30,11 +31,12 @@ export default function RootLayout({
         className={`${ibmPlexSansThai.className} antialiased`}
         suppressHydrationWarning
       >
-        <ViewTransitions>
+        <SoundProvider>
+          {/* <SoundConsentModal /> */}
           <SmoothScrolling>
             <Providers>{children}</Providers>
           </SmoothScrolling>
-        </ViewTransitions>
+        </SoundProvider>
       </body>
     </html>
   );

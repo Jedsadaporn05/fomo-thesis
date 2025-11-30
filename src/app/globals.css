@@ -14,18 +14,18 @@
   }
 
   @media (min-width: 640px) {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
+  @media (min-width: 1024px) {
     padding-left: 5rem;
     padding-right: 5rem;
   }
 
-  @media (min-width: 1024px) {
+  @media (min-width: 1280px) {
     padding-left: 6rem;
     padding-right: 6rem;
-  }
-
-  @media (min-width: 1280px) {
-    padding-left: 7rem;
-    padding-right: 7rem;
   }
 }
 

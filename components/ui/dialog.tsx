@@ -71,11 +71,11 @@ function DialogContent({
             data-slot="dialog-close"
             className="cursor-pointer ring-offset-background data-[state=open]:bg-accent data-[state=open]:text-muted-foreground absolute top-7 sm:top-8 md:top-12 right-6 sm:right-8 md:right-12 rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
           >
-            <XIcon
+            {/* <XIcon
               strokeWidth={3}
               className="size-4 sm:size-5 md:size-6 lg:size-7 xl:size-8 2xl:size-9"
             />
-            <span className="sr-only">Close</span>
+            <span className="sr-only">Close</span> */}
           </DialogPrimitive.Close>
         )}
       </DialogPrimitive.Content>

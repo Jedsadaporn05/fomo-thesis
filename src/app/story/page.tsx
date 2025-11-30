@@ -1,11 +1,5 @@
-"use client";
-
-import StoryContainer from "@/components/story/StoryContainer";
+import SceneManager from "@/components/story/SceneManager";
 
 export default function StoryPage() {
-  return (
-    <section>
-      <StoryContainer />
-    </section>
-  );
+  return <SceneManager />;
 }

@@ -1,7 +1,10 @@
+"use client";
+
 import KnowledgeDialog from "../KnowledgeDialog";
 import Image from "next/image";
 import BgImg1 from "@/public/home/knowledge-section/KnowledgeBg-1.png";
-import Hand1 from "@/public/home/knowledge-section/Hand.png";
+import { easeOut } from "framer-motion";
+import { motion } from "framer-motion";
 
 export default function KnowledgeSection() {
   const cards = [
@@ -245,6 +248,26 @@ export default function KnowledgeSection() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.3,
+        delayChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: easeOut },
+    },
+  };
+
   return (
     <section
       id="knowledge"
@@ -263,30 +286,33 @@ export default function KnowledgeSection() {
             priority
           />
         </div>
-        {/* <div className="absolute -left-[19%] xl:-left-[17%] bottom-0 w-[80%] md:w-[60%] lg:w-[50%] h-full pointer-events-none">
-          <Image
-            src={Hand1}
-            alt="Hand"
-            fill
-            className="w-full h-full object-contain object-left-bottom pointer-events-none"
-            priority
-          />
-        </div> */}
       </div>
-      <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12 z-10">
+      <motion.div
+        className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12 z-10"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+      >
         {/* Title */}
-        <div className="w-full h-full">
+        <motion.div variants={itemVariants} className="w-full h-full">
           <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-white from-[30%] to-[#FF2D77] to-[70%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
             FEAR OF MISSING OUT
           </h2>
-        </div>
+        </motion.div>
         {/* Content */}
         <div className="w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-12 2xl:gap-24">
           {cards.map((card) => (
-            <KnowledgeDialog key={card.id} card={card} />
+            <motion.div
+              key={card.id}
+              variants={itemVariants}
+              className="h-full"
+            >
+              <KnowledgeDialog key={card.id} card={card} />
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
       {/* Blur Bottom */}
       <div className="absolute bottom-0 w-full h-[15vh] sm:h-[20vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
     </section>

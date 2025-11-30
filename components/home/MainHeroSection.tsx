@@ -1,24 +1,32 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/logo/LogoGracieShadow.png";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import Logo from "@/public/logo/LogoGracieShadow.gif";
+import {
+  easeOut,
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 
-export default function MainHeroSection() {
+interface HeroProps {
+  startAnimation: boolean;
+}
+
+export default function MainHeroSection({ startAnimation }: HeroProps) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Smooth Spring Values
   const springConfig = { stiffness: 40, damping: 25, mass: 1 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  // Parallax translation
+  // Parallax
   const translateX = useTransform(smoothX, [-1, 1], ["-40px", "40px"]);
   const translateY = useTransform(smoothY, [-1, 1], ["-40px", "40px"]);
 
-  // Mouse move handler (normalized to -1 to 1)
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
@@ -26,6 +34,25 @@ export default function MainHeroSection() {
 
     mouseX.set(x * 2 - 1);
     mouseY.set(y * 2 - 1);
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.2,
+      },
+    },
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: easeOut },
+    },
   };
 
   return (
@@ -52,20 +79,30 @@ export default function MainHeroSection() {
         {/* Text on Image */}
         <div className="absolute w-full h-full">
           <div className="container mx-atuo w-full h-full flex flex-col justify-center items-center md:items-end">
-            <div className="w-full max-w-[300px] lg:max-w-[450px] h-full flex flex-col justify-center items-center gap-4 lg:gap-12">
+            <motion.div
+              variants={containerVariants}
+              initial="hidden"
+              animate={startAnimation ? "visible" : "hidden"}
+              className="w-full max-w-[300px] lg:max-w-[450px] h-full flex flex-col justify-center items-center gap-4 lg:gap-12"
+            >
               {/* Logo Title */}
-              <div className="flex flex-col justify-center items-center">
+              <motion.div
+                variants={itemVariants}
+                className="flex flex-col justify-center items-center"
+              >
                 <Image
                   src={Logo}
                   alt="Logo"
-                  width={600}
-                  height={600}
-                  className="w-full max-w-[250px] sm:max-w-full h-full object-cover object-center"
+                  width={800}
+                  height={800}
+                  unoptimized
+                  priority
+                  className="w-full max-w-[250px] sm:max-w-full 2xl:min-w-[600px] h-full object-contain object-center"
                 />
                 <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium text-[#FF2D77] text-center">
                   THE MISSING OUT
                 </p>
-              </div>
+              </motion.div>
               {/* Button */}
               <Link
                 href={"/story"}
@@ -77,7 +114,7 @@ export default function MainHeroSection() {
                 </p>
                 <div className="w-full h-[3px] lg:h-[4px] rounded-md bg-gradient-to-r from-transparent via-[#FF2D77] to-transparent" />
               </Link>
-            </div>
+            </motion.div>
           </div>
         </div>
         {/* Blur Bottom */}

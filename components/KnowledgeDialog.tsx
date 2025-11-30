@@ -2,11 +2,13 @@
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { XIcon } from "lucide-react";
 import React, { useState } from "react";
 
 interface CardData {
@@ -61,6 +63,13 @@ export default function KnowledgeDialog({
           className="w-[90dvw] sm:w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl 2xl:max-w-6xl h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#071A44]"
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
+          <DialogClose className="absolute top-7 sm:top-8 md:top-12 right-6 sm:right-8 md:right-12 text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer">
+            <XIcon
+              strokeWidth={3}
+              className="size-4 sm:size-5 md:size-6 lg:size-7 xl:size-8 2xl:size-9"
+            />
+            <span className="sr-only">Close</span>
+          </DialogClose>
           {/* Border */}
           <div className="absolute -top-1 sm:-top-2 md:-top-3 lg:-top-4 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-2 sm:py-3 md:py-4 lg:py-5 px-6 sm:px-8 md:px-10 lg:px-12 bg-gradient-to-r from-[#FF0059] to-[#D6004B]">
             {/* Title */}
@@ -115,6 +124,13 @@ export default function KnowledgeDialog({
       <Dialog open={isConsultOpen} onOpenChange={setConsultOpen}>
         {/* Content Dialog 2 */}
         <DialogContent className="w-[90dvw] sm:w-full max-w-2xl sm:max-w-3xl lg:max-w-4xl 2xl:max-w-6xl h-auto border-black rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#000000] to-[#390316]">
+          <DialogClose className="absolute top-7 sm:top-8 md:top-12 right-6 sm:right-8 md:right-12 text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer">
+            <XIcon
+              strokeWidth={3}
+              className="size-4 sm:size-5 md:size-6 lg:size-7 xl:size-8 2xl:size-9"
+            />
+            <span className="sr-only">Close</span>
+          </DialogClose>
           {/* Border */}
           <div className="absolute -top-1 sm:-top-2 md:-top-3 lg:-top-4 left-1/2 -translate-x-1/2 rounded-full border-t border-white/50 py-2 sm:py-3 md:py-4 lg:py-5 px-6 sm:px-8 md:px-10 lg:px-12 bg-[#214BA9]">
             {/* Title */}

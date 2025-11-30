@@ -1,5 +1,6 @@
 import Image from "next/image";
 import BgImg1 from "@/public/home/member-section/MembersBg-1.png";
+import { easeOut, motion } from "framer-motion";
 
 export default function MemberSection() {
   const cards = [
@@ -21,6 +22,35 @@ export default function MemberSection() {
     },
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const titleVariants = {
+    hidden: { opacity: 0, y: -50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: easeOut },
+    },
+  };
+
+  const sphereVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: easeOut },
+    },
+  };
+
   return (
     <section
       id="members"
@@ -41,27 +71,37 @@ export default function MemberSection() {
         </div>
       </div>
 
-      <div className="container mx-auto flex flex-col gap-8 lg:px-10 2xl:px-12 z-10">
+      <motion.div
+        className="container mx-auto flex flex-col gap-8 lg:px-10 2xl:px-12 z-10"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+      >
         {/* Title */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-relaxed tracking-normal text-center py-6">
+        <motion.h2
+          variants={titleVariants}
+          className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-relaxed tracking-normal text-center py-6"
+        >
           ผู้จัดทำ
-        </h2>
+        </motion.h2>
         {/* Content */}
         <div className="w-full flex flex-wrap justify-center gap-8 lg:gap-12 xl:gap-24 xl:gap-y-14 px-4 xl:px-34">
           {cards.map((card) => (
-            <div
+            <motion.div
               key={card.id}
-              className="relative group w-40 h-40 sm:w-48 sm:h-48 md:w-56 2xl:w-62 md:h-56 2xl:h-62 rounded-full cursor-pointer transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-2"
+              variants={sphereVariants}
+              className="relative group w-40 h-40 sm:w-48 sm:h-48 md:w-56 2xl:w-68 md:h-56 2xl:h-68 rounded-full cursor-pointer transition-all duration-500 ease-out hover:scale-110 hover:-translate-y-2"
             >
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#071A44] via-[#214BA9] to-[#9FBDFF] shadow-[0_10px_20px_rgba(0,0,0,0.4),inset_0_3px_4px_rgba(255,255,255,0.3)] transition-all duration-300">
                 <div className="absolute top-0 left-0 w-full h-full rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-80 pointer-events-none" />
               </div>
 
               <div className="absolute -inset-4 bg-blue-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-duration-500 -z-10" />
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }
