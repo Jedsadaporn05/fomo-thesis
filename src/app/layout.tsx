@@ -3,6 +3,7 @@ import "./globals.css";
 import Providers from "./Providers";
 import { ViewTransitions } from "next-view-transitions";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
+import SmoothScrolling from "@/components/SmoothScrolling";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -11,7 +12,7 @@ const ibmPlexSansThai = IBM_Plex_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "Gracie",
+  title: "Gracie The Missing Out",
   description: "interactive 2d animation storytelling website",
 };
 
@@ -21,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" style={{ scrollBehavior: 'smooth' }}>
+    <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </head>
@@ -30,7 +31,9 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ViewTransitions>
-          <Providers>{children}</Providers>
+          <SmoothScrolling>
+            <Providers>{children}</Providers>
+          </SmoothScrolling>
         </ViewTransitions>
       </body>
     </html>

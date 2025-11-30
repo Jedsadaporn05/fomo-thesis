@@ -1,8 +1,7 @@
-import dynamic from "next/dynamic";
-
-const KnowledgeDialog = dynamic(() => import("../KnowledgeDialog"), {
-  ssr: false,
-});
+import KnowledgeDialog from "../KnowledgeDialog";
+import Image from "next/image";
+import BgImg1 from "@/public/home/knowledge-section/KnowledgeBg-1.png";
+import Hand1 from "@/public/home/knowledge-section/Hand.png";
 
 export default function KnowledgeSection() {
   const cards = [
@@ -247,11 +246,34 @@ export default function KnowledgeSection() {
   ];
 
   return (
-    <div
+    <section
       id="knowledge"
-      className="w-full min-h-dvh py-12 pb-40 relative flex flex-col justify-center items-center"
+      className="w-full min-h-dvh py-12 pb-40 relative flex flex-col justify-center items-center overflow-hidden"
     >
-      <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12">
+      {/* Blur Top */}
+      <div className="absolute top-0 w-full h-[15vh] sm:h-[20vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-30" />
+      {/* Image Background */}
+      <div className="hidden lg:block">
+        <div className="absolute w-full h-full inset-0">
+          <Image
+            src={BgImg1}
+            alt="Knowledge Background 1"
+            fill
+            className="w-full h-full object-cover object-center pointer-events-none"
+            priority
+          />
+        </div>
+        {/* <div className="absolute -left-[19%] xl:-left-[17%] bottom-0 w-[80%] md:w-[60%] lg:w-[50%] h-full pointer-events-none">
+          <Image
+            src={Hand1}
+            alt="Hand"
+            fill
+            className="w-full h-full object-contain object-left-bottom pointer-events-none"
+            priority
+          />
+        </div> */}
+      </div>
+      <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12 z-10">
         {/* Title */}
         <div className="w-full h-full">
           <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-white from-[30%] to-[#FF2D77] to-[70%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
@@ -266,7 +288,7 @@ export default function KnowledgeSection() {
         </div>
       </div>
       {/* Blur Bottom */}
-      <div className="absolute bottom-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#0E2865] to-transparent" />
-    </div>
+      <div className="absolute bottom-0 w-full h-[15vh] sm:h-[20vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
+    </section>
   );
 }

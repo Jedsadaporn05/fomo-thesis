@@ -1,55 +1,67 @@
+import Image from "next/image";
+import BgImg1 from "@/public/home/member-section/MembersBg-1.png";
+
 export default function MemberSection() {
   const cards = [
     {
       id: 1,
-      title: "",
+      title: "Member 1",
     },
     {
       id: 2,
-      title: "",
+      title: "Member 2",
     },
     {
       id: 3,
-      title: "",
+      title: "Member 3",
+    },
+    {
+      id: 4,
+      title: "Advisor",
     },
   ];
 
   return (
-    <div
+    <section
       id="members"
       className="w-full min-h-dvh py-12 pb-36 relative flex flex-col justify-center items-center"
     >
-      <div className="container mx-auto flex flex-col gap-12 lg:gap-24 lg:px-10 2xl:px-12">
+      {/* Blur Top */}
+      <div className="absolute top-0 w-full h-[15vh] sm:h-[20vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-30" />
+      {/* Image Background */}
+      <div className="hidden lg:block">
+        <div className="absolute w-full h-full inset-0">
+          <Image
+            src={BgImg1}
+            alt="Members Background 1"
+            fill
+            className="w-full h-full object-cover object-center pointer-events-none"
+            priority
+          />
+        </div>
+      </div>
+
+      <div className="container mx-auto flex flex-col gap-8 lg:px-10 2xl:px-12 z-10">
         {/* Title */}
-        <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold bg-gradient-to-r from-white from-[40%] to-[#FF2D77] to-[60%] bg-clip-text text-transparent leading-relaxed tracking-normal text-center pt-24">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-relaxed tracking-normal text-center py-6">
           ผู้จัดทำ
         </h2>
         {/* Content */}
-        <div className="w-full h-full grid grid-cols-1 lg:grid-cols-3 gap-6 xl:gap-12 2xl:gap-24">
-          {/* Border Card */}
+        <div className="w-full flex flex-wrap justify-center gap-8 lg:gap-12 xl:gap-24 xl:gap-y-14 px-4 xl:px-34">
           {cards.map((card) => (
             <div
               key={card.id}
-              className="group w-full 2xl:min-w-[300px] h-full min-h-[250px] sm:min-h-[350px] md:min-h-[400px] lg:min-h-[450px] xl:min-h-[500px] 2xl:min-h-[600px] grid col-span-1 rounded-3xl sm:rounded-4xl bg-gradient-to-b from-[#ff0059] via-[#d00148]/80 to-[#470019] cursor-pointer hover:scale-105 hover:[&>div]:border-white transition-all duration-500 ease-in-out"
+              className="relative group w-40 h-40 sm:w-48 sm:h-48 md:w-56 2xl:w-62 md:h-56 2xl:h-62 rounded-full cursor-pointer transition-all duration-500 ease-out hover:scale-105 hover:-translate-y-2"
             >
-              <div className="border-3 sm:border-4 border-gray-400/80 m-2 sm:m-3 rounded-2xl sm:rounded-3xl">
-                <div className="w-full h-full flex flex-col justify-center items-center">
-                  <h2 className="text-lg sm:text-xl md:text-2xl 2xl:text-3xl font-bold text-white group-hover:text-white whitespace-pre-line text-center">
-                    {card.title}
-                  </h2>
-                </div>
+              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#071A44] via-[#214BA9] to-[#9FBDFF] shadow-[0_10px_20px_rgba(0,0,0,0.4),inset_0_3px_4px_rgba(255,255,255,0.3)] transition-all duration-300">
+                <div className="absolute top-0 left-0 w-full h-full rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-80 pointer-events-none" />
               </div>
+
+              <div className="absolute -inset-4 bg-blue-500/20 rounded-full blur-xl opacity-0 group-hover:opacity-100 transition-duration-500 -z-10" />
             </div>
           ))}
         </div>
       </div>
-      <div className="w-full h-full py-12 pt-30 px-12">
-        <p className="text-xl sm:text-2xl md:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-white tracking-normal leading-normal text-center">
-          ผลงานศิลปนิพนธ์ INTERACTIVE STORYTELLING WEBSITE
-        </p>
-      </div>
-      {/* Blur Bottom */}
-      <div className="absolute bottom-0 w-full h-[10rem] pointer-events-none bg-gradient-to-t from-[#0E2865] to-transparent" />
-    </div>
+    </section>
   );
 }
