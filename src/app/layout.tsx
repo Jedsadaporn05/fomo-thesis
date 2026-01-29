@@ -4,7 +4,7 @@ import Providers from "./Providers";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import SmoothScrolling from "@/components/SmoothScrolling";
 import { SoundProvider } from "@/context/SoundContext";
-import SoundConsentModal from "@/components/SoundConsentModal";
+// import SoundConsentModal from "@/components/SoundConsentModal";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -28,7 +28,7 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
       </head>
       <body
-        className={`${ibmPlexSansThai.className} antialiased`}
+        className={`${ibmPlexSansThai.className} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
         <SoundProvider>

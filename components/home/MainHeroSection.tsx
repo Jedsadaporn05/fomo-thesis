@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/logo/LogoGracieShadow.gif";
+import Logo from "@/public/logo/LogoGracieShadow.png";
 import {
   easeOut,
   motion,
@@ -23,7 +23,6 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  // Parallax
   const translateX = useTransform(smoothX, [-1, 1], ["-40px", "40px"]);
   const translateY = useTransform(smoothY, [-1, 1], ["-40px", "40px"]);
 
@@ -78,7 +77,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
       <div className="relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
-          <div className="container mx-atuo w-full h-full flex flex-col justify-center items-center md:items-end">
+          <div className="container mx-auto w-full h-full flex flex-col justify-center items-center md:items-end">
             <motion.div
               variants={containerVariants}
               initial="hidden"
@@ -118,7 +117,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
           </div>
         </div>
         {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[15vh] sm:h-[20vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
+        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
       </div>
     </section>
   );

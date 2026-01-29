@@ -1,110 +1,123 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Logo from "@/public/logo/LogoGracieShadow.gif";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
+
+import Logo from "@/public/logo/LogoGracieShadow.gif";
+
+gsap.registerPlugin(ScrollTrigger);
 
 interface PreloaderProps {
   onComplete: () => void;
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+
   const [progress, setProgress] = useState(0);
-  const [isExit, setIsExit] = useState(false);
   const lenis = useLenis();
 
   useEffect(() => {
+    if (!containerRef.current) return;
+
+    // Lock scroll
     document.body.style.overflow = "hidden";
     lenis?.stop();
+
+    // Exit preloader
+    const exitPreloader = () => {
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.inOut" },
+        onComplete: () => {
+          document.body.style.overflow = "";
+          lenis?.start();
+
+          // Refresh all ScrollTriggers after layout is visible
+          ScrollTrigger.refresh();
+          onComplete();
+        },
+      });
+
+      tl.to(containerRef.current, {
+        opacity: 0,
+        scale: 1.05,
+        filter: "blur(12px)",
+        duration: 0.7,
+      });
+    };
+
+    // Image Preload Logic
+    const images = Array.from(document.images);
+    const total = images.length || 1;
+    let loaded = 0;
+
+    const updateProgress = () => {
+      loaded += 1;
+      const value = Math.min(100, Math.round((loaded / total) * 100));
+
+      setProgress(value);
+
+      if (progressBarRef.current) {
+        gsap.to(progressBarRef.current, {
+          width: `${value}%`,
+          duration: 0.25,
+          ease: "power2.out",
+        });
+      }
+
+      if (loaded >= total) {
+        exitPreloader();
+      }
+    };
+
+    images.forEach((img) => {
+      if (img.complete) {
+        updateProgress();
+      } else {
+        img.addEventListener("load", updateProgress, { once: true });
+        img.addEventListener("error", updateProgress, { once: true });
+      }
+    });
 
     return () => {
       document.body.style.overflow = "";
       lenis?.start();
     };
-  }, [lenis]);
-
-  useEffect(() => {
-    let raf: number;
-
-    const animate = () => {
-      setProgress((p) => {
-        const eased = p + (100 - p) * 0.05;
-        return eased >= 99.5 ? 100 : eased;
-      });
-
-      raf = requestAnimationFrame(animate);
-    };
-
-    animate();
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  useEffect(() => {
-    if (progress >= 100) {
-      setIsExit(true);
-
-      const timer = setTimeout(() => {
-        onComplete?.();
-      }, 700);
-
-      return () => clearTimeout(timer);
-    }
-  }, [progress, onComplete]);
+  }, [lenis, onComplete]);
 
   return (
-    <AnimatePresence>
-      {!isExit && (
-        <motion.div
-          key="preloader"
-          exit={{
-            opacity: 0,
-            scale: 1.05,
-            filter: "blur(8px)",
-            transition: { duration: 0.6, ease: "easeInOut" },
-          }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0a1738] text-white"
-        >
-          <div className="relative z-10 flex flex-col items-center gap-6 w-full max-w-md px-8">
-            {/* Logo */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-            >
-              <Image
-                src={Logo}
-                alt="Logo"
-                width={500}
-                height={500}
-                unoptimized
-                priority
-                className="w-full max-w-[250px] sm:max-w-full 2xl:min-w-[500px] object-contain"
-              />
-            </motion.div>
-
-            {/* Progress Bar */}
-            <div className="w-full flex flex-col gap-2">
-              <div className="w-full h-1.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10 mt-4">
-                <motion.div
-                  className="h-full bg-[#FF2D77] shadow-[0_0_12px_#FF2D77]"
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                />
-              </div>
-
-              {/* Percentage */}
-              <div className="w-full flex justify-between text-sm text-gray-300">
-                <span>LOADING ASSETS</span>
-                <span className="text-lg text-white">
-                  {Math.floor(progress)}%
-                </span>
-              </div>
-            </div>
+    <div
+      ref={containerRef}
+      className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a1738] text-white"
+    >
+      <div className="flex flex-col items-center gap-6 w-full max-w-md px-8">
+        {/* Logo */}
+        <Image
+          src={Logo}
+          alt="Logo"
+          priority
+          unoptimized
+          className="w-full max-w-[250px] 2xl:max-w-[500px] object-contain"
+        />
+        {/* Progress */}
+        <div className="w-full flex flex-col gap-2">
+          <div className="w-full h-1.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">
+            <div
+              ref={progressBarRef}
+              className="h-full w-0 bg-[#FF2D77] shadow-[0_0_12px_#FF2D77]"
+            />
           </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+
+          <div className="flex justify-between text-sm text-gray-300">
+            <span>LOADING ASSETS</span>
+            <span className="text-lg text-white">{progress}%</span>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

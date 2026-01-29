@@ -30,22 +30,22 @@ const menuItems = [
   {
     id: "What is FOMO",
     title: "FOMO คืออะไร",
-    href: "knowledge",
+    href: "Knowledge-1",
   },
   {
     id: "How does FOMO affect your life",
     title: "FOMO ส่งผลอะไรต่อชีวิต",
-    href: "knowledge",
+    href: "Knowledge-2",
   },
   {
     id: "How to deal with FOMO",
     title: "วิธีจัดการกับ FOMO",
-    href: "knowledge",
+    href: "Knowledge-3",
   },
   {
-    id: "members",
+    id: "Members",
     title: "ผู้จัดทำ",
-    href: "members",
+    href: "Members",
   },
 ];
 

@@ -1,7 +1,11 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useMemo, useId } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import React, { useRef, useState, useEffect, useMemo } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function getOrthogonalPath(
   startX: number,
@@ -45,61 +49,44 @@ export default function KnowledgeLine({
   hasDiamondEnd = true,
 }: KnowledgeLineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const uniqueId = useId();
+  const pathRef = useRef<SVGPathElement>(null);
+  const startDiamondRef = useRef<SVGPathElement>(null);
+  const endDiamondRef = useRef<SVGPathElement>(null);
 
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  // Resize observer
   useEffect(() => {
-    if (!containerRef.current) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        setDimensions({
+    const el = containerRef.current;
+    if (!el) return;
+
+    let rafId: number | null = null;
+
+    const ro = new ResizeObserver(([entry]) => {
+      if (rafId) cancelAnimationFrame(rafId);
+
+      rafId = requestAnimationFrame(() => {
+        setSize({
           width: entry.contentRect.width,
           height: entry.contentRect.height,
         });
-      }
+      });
     });
-    observer.observe(containerRef.current);
-    return () => observer.disconnect();
+
+    ro.observe(el);
   }, []);
 
-  const { width, height } = dimensions;
+  const { width, height } = size;
 
-  /* Scroll animation */
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start 80%", "end 40%"],
-  });
-
-  const delayedProgress = useTransform(scrollYProgress, [0.15, 1], [0, 1]);
-  const pathLength = useSpring(delayedProgress, {
-    stiffness: 300,
-    damping: 80,
-  });
-
-  const lineOpacity = useTransform(pathLength, [0, 0.05], [0, 1]);
-
-  const startScale = useTransform(pathLength, [0, 0.1], [0, 1]);
-  const startOpacity = useTransform(pathLength, [0, 0.05], [0, 1]);
-  const endScale = useTransform(pathLength, [0.9, 1], [0, 1]);
-  const endOpacity = useTransform(pathLength, [0.9, 1], [0, 1]);
-
-  /* Path */
-  const path = useMemo(() => {
-    if (!width || !height) return "";
-    return getOrthogonalPath(
-      (x1 / 100) * width,
-      (x2 / 100) * width,
-      height,
-      60,
-    );
-  }, [width, height, x1, x2]);
-
-  if (!width || !height) {
-    return <div ref={containerRef} className={`w-full h-full ${className}`} />;
-  }
-
+  // Calculate start and end X positions
   const startX = (x1 / 100) * width;
   const endX = (x2 / 100) * width;
+
+  // Calculate path
+  const path = useMemo(() => {
+    if (!width || !height) return "";
+    return getOrthogonalPath(startX, endX, height, 60);
+  }, [width, height, startX, endX]);
 
   const diamondSize = 14;
   const half = diamondSize;
@@ -112,75 +99,121 @@ export default function KnowledgeLine({
     Z
   `;
 
+  useGSAP(
+    () => {
+      if (!pathRef.current || !width || !height) return;
+
+      const length = pathRef.current.getTotalLength();
+
+      gsap.set(pathRef.current, {
+        strokeDasharray: length,
+        strokeDashoffset: length,
+        autoAlpha: 1,
+      });
+
+      gsap.set([startDiamondRef.current, endDiamondRef.current], {
+        autoAlpha: 0,
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 65%",
+          end: "bottom 90%",
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      if (hasDiamondStart && startDiamondRef.current) {
+        tl.to(
+          startDiamondRef.current,
+          {
+            autoAlpha: 1,
+            duration: 0.05,
+            ease: "power1.out",
+          },
+          0,
+        );
+      }
+
+      // Draw line
+      tl.to(
+        pathRef.current,
+        {
+          strokeDashoffset: 0,
+          duration: 1,
+          ease: "none",
+        },
+        0,
+      );
+
+      if (hasDiamondEnd && endDiamondRef.current) {
+        tl.to(
+          endDiamondRef.current,
+          {
+            autoAlpha: 1,
+            duration: 0.1,
+            ease: "power1.out",
+          },
+          0.9,
+        );
+      }
+
+      return () => {
+        tl.scrollTrigger?.kill();
+        tl.kill();
+      };
+    },
+    { dependencies: [path], scope: containerRef },
+  );
+
+  useEffect(() => {
+    if (!path) return;
+
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [path]);
+
+  if (!width || !height) {
+    return <div ref={containerRef} className={`w-full h-full ${className}`} />;
+  }
+
   return (
-    <div ref={containerRef} className={`w-full h-full relative ${className}`}>
+    <div ref={containerRef} className={`relative w-full h-full ${className}`}>
       <svg
         width="100%"
         height="100%"
         viewBox={`0 0 ${width} ${height}`}
-        shapeRendering="geometricPrecision"
         className="overflow-visible"
+        shapeRendering="geometricPrecision"
       >
-        <defs>
-          <linearGradient
-            id={`knowledgeGradient-${uniqueId}`}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#FF699D" />
-            <stop offset="100%" stopColor="#FF699D" />
-          </linearGradient>
-          <filter
-            id={`glow-${uniqueId}`}
-            x="-50%"
-            y="-50%"
-            width="200%"
-            height="200%"
-          >
-            <feGaussianBlur stdDeviation="2.5" result="coloredBlur" />
-            <feMerge>
-              <feMergeNode in="coloredBlur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
         {/* Line */}
-        <motion.path
+        <path
+          ref={pathRef}
           d={path}
           fill="none"
-          stroke={`url(#knowledgeGradient-${uniqueId})`}
-          strokeWidth={4}
+          stroke="#FF699D"
+          strokeWidth={6}
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{ pathLength, opacity: lineOpacity }}
         />
-
         {/* Diamond Start */}
         {hasDiamondStart && (
-          <motion.path
+          <path
+            ref={startDiamondRef}
             d={diamondPath(startX, 0)}
             fill="#FF699D"
-            style={{
-              scale: startScale,
-              opacity: startOpacity,
-              transformOrigin: `${startX}px 0px`,
-            }}
           />
         )}
 
         {/* Diamond End */}
         {hasDiamondEnd && (
-          <motion.path
+          <path
+            ref={endDiamondRef}
             d={diamondPath(endX, height)}
             fill="#FF699D"
-            style={{
-              scale: endScale,
-              opacity: endOpacity,
-              transformOrigin: `${endX}px ${height}px`,
-            }}
           />
         )}
       </svg>

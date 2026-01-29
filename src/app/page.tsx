@@ -23,10 +23,15 @@ export default function HomePage() {
   return (
     <>
       {showPreloader && <Preloader onComplete={handlePreloaderComplete} />}
-      <MainNav />
-      <MainHeroSection startAnimation={heroStart} />
-      <KnowledgeSection />
-      <MemberSection />
+
+      {!showPreloader && (
+        <>
+          <MainNav />
+          <MainHeroSection startAnimation={heroStart} />
+          <KnowledgeSection />
+          <MemberSection />
+        </>
+      )}
     </>
   );
 }

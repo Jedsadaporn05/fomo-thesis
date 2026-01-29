@@ -2,15 +2,26 @@
 
 import Image from "next/image";
 import BgImg1 from "@/public/home/knowledge-section/KnowledgeBg-1.png";
+import FOMO from "@/public/home/knowledge-section/Title-FOMO.png";
+import QuestionMark from "@/public/home/knowledge-section/Title-QuestionMark.png";
+
 import KnowledgeBlock from "./KnowledgeBlock";
 import KnowledgeLine from "./KnowledgeLine";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+import React, { useRef, useState, useEffect } from "react";
 
 const contents = [
   {
     id: 1,
-    title: "FOMO คืออะไร?",
+    title: {
+      imageFOMO: FOMO,
+      text: "คืออะไร?",
+      imageQuestionMark: QuestionMark,
+    },
     contentDialog: [
       {
         id: 1,
@@ -39,7 +50,10 @@ const contents = [
   },
   {
     id: 2,
-    title: "FOMO ส่งผลอะไรต่อชีวิต",
+    title: {
+      imageFOMO: FOMO,
+      text: "ส่งผลอะไรต่อชีวิต",
+    },
     contentDialog: [
       {
         id: 1,
@@ -104,7 +118,10 @@ const contents = [
   },
   {
     id: 3,
-    title: "วิธีจัดการกับ FOMO",
+    title: {
+      imageFOMO: FOMO,
+      text: "วิธีจัดการกับ",
+    },
     contentDialog: [
       {
         id: 1,
@@ -135,145 +152,327 @@ const contents = [
   },
 ];
 
-const content = (
-  content: { id: number; spans: { text: string; isColor: boolean }[] }[],
-) => (
-  <>
-    {content.map((block) => (
-      <p
-        key={block.id}
-        className="text-xl md:text-2xl lg:text-3xl text-white whitespace-pre-line"
-      >
-        {block.spans.map((span, index) => (
-          <span
-            key={index}
-            className={`${span.isColor ? "text-[#FF3079] font-bold" : "text-white"}`}
-          >
-            {span.text}
-          </span>
-        ))}
-      </p>
-    ))}
-  </>
+const Content = React.memo(
+  ({
+    data,
+  }: {
+    data: { id: number; spans: { text: string; isColor: boolean }[] }[];
+  }) => (
+    <>
+      {data.map((block) => (
+        <p
+          key={block.id}
+          className="text-xl md:text-2xl lg:text-3xl text-white whitespace-pre-line"
+        >
+          {block.spans.map((span, index) => (
+            <span
+              key={index}
+              className={`${span.isColor ? "text-[#FF3079] font-bold" : "text-white"}`}
+            >
+              {span.text}
+            </span>
+          ))}
+        </p>
+      ))}
+    </>
+  ),
 );
+Content.displayName = "Content";
 
 export default function KnowledgeSection() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
+  const measureContainerRef = useRef<HTMLDivElement>(null);
+  const block1Ref = useRef<HTMLDivElement>(null);
+  const block2Ref = useRef<HTMLDivElement>(null);
+  const block3Ref = useRef<HTMLDivElement>(null);
+
+  const [lineCoords, setLineCoords] = useState({
+    b1: 75,
+    b2: 25,
+    b3: 50,
+    h1: 150,
+    h2: 150,
   });
 
-  const bgY1 = useTransform(scrollYProgress, [0, 0.4], [-20, 50]);
-  const bgY2 = useTransform(scrollYProgress, [0.2, 0.7], [-50, 50]);
-  const bgY3 = useTransform(scrollYProgress, [0.6, 1], [-50, 50]);
+  // Line Coords
+  useEffect(() => {
+    let rafId: number | null = null;
+
+    const updateCoords = () => {
+      if (rafId) return;
+
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+
+        if (
+          !measureContainerRef.current ||
+          !block1Ref.current ||
+          !block2Ref.current ||
+          !block3Ref.current
+        )
+          return;
+
+        const containerRect =
+          measureContainerRef.current.getBoundingClientRect();
+
+        const r1 = block1Ref.current.getBoundingClientRect();
+        const r2 = block2Ref.current.getBoundingClientRect();
+        const r3 = block3Ref.current.getBoundingClientRect();
+
+        const centerPercent = (rect: DOMRect) =>
+          ((rect.left + rect.width / 2 - containerRect.left) /
+            containerRect.width) *
+          100;
+
+        const next = {
+          b1: centerPercent(r1),
+          b2: centerPercent(r2),
+          b3: centerPercent(r3),
+          h1: Math.max(120, r2.top - r1.bottom),
+          h2: Math.max(120, r3.top - r2.bottom),
+        };
+
+        setLineCoords((prev) =>
+          prev.b1 === next.b1 &&
+          prev.b2 === next.b2 &&
+          prev.b3 === next.b3 &&
+          prev.h1 === next.h1 &&
+          prev.h2 === next.h2
+            ? prev
+            : next,
+        );
+      });
+    };
+
+    const observer = new ResizeObserver(updateCoords);
+
+    measureContainerRef.current &&
+      observer.observe(measureContainerRef.current);
+    block1Ref.current && observer.observe(block1Ref.current);
+    block2Ref.current && observer.observe(block2Ref.current);
+    block3Ref.current && observer.observe(block3Ref.current);
+
+    updateCoords();
+  }, []);
+
+  // ScrollTrigger Refresh
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [lineCoords]);
+
+  // GSAP and Media Queries
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      ScrollTrigger.matchMedia({
+        "(min-width: 768px)": () => {
+          const blocks = gsap.utils.toArray<HTMLElement>(
+            ".knowledge-block-container",
+          );
+          const bgs = gsap.utils.toArray<HTMLElement>(".knowledge-bg");
+
+          // Background parallax
+          bgs.forEach((bg) => {
+            gsap.to(bg, {
+              y: 80,
+              ease: "none",
+              scrollTrigger: {
+                trigger: bg.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            });
+          });
+
+          // Blocks fade in
+          blocks.forEach((block) => {
+            gsap.fromTo(
+              block,
+              { opacity: 0, y: 60 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.8,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: block,
+                  start: "top 80%",
+                  toggleActions: "play none none reverse",
+                  invalidateOnRefresh: true,
+                },
+              },
+            );
+          });
+        },
+
+        "(max-width: 767px)": () => {
+          const blocks = gsap.utils.toArray<HTMLElement>(
+            ".knowledge-block-container",
+          );
+          const bgs = gsap.utils.toArray<HTMLElement>(".knowledge-bg");
+
+          // Mobile parallax
+          bgs.forEach((bg) => {
+            gsap.to(bg, {
+              y: 40,
+              ease: "none",
+              scrollTrigger: {
+                trigger: bg.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true,
+                invalidateOnRefresh: true,
+              },
+            });
+          });
+
+          blocks.forEach((block) => {
+            gsap.fromTo(
+              block,
+              { opacity: 0, y: 40 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: block,
+                  start: "top 85%",
+                  toggleActions: "play none none reverse",
+                  invalidateOnRefresh: true,
+                },
+              },
+            );
+          });
+        },
+      });
+    },
+    { scope: containerRef },
+  );
 
   return (
     <section
       ref={containerRef}
-      id="knowledge"
       className="w-full relative flex flex-col items-center overflow-hidden bg-black"
     >
+      {/* Blur Top */}
+      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-20" />
       {/* Block 1 */}
-      <div className="w-full min-h-screen relative z-30 flex items-center justify-center py-20">
-        <motion.div
-          style={{ y: bgY1 }}
-          className="absolute inset-0 w-full h-full z-0"
-        >
-          <Image
-            src={BgImg1}
-            alt="Knowledge Background 1"
-            fill
-            className="object-cover pointer-events-none scale-110"
-          />
-        </motion.div>
+      <div
+        id="Knowledge-1"
+        className="w-full min-h-screen relative flex items-center justify-center py-20"
+      >
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+          <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
+            <Image
+              src={BgImg1}
+              alt="Knowledge Background 1"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
         <div className="container mx-auto px-4 z-10 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col md:flex-row justify-end relative"
+          <div
+            ref={measureContainerRef}
+            className="knowledge-block-container flex flex-col md:flex-row justify-end relative"
           >
-            <div className="relative">
-              <KnowledgeBlock title={contents[0].title}>
-                {content(contents[0].contentDialog)}
+            <div className="relative" ref={block1Ref}>
+              <KnowledgeBlock
+                title={contents[0].title}
+                className="px-48"
+                triggerStart="top 75%"
+                triggerEnd="bottom 65%"
+              >
+                <Content data={contents[0].contentDialog} />
               </KnowledgeBlock>
             </div>
-            {/* Tablet */}
-            <div className="hidden md:block lg:hidden absolute top-[95%] left-0 w-full h-[400px] z-0 opacity-80 pointer-events-none">
-              <KnowledgeLine x1={60} x2={40} />
+            <div
+              className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20"
+              style={{ height: lineCoords.h1 }}
+            >
+              <KnowledgeLine x1={lineCoords.b1} x2={lineCoords.b2} />
             </div>
-            {/* Desktop */}
-            <div className="hidden lg:block absolute top-[95%] left-0 w-full h-[800px] z-0 opacity-80 pointer-events-none">
-              <KnowledgeLine x1={72} x2={28} />
-            </div>
-          </motion.div>
+          </div>
         </div>
+        {/* Blur Bottom */}
+        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-0" />
       </div>
 
       {/* Block 2 */}
-      <div className="w-full min-h-screen relative z-20 flex items-center justify-center py-20">
-        <motion.div
-          style={{ y: bgY2 }}
-          className="absolute inset-0 w-full h-full z-0"
-        >
-          <Image
-            src={BgImg1}
-            alt="Knowledge Background 2"
-            fill
-            className="object-cover pointer-events-none scale-110"
-          />
-        </motion.div>
+      <div
+        id="Knowledge-2"
+        className="w-full min-h-screen relative flex items-center justify-center py-20"
+      >
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+          <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
+            <Image
+              src={BgImg1}
+              alt="Knowledge Background 2"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+        {/* Blur Top */}
+        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-0" />
         <div className="container mx-auto px-4 z-10 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col md:flex-row justify-start relative"
-          >
-            <div className="relative">
-              <KnowledgeBlock title={contents[1].title}>
-                {content(contents[1].contentDialog)}
+          <div className="knowledge-block-container flex flex-col md:flex-row justify-start relative">
+            <div className="relative" ref={block2Ref}>
+              <KnowledgeBlock
+                title={contents[1].title}
+                className="px-40"
+                triggerStart="top 75%"
+                triggerEnd="bottom 70%"
+              >
+                <Content data={contents[1].contentDialog} />
               </KnowledgeBlock>
             </div>
-            {/* Tablet */}
-            <div className="hidden md:block lg:hidden absolute top-[95%] left-0 w-full h-[400px] z-0 opacity-80 pointer-events-none">
-              <KnowledgeLine x1={40} x2={60} />
+            <div
+              className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
+              style={{ height: lineCoords.h2 }}
+            >
+              <KnowledgeLine x1={lineCoords.b2} x2={lineCoords.b3} />
             </div>
-            {/* Desktop */}
-            <div className="hidden lg:block absolute top-[95%] left-0 w-full h-[800px] z-0 opacity-80 pointer-events-none">
-              <KnowledgeLine x1={28} x2={50} />
-            </div>
-          </motion.div>
+          </div>
         </div>
+        {/* Blur Bottom */}
+        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-0" />
       </div>
 
       {/* Block 3 */}
-      <div className="w-full min-h-screen relative z-10 flex items-center justify-center py-20">
-        <motion.div
-          style={{ y: bgY3 }}
-          className="absolute inset-0 w-full h-full z-0"
-        >
-          <Image
-            src={BgImg1}
-            alt="Knowledge Background 3"
-            fill
-            className="object-cover pointer-events-none scale-110"
-          />
-        </motion.div>
+      <div
+        id="Knowledge-3"
+        className="w-full min-h-screen relative flex items-center justify-center py-20"
+      >
+        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+          <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
+            <Image
+              src={BgImg1}
+              alt="Knowledge Background 3"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+        {/* Blur Top */}
+        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-0" />
         <div className="container mx-auto px-4 z-10 relative">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="flex flex-col md:flex-row justify-center relative"
-          >
-            <div className="relative mt-36">
-              <KnowledgeBlock title={contents[2].title}>
-                {content(contents[2].contentDialog)}
+          <div className="knowledge-block-container flex flex-col md:flex-row justify-center relative">
+            <div className="relative mt-36" ref={block3Ref}>
+              <KnowledgeBlock
+                title={contents[2].title}
+                className="px-40"
+                triggerStart="top 75%"
+                triggerEnd="bottom 75%"
+                isLastSection={true}
+              >
+                <Content data={contents[2].contentDialog} />
                 <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
                   {contents[2].gridItems?.map((item, index) => (
                     <div
@@ -291,9 +490,11 @@ export default function KnowledgeSection() {
                 </div>
               </KnowledgeBlock>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
+      {/* Blur Bottom */}
+      <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
     </section>
   );
 }

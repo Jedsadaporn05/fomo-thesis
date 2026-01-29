@@ -1,20 +1,40 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 import { cn } from "@/lib/utils";
+import Image, { StaticImageData } from "next/image";
 
 interface KnowledgeBlockProps {
-  title: React.ReactNode;
   children: React.ReactNode;
+  title: {
+    imageFOMO: StaticImageData | string;
+    text: string;
+    imageQuestionMark?: StaticImageData | string;
+  };
+  className: string;
+  triggerStart: string;
+  triggerEnd: string;
+  isLastSection?: boolean;
 }
 
 export default function KnowledgeBlock({
-  title,
   children,
+  title,
+  className,
+  triggerStart,
+  triggerEnd,
+  isLastSection,
 }: KnowledgeBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const leftPathRef = useRef<SVGPathElement>(null);
+  const rightPathRef = useRef<SVGPathElement>(null);
+
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [titleRect, setTitleRect] = useState({
     width: 0,
@@ -23,58 +43,62 @@ export default function KnowledgeBlock({
     y: 0,
   });
 
+  // Resize observer
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    const titleEl = titleRef.current;
+    if (!container || !titleEl) return;
 
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.target === containerRef.current) {
-          setDimensions({
-            width: entry.contentRect.width,
-            height: entry.contentRect.height,
-          });
-        }
-      }
+    let rafId: number | null = null;
 
-      if (titleRef.current && containerRef.current) {
-        const tParams = titleRef.current.getBoundingClientRect();
-        const cParams = containerRef.current.getBoundingClientRect();
+    const update = () => {
+      if (rafId) return;
 
-        setTitleRect({
-          width: tParams.width,
-          height: tParams.height,
-          x: tParams.left - cParams.left,
-          y: tParams.top - cParams.top,
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+
+        const c = container.getBoundingClientRect();
+        const t = titleEl.getBoundingClientRect();
+
+        setDimensions((prev) =>
+          prev.width === c.width && prev.height === c.height
+            ? prev
+            : { width: c.width, height: c.height },
+        );
+
+        setTitleRect((prev) => {
+          const next = {
+            width: t.width,
+            height: t.height,
+            x: t.left - c.left,
+            y: t.top - c.top,
+          };
+
+          return prev.width === next.width &&
+            prev.height === next.height &&
+            prev.x === next.x &&
+            prev.y === next.y
+            ? prev
+            : next;
         });
-      }
-    });
+      });
+    };
 
-    observer.observe(containerRef.current);
-    if (titleRef.current) observer.observe(titleRef.current);
+    const observer = new ResizeObserver(update);
+    observer.observe(container);
+    observer.observe(titleEl);
 
-    return () => observer.disconnect();
-  }, [title]);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"],
-  });
-
-  const pathLength = useSpring(scrollYProgress, {
-    stiffness: 400,
-    damping: 90,
-  });
-
-  const opacity = useTransform(pathLength, [0, 0.01, 0.05], [0, 0, 1]);
+    update();
+  }, [title, isLastSection]);
 
   const { width, height } = dimensions;
-  const r = 48;
-
+  const r = width < 768 ? 24 : 48;
   const safeW = width > 0 ? width : 100;
   const safeH = height > 0 ? height : 100;
   const tStart = titleRect.x - 10;
   const tEnd = titleRect.x + titleRect.width + 10;
 
+  // Prepare paths
   const leftPath = React.useMemo(() => {
     const startLeft = Math.max(r, Math.min(safeW - r, tStart));
     return `
@@ -99,35 +123,96 @@ export default function KnowledgeBlock({
      `;
   }, [r, safeW, safeH, tEnd]);
 
+  useGSAP(
+    () => {
+      if (
+        !leftPathRef.current ||
+        !rightPathRef.current ||
+        !containerRef.current
+      )
+        return;
+
+      const left = leftPathRef.current;
+      const right = rightPathRef.current;
+
+      const lLength = left.getTotalLength();
+      const rLength = right.getTotalLength();
+
+      gsap.set([left, right], { autoAlpha: 1 });
+
+      gsap.fromTo(
+        left,
+        { strokeDasharray: lLength, strokeDashoffset: lLength },
+        {
+          strokeDashoffset: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: triggerStart,
+            end: triggerEnd,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+
+      gsap.fromTo(
+        right,
+        { strokeDasharray: rLength, strokeDashoffset: rLength },
+        {
+          strokeDashoffset: 0,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: triggerStart,
+            end: triggerEnd,
+            scrub: 1,
+            invalidateOnRefresh: true,
+          },
+        },
+      );
+    },
+    {
+      scope: containerRef,
+      dependencies: [leftPath, rightPath],
+    },
+  );
+
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [leftPath, rightPath]);
+
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} className="relative">
       {/* Animation Border */}
       <div className="absolute inset-0 pointer-events-none -z-10">
         {width > 0 && height > 0 && (
           <svg width="100%" height="100%" className="overflow-visible">
             <defs>
-              <linearGradient id="neonText" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#ff0059" />
-                <stop offset="100%" stopColor="#ff2d77" />
+              <linearGradient id="neonText" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#FF0059" />
+                <stop offset="100%" stopColor="#FF82AE" />
               </linearGradient>
             </defs>
-            {/* Left Side Path */}
-            <motion.path
+            <path
+              ref={leftPathRef}
               d={leftPath}
               fill="none"
-              stroke="#FF2D77"
-              strokeWidth="6"
+              stroke="url(#neonText)"
+              strokeWidth="7"
               strokeLinecap="round"
-              style={{ pathLength, opacity }}
+              className="opacity-0"
             />
-            {/* Right Side Path */}
-            <motion.path
+            <path
+              ref={rightPathRef}
               d={rightPath}
               fill="none"
-              stroke="#FF2D77"
-              strokeWidth="6"
+              stroke="url(#neonText)"
+              strokeWidth="7"
               strokeLinecap="round"
-              style={{ pathLength, opacity }}
+              className="opacity-0"
             />
           </svg>
         )}
@@ -137,12 +222,30 @@ export default function KnowledgeBlock({
         <div
           ref={titleRef}
           className={cn(
-            "absolute top-0 -translate-y-[50%] z-10 left-1/2 -translate-x-1/2",
+            "absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-3",
+            className,
+            isLastSection ? "flex-row-reverse" : "flex-row",
           )}
         >
+          <Image
+            src={title.imageFOMO}
+            alt="FOMO"
+            width={300}
+            height={300}
+            className="object-cover"
+          />
           <div className="text-3xl md:text-5xl lg:text-7xl font-bold text-white whitespace-nowrap text-center">
-            {title}
+            {title.text}
           </div>
+          {title.imageQuestionMark && (
+            <Image
+              src={title.imageQuestionMark}
+              alt="Question Mark"
+              width={75}
+              height={75}
+              className="object-cover"
+            />
+          )}
         </div>
       )}
       {/* Content */}

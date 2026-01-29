@@ -30,9 +30,12 @@ export default function SmoothScrolling({
       root
       autoRaf={false}
       options={{
-        lerp: 0.1,
-        duration: 1,
+        lerp: 0.075,
         smoothWheel: true,
+        syncTouch: false,
+        wheelMultiplier: 1,
+        touchMultiplier: 1,
+        infinite: false,
       }}
     >
       {children}
