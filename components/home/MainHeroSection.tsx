@@ -10,29 +10,59 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
+import useIsDesktop from "@/hooks/useIsDesktop";
+import { useRef } from "react";
 
 interface HeroProps {
   startAnimation: boolean;
 }
 
 export default function MainHeroSection({ startAnimation }: HeroProps) {
+  const isDesktop = useIsDesktop();
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
   const springConfig = { stiffness: 40, damping: 25, mass: 1 };
+  const range = 32; // default v 32
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const translateX = useTransform(smoothX, [-1, 1], ["-40px", "40px"]);
-  const translateY = useTransform(smoothY, [-1, 1], ["-40px", "40px"]);
+  const translateX = useTransform(
+    smoothX,
+    [-1, 1],
+    isDesktop ? [`-${range}px`, `${range}px`] : ["0px", "0px"],
+  );
+  const translateY = useTransform(
+    smoothY,
+    [-1, 1],
+    isDesktop ? [`-${range}px`, `${range}px`] : ["0px", "0px"],
+  );
+
+  const rafRef = useRef<number | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
+    if (!isDesktop) return;
+    if (rafRef.current) return;
+    const target = e.currentTarget;
+    const clientX = e.clientX;
+    const clientY = e.clientY;
 
-    mouseX.set(x * 2 - 1);
-    mouseY.set(y * 2 - 1);
+    rafRef.current = requestAnimationFrame(() => {
+      const rect = target.getBoundingClientRect();
+      const x = (clientX - rect.left) / rect.width;
+      const y = (clientY - rect.top) / rect.height;
+
+      mouseX.set(x * 2 - 1);
+      mouseY.set(y * 2 - 1);
+
+      rafRef.current = null;
+    });
+  };
+
+  const handleMouseLeave = () => {
+    mouseX.set(0);
+    mouseY.set(0);
   };
 
   const containerVariants = {
@@ -58,8 +88,9 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
     <section
       id="Hero"
       style={{ perspective: "1200px" }}
-      className="relative w-full min-h-dvh h-[100dvh] overflow-hidden"
-      onMouseMove={handleMouseMove}
+      className="relative w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh overflow-hidden"
+      onMouseMove={isDesktop ? handleMouseMove : undefined}
+      onMouseLeave={handleMouseLeave}
     >
       <motion.div
         style={{ translateX, translateY }}
@@ -77,12 +108,12 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
       <div className="relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
-          <div className="container mx-auto w-full h-full flex flex-col justify-center items-center md:items-end">
+          <div className="container mx-auto w-full h-full flex flex-col justify-center items-center md:items-end px-0 md:px-6 lg:px-0">
             <motion.div
               variants={containerVariants}
               initial="hidden"
               animate={startAnimation ? "visible" : "hidden"}
-              className="w-full max-w-[300px] lg:max-w-[450px] h-full flex flex-col justify-center items-center gap-4 lg:gap-12"
+              className=" flex flex-col justify-center items-center gap-4 lg:gap-12"
             >
               {/* Logo Title */}
               <motion.div
@@ -96,7 +127,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                   height={800}
                   unoptimized
                   priority
-                  className="w-full max-w-[250px] sm:max-w-full 2xl:min-w-[600px] h-full object-contain object-center"
+                  className="max-w-50 sm:max-w-75 md:max-w-87.5 lg:max-w-100 xl:max-w-112.5 2xl:max-w-125 h-full object-contain object-center"
                 />
                 <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium text-[#FF2D77] text-center">
                   THE MISSING OUT
@@ -105,19 +136,19 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
               {/* Button */}
               <Link
                 href={"/story"}
-                className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:[&>*]:text-primary"
+                className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:*:text-primary"
               >
-                <div className="w-full h-[3px] lg:h-[4px] rounded-md bg-gradient-to-r from-transparent via-[#FF2D77] to-transparent" />
-                <p className="text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-semibold text-white/90">
+                <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
+                <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-semibold text-white/90">
                   คลิกเพื่อเข้าสู่เรื่องราว
                 </p>
-                <div className="w-full h-[3px] lg:h-[4px] rounded-md bg-gradient-to-r from-transparent via-[#FF2D77] to-transparent" />
+                <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
               </Link>
             </motion.div>
           </div>
         </div>
         {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
+        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-20" />
       </div>
     </section>
   );
