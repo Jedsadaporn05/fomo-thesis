@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoryStore } from "@/store/storyStore";
+import { useStoryStore } from "@/src/store/useStoryStore";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { RefreshCcw, Home } from "lucide-react";
@@ -9,7 +9,7 @@ export default function GoodEnding() {
   const { resetStory } = useStoryStore();
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center justify-center bg-gradient-to-b from-green-900 to-black text-white p-6 overflow-hidden">
+    <div className="relative w-full h-full flex flex-col items-center justify-center bg-linear-to-b from-green-900 to-black text-white p-6 overflow-hidden">
       {/* Content Container */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}

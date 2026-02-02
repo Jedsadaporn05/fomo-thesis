@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import BgImg1 from "@/public/home/member-section/MembersBg-1.png";
 import { easeOut, motion } from "framer-motion";
@@ -56,7 +58,7 @@ export default function MemberSection() {
       className="w-full min-h-dvh py-12 pb-36 relative flex flex-col justify-center items-center"
     >
       {/* Blur Top */}
-      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-30" />
+      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-30" />
       {/* Image Background */}
       <div className="hidden lg:block">
         <div className="absolute w-full h-full inset-0">
@@ -92,8 +94,8 @@ export default function MemberSection() {
               variants={sphereVariants}
               className="relative group w-40 h-40 sm:w-48 sm:h-48 md:w-56 2xl:w-68 md:h-56 2xl:h-68 rounded-full cursor-pointer transition-all duration-300 ease-out hover:scale-103 will-change-transform motion-safe:[@media(hover:hover)]:hover:scale-[1.03]"
             >
-              <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-[#071A44] via-[#214BA9] to-[#9FBDFF] shadow-[0_10px_20px_rgba(0,0,0,0.4),inset_0_3px_4px_rgba(255,255,255,0.3)] transition-all duration-300">
-                <div className="absolute top-0 left-0 w-full h-full rounded-full bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-80 pointer-events-none" />
+              <div className="absolute inset-0 rounded-full bg-linear-to-tr from-[#071A44] via-[#214BA9] to-[#9FBDFF] shadow-[0_10px_20px_rgba(0,0,0,0.4),inset_0_3px_4px_rgba(255,255,255,0.3)] transition-all duration-300">
+                <div className="absolute top-0 left-0 w-full h-full rounded-full bg-linear-to-br from-white/20 via-transparent to-transparent opacity-80 pointer-events-none" />
               </div>
             </motion.div>
           ))}

@@ -10,7 +10,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import useIsDesktop from "@/hooks/useIsDesktop";
+import useIsDesktop from "@/src/hooks/useIsDesktop";
 import { useRef } from "react";
 
 interface HeroProps {
@@ -24,7 +24,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
   const mouseY = useMotionValue(0);
 
   const springConfig = { stiffness: 40, damping: 25, mass: 1 };
-  const range = 32; // default v 32
+  const range = 32; // default value 32
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
@@ -108,7 +108,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
       <div className="relative w-full h-full">
         {/* Text on Image */}
         <div className="absolute w-full h-full">
-          <div className="container mx-auto w-full h-full flex flex-col justify-center items-center md:items-end px-0 md:px-6 lg:px-0">
+          <div className="container mx-auto w-full h-full flex flex-col justify-center items-center md:items-end px-6">
             <motion.div
               variants={containerVariants}
               initial="hidden"

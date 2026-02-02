@@ -6,11 +6,11 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/src/components/ui/dropdown-menu";
 import { Menu, Music, Music2, Speaker, VolumeX, X, XIcon } from "lucide-react";
 import navLogo from "@/public/logo/LogoGracieShadow.png";
 import { useEffect, useRef, useState } from "react";
-import { useSound } from "@/context/SoundContext";
+import { useAudioStore } from "@/src/store/useAudioStore";
 import {
   Dialog,
   DialogClose,
@@ -18,8 +18,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Slider } from "@/components/ui/slider";
+} from "@/src/components/ui/dialog";
+import { Slider } from "@/src/components/ui/slider";
 
 const menuItems = [
   {
@@ -54,34 +54,15 @@ export default function MainNav() {
 
   const {
     bgmVolume,
-    setBgmVolume,
     sfxVolume,
+    setBgmVolume,
     setSfxVolume,
-    isBgmPlaying,
-    toggleBgm,
-    playSfx,
-  } = useSound();
-
-  const lastBgmVol = useRef(0.5);
-  const lastSfxVol = useRef(0.5);
-
-  const handleToggleBgmMute = () => {
-    if (bgmVolume > 0) {
-      lastBgmVol.current = bgmVolume;
-      setBgmVolume(0);
-    } else {
-      setBgmVolume(lastBgmVol.current || 0.5);
-    }
-  };
-
-  const handleToggleSfxMute = () => {
-    if (sfxVolume > 0) {
-      lastSfxVol.current = sfxVolume;
-      setSfxVolume(0);
-    } else {
-      setSfxVolume(lastSfxVol.current || 0.5);
-    }
-  };
+    toggleBgmMute,
+    toggleSfxMute,
+    playSFX,
+    bgmEnabled,
+    sfxEnabled,
+  } = useAudioStore();
 
   // Scroll to Section
   const scrollToSection = (sectionId: string) => {
@@ -156,14 +137,14 @@ export default function MainNav() {
                   <Music2
                     strokeWidth={2.5}
                     className={`size-4 sm:size-5 md:size-6 lg:size-7 transition-all duration-500 ${
-                      isBgmPlaying
+                      bgmEnabled
                         ? "text-[#E51E5A] scale-100"
                         : "text-white/70 scale-90"
                     }`}
                   />
                   <span
                     className={`absolute bg-white h-[1.25px] sm:h-[1.5px] md:h-[1.75px] lg:h-0.5 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transition-all duration-300 ease-out ${
-                      !isBgmPlaying ? "w-[120%] opacity-100" : "w-0 opacity-0"
+                      !bgmEnabled ? "w-[120%] opacity-100" : "w-0 opacity-0"
                     }`}
                   />
                 </div>
@@ -176,10 +157,7 @@ export default function MainNav() {
                     การตั้งค่าเสียง
                   </DialogTitle>
                 </DialogHeader>
-                <DialogClose
-                  // onClick={() => playSfx("click")}
-                  className="text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer"
-                >
+                <DialogClose className="text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer">
                   <XIcon
                     strokeWidth={3}
                     className="size-4 sm:size-5 md:size-6"
@@ -192,7 +170,7 @@ export default function MainNav() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
                       <button
-                        onClick={toggleBgm}
+                        onClick={toggleBgmMute}
                         className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group"
                       >
                         <div
@@ -200,7 +178,7 @@ export default function MainNav() {
                             bgmVolume === 0 ? "text-gray-500" : "text-[#E51E5A]"
                           }`}
                         >
-                          {isBgmPlaying ? (
+                          {bgmEnabled && bgmVolume > 0 ? (
                             <Music size={20} className="text-[#E51E5A]" />
                           ) : (
                             <VolumeX size={20} className="text-gray-500" />
@@ -219,14 +197,14 @@ export default function MainNav() {
                       max={1}
                       step={0.01}
                       onValueChange={(val) => setBgmVolume(val[0])}
-                      className="cursor-pointer py-2"
+                      className="cursor-pointer py-1 sm:py-1.25 md:py-1.5 lg:py-1.75 xl:py-2"
                     />
                   </div>
                   {/* SFX */}
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
                       <button
-                        onClick={handleToggleSfxMute}
+                        onClick={toggleSfxMute}
                         className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group"
                       >
                         <div
@@ -234,10 +212,10 @@ export default function MainNav() {
                             sfxVolume === 0 ? "text-gray-500" : "text-blue-400"
                           }`}
                         >
-                          {sfxVolume === 0 ? (
-                            <VolumeX size={20} className="text-gray-500" />
-                          ) : (
+                          {sfxEnabled && sfxVolume > 0 ? (
                             <Speaker size={20} className="text-blue-400" />
+                          ) : (
+                            <VolumeX size={20} className="text-gray-500" />
                           )}
                         </div>
                         <span className="text-sm sm:text-base md:text-lg lg:text-xl font-medium">
@@ -263,7 +241,12 @@ export default function MainNav() {
           </Dialog>
           <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
             <DropdownMenuTrigger asChild>
-              <button className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white hover:text-[#E51E5A] shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none">
+              <button
+                onClick={() =>
+                  playSFX("click", "/sounds/interactive/click-1.mp3")
+                }
+                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white hover:text-[#E51E5A] shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none"
+              >
                 <div className="relative flex items-center justify-center w-full h-full">
                   <Menu
                     strokeWidth={2.5}

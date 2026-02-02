@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoryStore } from "@/store/storyStore";
+import { useStoryStore } from "@/src/store/useStoryStore";
 import { useEffect } from "react";
 
 export default function Evaluation() {

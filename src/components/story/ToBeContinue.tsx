@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoryStore } from "@/store/storyStore";
+import { useStoryStore } from "@/src/store/useStoryStore";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { easeOut } from "framer-motion";
@@ -29,7 +29,7 @@ export default function ToBeContinue() {
   };
 
   return (
-    <section className="relative w-full min-h-dvh h-[100dvh] overflow-hidden bg-[#0a1738] flex flex-col items-center justify-center">
+    <section className="relative w-full min-h-dvh overflow-hidden bg-[#0a1738] flex flex-col items-center justify-center">
       <motion.div
         variants={containerVariants}
         initial="hidden"

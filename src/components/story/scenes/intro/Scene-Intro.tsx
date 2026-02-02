@@ -1,16 +1,16 @@
 "use client";
 
-import { useStoryStore } from "@/store/storyStore";
-import Image from "next/image";
-import ImgScene1 from "@/public/story/scene/Scene-2.png";
+import { useStoryStore } from "@/src/store/useStoryStore";
 import { useEffect } from "react";
+import Image from "next/image";
+import IntroImg1 from "@/public/story/scene/Scene-1.png";
 
-export default function Scene1() {
+export default function SceneIntro() {
   const { goToScene } = useStoryStore();
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      goToScene("capture");
+      goToScene("scene-1");
     }, 2000);
 
     return () => clearTimeout(timer);
@@ -21,18 +21,18 @@ export default function Scene1() {
       {/* Background */}
       <div className="absolute w-full h-full inset-0">
         <Image
-          src={ImgScene1}
-          alt="Scene 1"
+          src={IntroImg1}
+          alt="Intro"
           fill
           className="w-full h-full object-cover object-center pointer-events-none"
         />
         {/* Top Gradient */}
-        <div className="absolute top-0 w-full h-1/3 bg-gradient-to-b from-black/60 to-transparent" />
+        <div className="absolute top-0 w-full h-1/3 bg-linear-to-b from-black/60 to-transparent" />
       </div>
       {/* Button Go to Next Scene */}
       {/* <div className="container mx-auto flex flex-col justify-center items-center lg:px-10 2xl:px-12 z-10">
         <button
-          onClick={() => goToScene("capture")}
+          onClick={() => goToScene("scene-1")}
           className="opacity-0 cursor-pointer px-6 py-3 bg-[#FF2D77] hover:bg-[#FF2D77]/80 rounded-full transition-all"
         >
           Next

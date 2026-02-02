@@ -14,6 +14,8 @@ interface PreloaderProps {
   onComplete: () => void;
 }
 
+const PRELOADED_KEY = "app-preloaded";
+
 export default function Preloader({ onComplete }: PreloaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
@@ -24,40 +26,22 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Lock scroll
     document.body.style.overflow = "hidden";
     lenis?.stop();
 
-    // Exit preloader
-    const exitPreloader = () => {
-      const tl = gsap.timeline({
-        defaults: { ease: "power2.inOut" },
-        onComplete: () => {
-          document.body.style.overflow = "";
-          lenis?.start();
+    let isMounted = true;
+    let loadedCount = 0;
 
-          // Refresh all ScrollTriggers after layout is visible
-          ScrollTrigger.refresh();
-          onComplete();
-        },
-      });
+    const isCached = sessionStorage.getItem(PRELOADED_KEY);
 
-      tl.to(containerRef.current, {
-        opacity: 0,
-        scale: 1.05,
-        filter: "blur(12px)",
-        duration: 0.7,
-      });
-    };
+    // assets to preload
+    const assets = ["/home/hero-section/HeroStart.mp4"];
 
-    // Image Preload Logic
-    const images = Array.from(document.images);
-    const total = images.length || 1;
-    let loaded = 0;
+    const TOTAL = assets.length + 1;
+    const MAX_PROGRESS = 85;
 
-    const updateProgress = () => {
-      loaded += 1;
-      const value = Math.min(100, Math.round((loaded / total) * 100));
+    const updateProgress = (value: number) => {
+      if (!isMounted) return;
 
       setProgress(value);
 
@@ -68,22 +52,87 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           ease: "power2.out",
         });
       }
+    };
 
-      if (loaded >= total) {
-        exitPreloader();
+    const exitPreloader = () => {
+      if (!isMounted) return;
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power2.inOut" },
+        onComplete: () => {
+          document.body.style.overflow = "";
+          lenis?.start();
+          ScrollTrigger.refresh();
+          sessionStorage.setItem(PRELOADED_KEY, "true");
+          onComplete();
+        },
+      });
+
+      tl.to(containerRef.current, {
+        opacity: 0,
+        scale: 1.05,
+        filter: "blur(12px)",
+        duration: 0.6,
+      });
+    };
+
+    const checkCompletion = () => {
+      loadedCount++;
+
+      const value = Math.min(
+        MAX_PROGRESS,
+        Math.round((loadedCount / TOTAL) * MAX_PROGRESS),
+      );
+
+      updateProgress(value);
+
+      if (loadedCount >= TOTAL) {
+        gsap.to(
+          {},
+          {
+            duration: 0.3,
+            onComplete: () => {
+              updateProgress(100);
+              setTimeout(exitPreloader, 300);
+            },
+          },
+        );
       }
     };
 
-    images.forEach((img) => {
-      if (img.complete) {
-        updateProgress();
-      } else {
-        img.addEventListener("load", updateProgress, { once: true });
-        img.addEventListener("error", updateProgress, { once: true });
-      }
+    // cached mode
+    if (isCached) {
+      updateProgress(80);
+
+      setTimeout(() => {
+        updateProgress(100);
+        setTimeout(exitPreloader, 300);
+      }, 400);
+
+      return () => {
+        document.body.style.overflow = "";
+        lenis?.start();
+      };
+    }
+
+    const minTime = setTimeout(checkCompletion, 800);
+
+    // assets preload
+    assets.forEach((src) => {
+      fetch(src)
+        .then(() => checkCompletion())
+        .catch(() => checkCompletion());
     });
 
+    const safety = setTimeout(() => {
+      updateProgress(100);
+      exitPreloader();
+    }, 5000);
+
     return () => {
+      isMounted = false;
+      clearTimeout(minTime);
+      clearTimeout(safety);
       document.body.style.overflow = "";
       lenis?.start();
     };
@@ -95,15 +144,16 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a1738] text-white"
     >
       <div className="flex flex-col items-center gap-6 w-full max-w-md px-8">
-        {/* Logo */}
         <Image
           src={Logo}
           alt="Logo"
+          width={250}
+          height={250}
           priority
           unoptimized
           className="w-full max-w-[250px] 2xl:max-w-[500px] object-contain"
         />
-        {/* Progress */}
+
         <div className="w-full flex flex-col gap-2">
           <div className="w-full h-1.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">
             <div
@@ -113,7 +163,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           </div>
 
           <div className="flex justify-between text-sm text-gray-300">
-            <span>LOADING ASSETS</span>
+            <span>LOADING</span>
             <span className="text-lg text-white">{progress}%</span>
           </div>
         </div>

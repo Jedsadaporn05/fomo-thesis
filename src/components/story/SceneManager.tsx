@@ -1,21 +1,21 @@
 "use client";
 
-import { useStoryStore, SceneId } from "@/store/storyStore";
+import { useStoryStore, SceneId } from "@/src/store/useStoryStore";
 import { AnimatePresence, motion } from "framer-motion";
 
 // Scene Components
-import Intro from "@/components/story/scenes/Intro";
-import Scene1 from "@/components/story/scenes/Scene-1";
+import Intro from "@/src/components/story/scenes/intro/Scene-Intro";
+import Scene1 from "@/src/components/story/scenes/scene-1/Scene-1";
 
 // Interactive Components
 
 // Decision Components
-import Decision1 from "@/components/story/decision/Decision-1";
+import Decision1 from "@/src/components/story/decision/Decision-1";
 
 // Ending Components
-import Evaluation from "@/components/story/ending/Evaluation";
-import GoodEnding from "@/components/story/ending/GoodEnding";
-import BadEnding from "@/components/story/ending/BadEnding";
+import Evaluation from "@/src/components/story/ending/Evaluation";
+import GoodEnding from "@/src/components/story/ending/GoodEnding";
+import BadEnding from "@/src/components/story/ending/BadEnding";
 
 // ToBeContinue Components
 import ToBeContinue from "./ToBeContinue";

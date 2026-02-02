@@ -1,6 +1,6 @@
 "use client";
 
-import { useStoryStore } from "@/store/storyStore";
+import { useStoryStore } from "@/src/store/useStoryStore";
 import Image from "next/image";
 import ImgDecision1 from "@/public/story/decision/Decision-1.png";
 
@@ -28,9 +28,9 @@ export default function Decision1() {
           className="w-full h-full object-cover object-center pointer-events-none"
         />
         {/* Top Gradient */}
-        <div className="absolute top-0 w-full h-1/3 bg-gradient-to-b from-black/60 to-transparent" />
+        <div className="absolute top-0 w-full h-1/3 bg-linear-to-b from-black/60 to-transparent" />
         {/* Bottom Gradient */}
-        <div className="absolute bottom-0 w-full h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute bottom-0 w-full h-1/3 bg-linear-to-t from-black/60 to-transparent" />
       </div>
 
       <div className="relative z-10 w-full h-full min-h-screen flex flex-col justify-between py-12 sm:py-20 px-6">
@@ -43,7 +43,7 @@ export default function Decision1() {
         <div className="w-screen container mx-auto flex flex-row gap-4 sm:gap-8 justify-between items-end pb-10 sm:pb-16">
           <button
             onClick={() => handleChoice(true)}
-            className="cursor-pointer flex-1 max-w-[350px] py-4 sm:py-5 lg:py-6 px-6 rounded-full 
+            className="cursor-pointer flex-1 max-w-87.5 py-4 sm:py-5 lg:py-6 px-6 rounded-full 
             bg-black/70 hover:bg-black/80 text-white/90 hover:text-white shadow-lg border border-white/10
             text-lg sm:text-xl lg:text-2xl font-medium transition-all duration-300 hover:scale-105 active:scale-95"
           >
@@ -51,7 +51,7 @@ export default function Decision1() {
           </button>
           <button
             onClick={() => handleChoice(false)}
-            className="cursor-pointer flex-1 max-w-[350px] py-4 sm:py-5 lg:py-6 px-6 rounded-full 
+            className="cursor-pointer flex-1 max-w-87.5 py-4 sm:py-5 lg:py-6 px-6 rounded-full 
             bg-black/70 hover:bg-black/80 text-white/90 hover:text-white shadow-lg border border-white/10
             text-lg sm:text-xl lg:text-2xl font-medium transition-all duration-300 hover:scale-105 active:scale-95"
           >

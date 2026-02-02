@@ -1,4 +1,4 @@
-import SceneManager from "@/components/story/SceneManager";
+import SceneManager from "@/src/components/story/SceneManager";
 
 export default function StoryPage() {
   return <SceneManager />;

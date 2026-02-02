@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Providers from "./Providers";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
-import SmoothScrolling from "@/components/SmoothScrolling";
-import { SoundProvider } from "@/context/SoundContext";
-// import SoundConsentModal from "@/components/SoundConsentModal";
+import SmoothScrolling from "@/src/components/SmoothScrolling";
+import SoundConsentModal from "@/src/components/SoundConsentModal";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -31,12 +29,10 @@ export default function RootLayout({
         className={`${ibmPlexSansThai.className} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
-        <SoundProvider>
-          {/* <SoundConsentModal /> */}
-          <SmoothScrolling>
-            <Providers>{children}</Providers>
-          </SmoothScrolling>
-        </SoundProvider>
+        <SmoothScrolling>
+          <SoundConsentModal />
+          <main>{children}</main>
+        </SmoothScrolling>
       </body>
     </html>
   );
