@@ -146,7 +146,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       <div className="flex flex-col items-center gap-6 w-full max-w-md px-8">
         <Image
           src={Logo}
-          alt="Logo"
+          alt="preloaderLogo"
           width={250}
           height={250}
           priority

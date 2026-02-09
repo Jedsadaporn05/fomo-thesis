@@ -122,7 +122,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
               >
                 <Image
                   src={Logo}
-                  alt="Logo"
+                  alt="heroLogo"
                   width={800}
                   height={800}
                   unoptimized
