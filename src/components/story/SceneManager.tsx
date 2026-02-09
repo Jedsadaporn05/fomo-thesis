@@ -10,15 +10,15 @@ import Scene1 from "@/src/components/story/scenes/scene-1/Scene-1";
 // Interactive Components
 
 // Decision Components
-import Decision1 from "@/src/components/story/decision/Decision-1";
+import Decision1 from "@/src/components/story/scenes/decision/Decision-1";
 
 // Ending Components
-import Evaluation from "@/src/components/story/ending/Evaluation";
-import GoodEnding from "@/src/components/story/ending/GoodEnding";
-import BadEnding from "@/src/components/story/ending/BadEnding";
+import Evaluation from "@/src/components/story/scenes/ending/Evaluation";
+import GoodEnding from "@/src/components/story/scenes/ending/GoodEnding";
+import BadEnding from "@/src/components/story/scenes/ending/BadEnding";
 
 // ToBeContinue Components
-import ToBeContinue from "./ToBeContinue";
+import ToBeContinue from "./scenes/ToBeContinue";
 
 const SCENE_COMPONENTS: Record<SceneId, React.ComponentType> = {
   intro: Intro,

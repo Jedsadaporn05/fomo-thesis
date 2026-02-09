@@ -19,7 +19,7 @@ const contents = [
     id: 1,
     title: {
       imageFOMO: FOMO,
-      text: "คืออะไร?",
+      text: "คืออะไร",
       imageQuestionMark: QuestionMark,
     },
     contentDialog: [
@@ -162,7 +162,7 @@ const Content = React.memo(
       {data.map((block) => (
         <p
           key={block.id}
-          className="text-xl md:text-2xl lg:text-3xl text-white whitespace-pre-line"
+          className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] text-white lg:whitespace-pre-line"
         >
           {block.spans.map((span, index) => (
             <span
@@ -182,6 +182,8 @@ Content.displayName = "Content";
 export default function KnowledgeSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const measureContainerRef = useRef<HTMLDivElement>(null);
+  const refreshRef = useRef<number | null>(null);
+
   const block1Ref = useRef<HTMLDivElement>(null);
   const block2Ref = useRef<HTMLDivElement>(null);
   const block3Ref = useRef<HTMLDivElement>(null);
@@ -257,10 +259,20 @@ export default function KnowledgeSection() {
 
   // ScrollTrigger Refresh
   useEffect(() => {
-    requestAnimationFrame(() => {
+    if (refreshRef.current) {
+      cancelAnimationFrame(refreshRef.current);
+    }
+
+    refreshRef.current = requestAnimationFrame(() => {
       ScrollTrigger.refresh();
     });
-  }, [lineCoords]);
+
+    return () => {
+      if (refreshRef.current) {
+        cancelAnimationFrame(refreshRef.current);
+      }
+    };
+  }, [lineCoords.h1, lineCoords.h2]);
 
   // GSAP and Media Queries
   useGSAP(
@@ -272,7 +284,9 @@ export default function KnowledgeSection() {
           const blocks = gsap.utils.toArray<HTMLElement>(
             ".knowledge-block-container",
           );
-          const bgs = gsap.utils.toArray<HTMLElement>(".knowledge-bg");
+          const bgs = gsap.utils.toArray<HTMLElement>(
+            containerRef.current!.querySelectorAll(".knowledge-bg"),
+          );
 
           // Background parallax
           bgs.forEach((bg) => {
@@ -361,11 +375,11 @@ export default function KnowledgeSection() {
       className="w-full relative flex flex-col items-center overflow-hidden bg-black"
     >
       {/* Blur Top */}
-      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-20" />
+      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-20" />
       {/* Block 1 */}
       <div
         id="Knowledge-1"
-        className="w-full min-h-screen relative flex items-center justify-center py-20"
+        className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
       >
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
           <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
@@ -374,10 +388,11 @@ export default function KnowledgeSection() {
               alt="Knowledge Background 1"
               fill
               className="object-cover"
+              sizes="100vw"
             />
           </div>
         </div>
-        <div className="container mx-auto px-4 z-10 relative">
+        <div className="max-w-full lg:max-w-[80%] container mx-auto lg:p-0 z-10 relative">
           <div
             ref={measureContainerRef}
             className="knowledge-block-container flex flex-col md:flex-row justify-end relative"
@@ -401,13 +416,13 @@ export default function KnowledgeSection() {
           </div>
         </div>
         {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-0" />
+        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-0" />
       </div>
 
       {/* Block 2 */}
       <div
         id="Knowledge-2"
-        className="w-full min-h-screen relative flex items-center justify-center py-20"
+        className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
       >
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
           <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
@@ -416,12 +431,13 @@ export default function KnowledgeSection() {
               alt="Knowledge Background 2"
               fill
               className="object-cover"
+              sizes="100vw"
             />
           </div>
         </div>
         {/* Blur Top */}
-        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-0" />
-        <div className="container mx-auto px-4 z-10 relative">
+        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-0" />
+        <div className="max-w-full lg:max-w-[80%] container mx-auto lg:p-0 z-10 relative">
           <div className="knowledge-block-container flex flex-col md:flex-row justify-start relative">
             <div className="relative" ref={block2Ref}>
               <KnowledgeBlock
@@ -442,13 +458,13 @@ export default function KnowledgeSection() {
           </div>
         </div>
         {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-0" />
+        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-0" />
       </div>
 
       {/* Block 3 */}
       <div
         id="Knowledge-3"
-        className="w-full min-h-screen relative flex items-center justify-center py-20"
+        className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
       >
         <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
           <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
@@ -457,12 +473,13 @@ export default function KnowledgeSection() {
               alt="Knowledge Background 3"
               fill
               className="object-cover"
+              sizes="100vw"
             />
           </div>
         </div>
         {/* Blur Top */}
-        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-gradient-to-b from-[#0a1738] to-transparent z-0" />
-        <div className="container mx-auto px-4 z-10 relative">
+        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-0" />
+        <div className="max-w-full lg:max-w-[80%] container mx-auto lg:p-0 z-10 relative">
           <div className="knowledge-block-container flex flex-col md:flex-row justify-center relative">
             <div className="relative mt-36" ref={block3Ref}>
               <KnowledgeBlock
@@ -473,16 +490,18 @@ export default function KnowledgeSection() {
                 isLastSection={true}
               >
                 <Content data={contents[2].contentDialog} />
-                <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div
+                  className={`mt-6 lg:mt-12 flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-6 lg:gap-12 xl:gap-18`}
+                >
                   {contents[2].gridItems?.map((item, index) => (
                     <div
                       key={index}
                       className="flex flex-col justify-start items-start gap-2"
                     >
-                      <h4 className="text-xl md:text-2xl lg:text-3xl text-white font-bold">
+                      <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] text-white font-bold">
                         {item.title}
-                      </h4>
-                      <p className="text-xl md:text-2xl lg:text-3xl text-white whitespace-pre-line leading-relaxed">
+                      </h3>
+                      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] text-white xl:whitespace-pre-line leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -494,7 +513,7 @@ export default function KnowledgeSection() {
         </div>
       </div>
       {/* Blur Bottom */}
-      <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-gradient-to-t from-[#0a1738] to-transparent z-20" />
+      <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-20" />
     </section>
   );
 }

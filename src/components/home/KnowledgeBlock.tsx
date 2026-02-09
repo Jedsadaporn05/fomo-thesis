@@ -89,10 +89,12 @@ export default function KnowledgeBlock({
     observer.observe(titleEl);
 
     update();
-  }, [title, isLastSection]);
+  }, [isLastSection]);
 
   const { width, height } = dimensions;
-  const r = width < 768 ? 24 : 48;
+  const isMobile =
+    typeof window !== "undefined" ? window.innerWidth < 768 : false;
+  const r = isMobile ? 24 : 48;
   const safeW = width > 0 ? width : 100;
   const safeH = height > 0 ? height : 100;
   const tStart = titleRect.x - 10;
@@ -178,12 +180,6 @@ export default function KnowledgeBlock({
     },
   );
 
-  useEffect(() => {
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-    });
-  }, [leftPath, rightPath]);
-
   return (
     <div ref={containerRef} className="relative">
       {/* Animation Border */}
@@ -201,7 +197,7 @@ export default function KnowledgeBlock({
               d={leftPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="7"
+              strokeWidth="6"
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -210,7 +206,7 @@ export default function KnowledgeBlock({
               d={rightPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="7"
+              strokeWidth="6"
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -222,7 +218,7 @@ export default function KnowledgeBlock({
         <div
           ref={titleRef}
           className={cn(
-            "absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-3",
+            "absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3",
             className,
             isLastSection ? "flex-row-reverse" : "flex-row",
           )}
@@ -232,24 +228,24 @@ export default function KnowledgeBlock({
             alt="FOMO"
             width={300}
             height={300}
-            className="object-cover"
+            className="w-[77px] lg:w-[300px] h-full object-contain lg:object-cover"
           />
-          <div className="text-3xl md:text-5xl lg:text-7xl font-bold text-white whitespace-nowrap text-center">
+          <div className="text-lg sm:text-2xl md:text-3xl lg:text-5xl xl:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
           </div>
           {title.imageQuestionMark && (
             <Image
               src={title.imageQuestionMark}
               alt="Question Mark"
-              width={75}
-              height={75}
-              className="object-cover"
+              width={300}
+              height={300}
+              className="w-[50px] lg:w-[80px] h-[50px] lg:h-[80px] object-contain lg:object-cover"
             />
           )}
         </div>
       )}
       {/* Content */}
-      <div className="flex flex-col gap-4 px-8 md:px-10 py-12 pt-16">
+      <div className="flex flex-col gap-1 lg:gap-4 px-6 lg:px-10 py-6 lg:py-12 pt-10 lg:pt-16">
         {children}
       </div>
     </div>

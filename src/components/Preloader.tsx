@@ -151,6 +151,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           height={250}
           priority
           unoptimized
+          loading="eager"
           className="w-full max-w-[250px] 2xl:max-w-[500px] object-contain"
         />
 

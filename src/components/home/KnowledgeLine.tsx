@@ -63,17 +63,24 @@ export default function KnowledgeLine({
     let rafId: number | null = null;
 
     const ro = new ResizeObserver(([entry]) => {
-      if (rafId) cancelAnimationFrame(rafId);
+      const { width, height } = entry.contentRect;
 
+      if (rafId) cancelAnimationFrame(rafId);
       rafId = requestAnimationFrame(() => {
-        setSize({
-          width: entry.contentRect.width,
-          height: entry.contentRect.height,
-        });
+        setSize((prev) =>
+          prev.width === width && prev.height === height
+            ? prev
+            : { width, height },
+        );
       });
     });
 
     ro.observe(el);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      ro.disconnect();
+    };
   }, []);
 
   const { width, height } = size;
@@ -108,7 +115,7 @@ export default function KnowledgeLine({
       gsap.set(pathRef.current, {
         strokeDasharray: length,
         strokeDashoffset: length,
-        autoAlpha: 1,
+        autoAlpha: 0,
       });
 
       gsap.set([startDiamondRef.current, endDiamondRef.current], {
@@ -119,9 +126,12 @@ export default function KnowledgeLine({
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top 65%",
-          end: "bottom 90%",
+          end: "bottom 80%",
           scrub: 0.8,
           invalidateOnRefresh: true,
+        },
+        defaults: {
+          immediateRender: false,
         },
       });
 
@@ -141,6 +151,7 @@ export default function KnowledgeLine({
       tl.to(
         pathRef.current,
         {
+          autoAlpha: 1,
           strokeDashoffset: 0,
           duration: 1,
           ease: "none",
@@ -167,14 +178,6 @@ export default function KnowledgeLine({
     },
     { dependencies: [path], scope: containerRef },
   );
-
-  useEffect(() => {
-    if (!path) return;
-
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-    });
-  }, [path]);
 
   if (!width || !height) {
     return <div ref={containerRef} className={`w-full h-full ${className}`} />;

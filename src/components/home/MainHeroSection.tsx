@@ -88,7 +88,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
     <section
       id="Hero"
       style={{ perspective: "1200px" }}
-      className="relative w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh overflow-hidden"
+      className="relative w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh landscape:max-h-dvh overflow-hidden"
       onMouseMove={isDesktop ? handleMouseMove : undefined}
       onMouseLeave={handleMouseLeave}
     >
@@ -129,7 +129,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                   priority
                   className="max-w-50 sm:max-w-75 md:max-w-87.5 lg:max-w-100 xl:max-w-112.5 2xl:max-w-125 h-full object-contain object-center"
                 />
-                <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-medium text-[#FF2D77] text-center">
+                <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-semibold tracking-wider text-[#FF2D77] text-center">
                   THE MISSING OUT
                 </p>
               </motion.div>
