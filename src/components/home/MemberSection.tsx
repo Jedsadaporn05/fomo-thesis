@@ -1,25 +1,33 @@
 "use client";
 
 import Image from "next/image";
-import BgImg1 from "@/public/home/member-section/MembersBg-1.png";
+import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
 import { easeOut, motion } from "framer-motion";
 
 const cards = [
   {
     id: 1,
-    title: "Member 1",
+    nickName: "",
+    name: "Mr.Nuttapong\nPrasertsung",
+    position: "Advisor",
   },
   {
     id: 2,
-    title: "Member 2",
+    nickName: "Q",
+    name: "Danuphon\nChaiyakham",
+    position: "Graphic Designer",
   },
   {
     id: 3,
-    title: "Member 3",
+    nickName: "Ohm",
+    name: "Teerapob\nProngrastme",
+    position: "Graphic Designer",
   },
   {
     id: 4,
-    title: "Advisor",
+    nickName: "New",
+    name: "Jedsadaporn\nJirakunkitti",
+    position: "Developer",
   },
 ];
 
@@ -53,54 +61,69 @@ export default function MemberSection() {
   };
 
   return (
-    <section
-      id="Members"
-      className="w-full min-h-dvh py-12 pb-36 relative flex flex-col justify-center items-center"
-    >
-      {/* Blur Top */}
-      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-30" />
-      {/* Image Background */}
-      <div className="hidden lg:block">
-        <div className="absolute w-full h-full inset-0">
-          <Image
-            src={BgImg1}
-            alt="Members Background 1"
-            fill
-            className="w-full h-full object-cover object-center pointer-events-none"
-            priority
-          />
+    <section id="Members" className="w-full flex justify-center">
+      <div className="max-w-[3840px] min-[3841px]:aspect-[16/9] w-full h-full py-12 pb-36 relative flex flex-col justify-center items-center">
+        {/* Gradient Top */}
+        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+        {/* Image Background */}
+        <div className="hidden lg:block">
+          <div className="absolute w-full h-full inset-0">
+            <Image
+              src={MembersBgImg}
+              alt="Members Background 1"
+              fill
+              className="w-full h-full object-cover object-center pointer-events-none"
+              priority
+            />
+          </div>
         </div>
-      </div>
-
-      <motion.div
-        className="container mx-auto flex flex-col gap-8 lg:px-10 2xl:px-12 z-10"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {/* Title */}
-        <motion.h2
-          variants={titleVariants}
-          className="text-2xl sm:text-3xl md:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-white leading-relaxed tracking-normal text-center py-6"
+        <motion.div
+          className="container mx-auto flex flex-col gap-16 lg:gap-24 lg:px-10 2xl:px-12 z-10"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          ผู้จัดทำ
-        </motion.h2>
-        {/* Content */}
-        <div className="w-full flex flex-wrap justify-center gap-8 lg:gap-12 xl:gap-24 xl:gap-y-14 px-4 xl:px-34">
-          {cards.map((card) => (
-            <motion.div
-              key={card.id}
-              variants={sphereVariants}
-              className="relative group w-40 h-40 sm:w-48 sm:h-48 md:w-56 2xl:w-68 md:h-56 2xl:h-68 rounded-full cursor-pointer transition-all duration-300 ease-out hover:scale-103 will-change-transform motion-safe:[@media(hover:hover)]:hover:scale-[1.03]"
-            >
-              <div className="absolute inset-0 rounded-full bg-linear-to-tr from-[#071A44] via-[#214BA9] to-[#9FBDFF] shadow-[0_10px_20px_rgba(0,0,0,0.4),inset_0_3px_4px_rgba(255,255,255,0.3)] transition-all duration-300">
-                <div className="absolute top-0 left-0 w-full h-full rounded-full bg-linear-to-br from-white/20 via-transparent to-transparent opacity-80 pointer-events-none" />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
+          {/* Title */}
+          <motion.h2
+            variants={titleVariants}
+            className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold text-white text-center"
+          >
+            ทีมงานของเรา
+          </motion.h2>
+          {/* Content */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-items-center gap-12 xl:gap-24 2xl:gap-36">
+            {cards.map((card) => (
+              <motion.article
+                key={card.id}
+                variants={sphereVariants}
+                className="flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 w-[220px] sm:w-[260px] lg:w-[200px] 2xl:w-[300px]"
+              >
+                {/* Photo */}
+                <div className="w-full aspect-square rounded-[2rem] sm:rounded-[2.5rem] bg-[#FF0059] shadow-md transition-transform duration-300 ease-out hover:scale-103 cursor-pointer" />
+                {/* Info */}
+                <div className="flex flex-col items-center lg:items-start gap-3 sm:gap-4 xl:gap-5 text-center lg:text-left">
+                  {card.nickName && (
+                    <h3 className="text-2xl sm:text-3xl xl:text-4xl font-bold text-[#FF3279] uppercase">
+                      {card.nickName}
+                    </h3>
+                  )}
+                  <h4
+                    className={`text-lg sm:text-xl xl:text-2xl font-semibold uppercase whitespace-pre-line ${
+                      card.id === 1 ? "text-[#FF3279]" : "text-white"
+                    }`}
+                  >
+                    {card.name}
+                  </h4>
+                  <p className="text-sm sm:text-base xl:text-lg font-light uppercase text-white">
+                    {card.position}
+                  </p>
+                </div>
+              </motion.article>
+            ))}
+          </div>
+        </motion.div>
+      </div>
     </section>
   );
 }

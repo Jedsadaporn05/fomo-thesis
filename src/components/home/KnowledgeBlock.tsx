@@ -6,7 +6,6 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
-import { cn } from "@/lib/utils";
 import Image, { StaticImageData } from "next/image";
 
 interface KnowledgeBlockProps {
@@ -16,18 +15,20 @@ interface KnowledgeBlockProps {
     text: string;
     imageQuestionMark?: StaticImageData | string;
   };
-  className: string;
   triggerStart: string;
   triggerEnd: string;
+  isFirstSection?: boolean;
+  isSecondSection?: boolean;
   isLastSection?: boolean;
 }
 
 export default function KnowledgeBlock({
   children,
   title,
-  className,
   triggerStart,
   triggerEnd,
+  isFirstSection,
+  isSecondSection,
   isLastSection,
 }: KnowledgeBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -137,6 +138,15 @@ export default function KnowledgeBlock({
       const left = leftPathRef.current;
       const right = rightPathRef.current;
 
+      ScrollTrigger.matchMedia({
+        "(max-width: 639px)": () => {
+          gsap.set([left, right], { strokeWidth: 5 });
+        },
+        "(min-width: 640px)": () => {
+          gsap.set([left, right], { strokeWidth: 6 });
+        },
+      });
+
       const lLength = left.getTotalLength();
       const rLength = right.getTotalLength();
 
@@ -181,9 +191,9 @@ export default function KnowledgeBlock({
   );
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className="w-full h-full relative">
       {/* Animation Border */}
-      <div className="absolute inset-0 pointer-events-none -z-10">
+      <div className="absolute inset-0 pointer-events-none z-10">
         {width > 0 && height > 0 && (
           <svg width="100%" height="100%" className="overflow-visible">
             <defs>
@@ -197,7 +207,7 @@ export default function KnowledgeBlock({
               d={leftPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="6"
+              strokeWidth="5"
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -206,7 +216,7 @@ export default function KnowledgeBlock({
               d={rightPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="6"
+              strokeWidth="5"
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -217,35 +227,36 @@ export default function KnowledgeBlock({
       {title && (
         <div
           ref={titleRef}
-          className={cn(
-            "absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3",
-            className,
-            isLastSection ? "flex-row-reverse" : "flex-row",
-          )}
+          className={`h-fit absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3 z-5
+            ${isFirstSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] min-[640px]:w-[370px] min-[768px]:w-[430px] min-[1024px]:w-[500px] min-[1280px]:w-[530px] min-[1536px]:w-[620px] sm:ps-2" : ""}
+            ${isSecondSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] min-[640px]:w-[370px] min-[768px]:w-[430px] min-[1024px]:w-[500px] min-[1280px]:w-[510px] min-[1536px]:w-[650px]" : ""}
+            ${isLastSection ? "w-[170px] min-[355px]:w-[200px] min-[395px]:w-[230px] min-[450px]:w-[260px] min-[590px]:w-[320px] min-[640px]:w-[400px] min-[768px]:w-[470px] min-[1024px]:w-[540px] min-[1280px]:w-[570px] min-[1536px]:w-[700px] flex-row-reverse" : "flex-row"}`}
         >
           <Image
             src={title.imageFOMO}
             alt="FOMO"
-            width={300}
-            height={300}
-            className="w-[77px] lg:w-[300px] h-full object-contain lg:object-cover"
+            width={400}
+            height={400}
+            priority
+            className="w-auto h-[25px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] md:h-[75px] lg:h-[90px] xl:h-[95px] 2xl:h-[100px] object-contain shrink-0"
           />
-          <div className="text-lg sm:text-2xl md:text-3xl lg:text-5xl xl:text-7xl font-bold text-white whitespace-nowrap text-center">
+          <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl min-[640px]:text-4xl min-[768px]:text-[44px] min-[1536px]:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
           </div>
           {title.imageQuestionMark && (
             <Image
               src={title.imageQuestionMark}
               alt="Question Mark"
-              width={300}
-              height={300}
-              className="w-[50px] lg:w-[80px] h-[50px] lg:h-[80px] object-contain lg:object-cover"
+              width={400}
+              height={400}
+              priority
+              className="w-auto h-[20px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] lg:h-[75px] xl:h-[80px] 2xl:h-[90px] object-contain shrink-0"
             />
           )}
         </div>
       )}
       {/* Content */}
-      <div className="flex flex-col gap-1 lg:gap-4 px-6 lg:px-10 py-6 lg:py-12 pt-10 lg:pt-16">
+      <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 2xl:gap-12 px-5 min-[450px]:px-6 sm:px-8 lg:px-10 2xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-8 lg:pb-10 2xl:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-18 2xl:pt-22">
         {children}
       </div>
     </div>

@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import BgImg1 from "@/public/home/knowledge-section/KnowledgeBg-1.png";
+import BgImg1 from "@/public/home/knowledge-section/KnowledgeBg-Mockup-1.png";
+import BgImg2 from "@/public/home/knowledge-section/KnowledgeBg-Mockup-2.png";
+import BgImg3 from "@/public/home/knowledge-section/KnowledgeBg-Mockup-3.png";
 import FOMO from "@/public/home/knowledge-section/Title-FOMO.png";
 import QuestionMark from "@/public/home/knowledge-section/Title-QuestionMark.png";
 
@@ -52,14 +54,14 @@ const contents = [
     id: 2,
     title: {
       imageFOMO: FOMO,
-      text: "ส่งผลอะไรต่อชีวิต",
+      text: "ส่งผลอะไร",
     },
     contentDialog: [
       {
         id: 1,
         spans: [
           {
-            text: "FOMO อาจดูเหมือนไม่ร้ายแรง แต่จริง ๆ\nแล้วส่งผลต่อชีวิตประจำวันมากกว่าที่คิดมันทำให้เรา\nรู้สึกเครียด วิตกกังวล และเปรียบเทียบตัวเองกับคนอื่นตลอดเวลายิ่งใช้โซเชียลมากเท่าไหร่\nความรู้สึก “ไม่พอ” ยิ่งมากขึ้นเท่านั้น",
+            text: "FOMO อาจดูเหมือนไม่ร้ายแรง แต่จริง ๆ แล้วส่งผลต่อชีวิตประจำวันมากกว่า\nที่คิดมันทำให้เรา รู้สึกเครียด วิตกกังวลและเปรียบเทียบตัวเองกับคนอื่นตลอดเวลา",
             isColor: false,
           },
         ],
@@ -68,22 +70,18 @@ const contents = [
         id: 2,
         spans: [
           {
-            text: "ตัวอย่างผลกระทบที่มักเกิดขึ้น",
-            isColor: true,
+            text: "ตัวอย่างผลกระทบที่มักเกิดขึ้น\n",
+            isColor: false,
+            isBold: true,
           },
-        ],
-      },
-      {
-        id: 3,
-        spans: [
           { text: "นอนไม่พอ", isColor: true },
           {
-            text: " เพราะเลื่อนฟีดหรือดูสตอรี่จนดึก เพื่อไม่ให้พลาดสิ่งที่กำลังเป็นกระแส\n",
+            text: " เพราะเลื่อนฟีดหรือดูสตอรี่จนดึกเพื่อไม่ให้พลาดสิ่งที่กำลัง\nเป็นกระแส\n",
             isColor: false,
           },
           { text: "หมกมุ่นกับโทรศัพท์", isColor: true },
           {
-            text: " จนไม่โฟกัสกับสิ่งสำคัญในชีวิตจริง เช่น การเรียน งาน หรือความสัมพันธ์\n",
+            text: " จนไม่โฟกัสกับสิ่งสำคัญในชีวิตจริง เช่น การเรียน งาน\nหรือความสัมพันธ์\n",
             isColor: false,
           },
           { text: "ใช้จ่ายเกินตัว", isColor: true },
@@ -94,7 +92,7 @@ const contents = [
         ],
       },
       {
-        id: 4,
+        id: 3,
         spans: [
           {
             text: "ในระยะยาว อาจนำไปสู่",
@@ -156,18 +154,21 @@ const Content = React.memo(
   ({
     data,
   }: {
-    data: { id: number; spans: { text: string; isColor: boolean }[] }[];
+    data: {
+      id: number;
+      spans: { text: string; isColor: boolean; isBold?: boolean }[];
+    }[];
   }) => (
     <>
       {data.map((block) => (
         <p
           key={block.id}
-          className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] text-white lg:whitespace-pre-line"
+          className="text-xs min-[450px]:text-sm sm:text-lg md:text-xl lg:text-2xl 2xl:text-3xl text-white sm:whitespace-pre-line"
         >
           {block.spans.map((span, index) => (
             <span
               key={index}
-              className={`${span.isColor ? "text-[#FF3079] font-bold" : "text-white"}`}
+              className={`${span.isColor ? "text-[#FF3079] font-bold" : "text-white"} ${span.isBold ? "font-bold" : ""}`}
             >
               {span.text}
             </span>
@@ -248,11 +249,18 @@ export default function KnowledgeSection() {
 
     const observer = new ResizeObserver(updateCoords);
 
-    measureContainerRef.current &&
+    if (measureContainerRef.current) {
       observer.observe(measureContainerRef.current);
-    block1Ref.current && observer.observe(block1Ref.current);
-    block2Ref.current && observer.observe(block2Ref.current);
-    block3Ref.current && observer.observe(block3Ref.current);
+    }
+    if (block1Ref.current) {
+      observer.observe(block1Ref.current);
+    }
+    if (block2Ref.current) {
+      observer.observe(block2Ref.current);
+    }
+    if (block3Ref.current) {
+      observer.observe(block3Ref.current);
+    }
 
     updateCoords();
   }, []);
@@ -370,150 +378,148 @@ export default function KnowledgeSection() {
   );
 
   return (
-    <section
-      ref={containerRef}
-      className="w-full relative flex flex-col items-center overflow-hidden bg-black"
-    >
-      {/* Blur Top */}
-      <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-20" />
-      {/* Block 1 */}
-      <div
-        id="Knowledge-1"
-        className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
-      >
-        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-          <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
-            <Image
-              src={BgImg1}
-              alt="Knowledge Background 1"
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-          </div>
-        </div>
-        <div className="max-w-full lg:max-w-[80%] container mx-auto lg:p-0 z-10 relative">
-          <div
-            ref={measureContainerRef}
-            className="knowledge-block-container flex flex-col md:flex-row justify-end relative"
-          >
-            <div className="relative" ref={block1Ref}>
-              <KnowledgeBlock
-                title={contents[0].title}
-                className="px-48"
-                triggerStart="top 75%"
-                triggerEnd="bottom 65%"
-              >
-                <Content data={contents[0].contentDialog} />
-              </KnowledgeBlock>
+    <section ref={containerRef} className="w-full flex justify-center">
+      <div className="max-w-[3840px] min-[3841px]:aspect-[9/16] w-full h-full relative flex flex-col items-center overflow-hidden">
+        {/* Block 1 */}
+        <div
+          id="Knowledge-1"
+          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
+        >
+          {/* Block 1 Gradient Top */}
+          <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+          <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+            <div className="knowledge-bg relative w-full h-full -top-10">
+              <Image
+                src={BgImg1}
+                alt="Knowledge Background 1"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
             </div>
+          </div>
+          <div className="container mx-auto max-w-full lg:max-w-[80%] xl:max-w-[90%] lg:p-0 z-10 relative">
             <div
-              className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20"
-              style={{ height: lineCoords.h1 }}
+              ref={measureContainerRef}
+              className="knowledge-block-container flex flex-col md:flex-row justify-center xl:justify-end relative"
             >
-              <KnowledgeLine x1={lineCoords.b1} x2={lineCoords.b2} />
-            </div>
-          </div>
-        </div>
-        {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-0" />
-      </div>
-
-      {/* Block 2 */}
-      <div
-        id="Knowledge-2"
-        className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
-      >
-        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-          <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
-            <Image
-              src={BgImg1}
-              alt="Knowledge Background 2"
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-          </div>
-        </div>
-        {/* Blur Top */}
-        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-0" />
-        <div className="max-w-full lg:max-w-[80%] container mx-auto lg:p-0 z-10 relative">
-          <div className="knowledge-block-container flex flex-col md:flex-row justify-start relative">
-            <div className="relative" ref={block2Ref}>
-              <KnowledgeBlock
-                title={contents[1].title}
-                className="px-40"
-                triggerStart="top 75%"
-                triggerEnd="bottom 70%"
-              >
-                <Content data={contents[1].contentDialog} />
-              </KnowledgeBlock>
-            </div>
-            <div
-              className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
-              style={{ height: lineCoords.h2 }}
-            >
-              <KnowledgeLine x1={lineCoords.b2} x2={lineCoords.b3} />
-            </div>
-          </div>
-        </div>
-        {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-0" />
-      </div>
-
-      {/* Block 3 */}
-      <div
-        id="Knowledge-3"
-        className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
-      >
-        <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-          <div className="knowledge-bg relative w-full h-full -top-10 scale-110">
-            <Image
-              src={BgImg1}
-              alt="Knowledge Background 3"
-              fill
-              className="object-cover"
-              sizes="100vw"
-            />
-          </div>
-        </div>
-        {/* Blur Top */}
-        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-0" />
-        <div className="max-w-full lg:max-w-[80%] container mx-auto lg:p-0 z-10 relative">
-          <div className="knowledge-block-container flex flex-col md:flex-row justify-center relative">
-            <div className="relative mt-36" ref={block3Ref}>
-              <KnowledgeBlock
-                title={contents[2].title}
-                className="px-40"
-                triggerStart="top 75%"
-                triggerEnd="bottom 75%"
-                isLastSection={true}
-              >
-                <Content data={contents[2].contentDialog} />
-                <div
-                  className={`mt-6 lg:mt-12 flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-6 lg:gap-12 xl:gap-18`}
+              <div className="relative" ref={block1Ref}>
+                <KnowledgeBlock
+                  title={contents[0].title}
+                  triggerStart="top 75%"
+                  triggerEnd="bottom 65%"
+                  isFirstSection={true}
                 >
-                  {contents[2].gridItems?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex flex-col justify-start items-start gap-2"
-                    >
-                      <h3 className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] text-white font-bold">
-                        {item.title}
-                      </h3>
-                      <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-[28px] text-white xl:whitespace-pre-line leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-              </KnowledgeBlock>
+                  <Content data={contents[0].contentDialog} />
+                </KnowledgeBlock>
+              </div>
+              <div
+                className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20"
+                style={{ height: lineCoords.h1 }}
+              >
+                <KnowledgeLine x1={lineCoords.b1} x2={lineCoords.b2} />
+              </div>
             </div>
           </div>
+          {/* Block 1 Gradient Bottom */}
+          <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-5" />
+        </div>
+
+        {/* Block 2 */}
+        <div
+          id="Knowledge-2"
+          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
+        >
+          {/* Block 2 Gradient Top */}
+          <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+          <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+            <div className="knowledge-bg relative w-full h-full -top-10">
+              <Image
+                src={BgImg2}
+                alt="Knowledge Background 2"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+            </div>
+          </div>
+          <div className="container mx-auto max-w-full lg:max-w-[80%] xl:max-w-[90%] lg:p-0 z-10 relative">
+            <div className="knowledge-block-container flex flex-col md:flex-row justify-center xl:justify-start relative">
+              <div className="relative" ref={block2Ref}>
+                <KnowledgeBlock
+                  title={contents[1].title}
+                  triggerStart="top 75%"
+                  triggerEnd="bottom 70%"
+                  isSecondSection={true}
+                >
+                  <Content data={contents[1].contentDialog} />
+                </KnowledgeBlock>
+              </div>
+              <div
+                className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
+                style={{ height: lineCoords.h2 }}
+              >
+                <KnowledgeLine x1={lineCoords.b2} x2={lineCoords.b3} />
+              </div>
+            </div>
+          </div>
+          {/* Block 2 Gradient Bottom */}
+          <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-5" />
+        </div>
+
+        {/* Block 3 */}
+        <div
+          id="Knowledge-3"
+          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
+        >
+          {/* Block 3 Gradient Top */}
+          <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+          <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
+            <div className="knowledge-bg relative w-full h-full -top-10">
+              <Image
+                src={BgImg3}
+                alt="Knowledge Background 3"
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
+            </div>
+          </div>
+          <div className="container mx-auto max-w-full lg:max-w-[80%] xl:max-w-[90%] lg:p-0 z-10 relative">
+            <div className="knowledge-block-container flex flex-col md:flex-row justify-center relative">
+              <div className="relative mt-36" ref={block3Ref}>
+                <KnowledgeBlock
+                  title={contents[2].title}
+                  triggerStart="top 75%"
+                  triggerEnd="bottom 75%"
+                  isLastSection={true}
+                >
+                  <Content data={contents[2].contentDialog} />
+                  <div
+                    className={`flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-6 lg:gap-12 xl:gap-18`}
+                  >
+                    {contents[2].gridItems?.map((item, index) => (
+                      <div
+                        key={index}
+                        className="flex flex-col justify-start items-start gap-2"
+                      >
+                        <h3 className="text-xs min-[450px]:text-sm sm:text-lg md:text-xl lg:text-2xl 2xl:text-3xl text-[#FF3079] font-bold">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs min-[450px]:text-sm sm:text-lg md:text-xl lg:text-2xl 2xl:text-3xl text-white xl:whitespace-pre-line leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </KnowledgeBlock>
+              </div>
+            </div>
+          </div>
+          {/* Block 3 Gradient Bottom */}
+          <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-5" />
         </div>
       </div>
-      {/* Blur Bottom */}
-      <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-20" />
     </section>
   );
 }

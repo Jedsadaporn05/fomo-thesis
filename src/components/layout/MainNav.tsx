@@ -132,7 +132,7 @@ export default function MainNav() {
         <div className="flex flex-row justify-end gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
           <Dialog>
             <DialogTrigger asChild>
-              <button className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10">
+              <button className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 xl:w-14 lg:h-13 xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10">
                 <div className="relative flex items-center justify-center">
                   <Music2
                     strokeWidth={2.5}
@@ -143,7 +143,7 @@ export default function MainNav() {
                     }`}
                   />
                   <span
-                    className={`absolute bg-white h-[1.25px] sm:h-[1.5px] md:h-[1.75px] lg:h-0.5 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transition-all duration-300 ease-out ${
+                    className={`absolute bg-white h-[1.25px] sm:h-[1.5px] md:h-[1.75px] lg:h-0.75 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transition-all duration-300 ease-out ${
                       !bgmEnabled ? "w-[120%] opacity-100" : "w-0 opacity-0"
                     }`}
                   />
@@ -245,7 +245,7 @@ export default function MainNav() {
                 onClick={() =>
                   playSFX("click", "/sounds/interactive/click-1.mp3")
                 }
-                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white hover:text-[#E51E5A] shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none"
+                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 xl:w-14 lg:h-13 xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white hover:text-[#E51E5A] shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none"
               >
                 <div className="relative flex items-center justify-center w-full h-full">
                   <Menu

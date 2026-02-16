@@ -110,6 +110,15 @@ export default function KnowledgeLine({
     () => {
       if (!pathRef.current || !width || !height) return;
 
+      ScrollTrigger.matchMedia({
+        "(max-width: 639px)": () => {
+          gsap.set(pathRef.current, { strokeWidth: 4 });
+        },
+        "(min-width: 640px)": () => {
+          gsap.set(pathRef.current, { strokeWidth: 6 });
+        },
+      });
+
       const length = pathRef.current.getTotalLength();
 
       gsap.set(pathRef.current, {
