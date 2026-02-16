@@ -62,7 +62,7 @@ export default function MemberSection() {
 
   return (
     <section id="Members" className="w-full flex justify-center">
-      <div className="max-w-[3840px] min-[3841px]:aspect-[16/9] w-full h-full py-12 pb-36 relative flex flex-col justify-center items-center">
+      <div className="max-w-960 min-[3841px]:aspect-video w-full h-full py-12 pb-36 relative flex flex-col justify-center items-center">
         {/* Gradient Top */}
         <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
         {/* Image Background */}
@@ -97,10 +97,10 @@ export default function MemberSection() {
               <motion.article
                 key={card.id}
                 variants={sphereVariants}
-                className="flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 w-[220px] sm:w-[260px] lg:w-[200px] 2xl:w-[300px]"
+                className="flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 w-55 sm:w-65 lg:w-50 2xl:w-75"
               >
                 {/* Photo */}
-                <div className="w-full aspect-square rounded-[2rem] sm:rounded-[2.5rem] bg-[#FF0059] shadow-md transition-transform duration-300 ease-out hover:scale-103 cursor-pointer" />
+                <div className="w-full aspect-square rounded-4xl sm:rounded-[2.5rem] bg-[#FF0059] shadow-md transition-transform duration-300 ease-out hover:scale-103 cursor-pointer" />
                 {/* Info */}
                 <div className="flex flex-col items-center lg:items-start gap-3 sm:gap-4 xl:gap-5 text-center lg:text-left">
                   {card.nickName && (

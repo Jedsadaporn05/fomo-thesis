@@ -14,7 +14,7 @@ export default function SoundConsentModal() {
       {permission === "unknown" && (
         <motion.div
           key="sound-consent-backdrop"
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#0a1738]"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-[#0a1738]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

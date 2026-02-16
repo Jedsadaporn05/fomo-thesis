@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/public/logo/LogoGracieShadow.png";
+import Logo from "@/public/logo/LogoGracie.png";
 import {
   easeOut,
   motion,
