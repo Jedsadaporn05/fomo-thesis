@@ -1,12 +1,7 @@
 "use client";
 
-import Image from "next/image";
-import BgImg1 from "@/public/home/knowledge-section/KnowledgeBg-Mockup-1.png";
-import BgImg2 from "@/public/home/knowledge-section/KnowledgeBg-Mockup-2.png";
-import BgImg3 from "@/public/home/knowledge-section/KnowledgeBg-Mockup-3.png";
 import FOMO from "@/public/home/knowledge-section/Title-FOMO.png";
 import QuestionMark from "@/public/home/knowledge-section/Title-QuestionMark.png";
-
 import KnowledgeBlock from "./KnowledgeBlock";
 import KnowledgeLine from "./KnowledgeLine";
 import { useGSAP } from "@gsap/react";
@@ -379,7 +374,7 @@ export default function KnowledgeSection() {
 
   return (
     <section ref={containerRef} className="w-full flex justify-center">
-      <div className="max-w-[3840px] min-[3841px]:aspect-[9/16] w-full h-full relative flex flex-col items-center overflow-hidden">
+      <div className="max-w-960 min-[3841px]:aspect-9/16 w-full h-full relative flex flex-col items-center overflow-hidden">
         {/* Block 1 */}
         <div
           id="Knowledge-1"
@@ -389,12 +384,14 @@ export default function KnowledgeSection() {
           <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div className="knowledge-bg relative w-full h-full -top-10">
-              <Image
-                src={BgImg1}
-                alt="Knowledge Background 1"
-                fill
-                className="object-cover"
-                sizes="100vw"
+              <video
+                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
@@ -434,12 +431,14 @@ export default function KnowledgeSection() {
           <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div className="knowledge-bg relative w-full h-full -top-10">
-              <Image
-                src={BgImg2}
-                alt="Knowledge Background 2"
-                fill
-                className="object-cover"
-                sizes="100vw"
+              <video
+                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
@@ -476,17 +475,19 @@ export default function KnowledgeSection() {
           <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div className="knowledge-bg relative w-full h-full -top-10">
-              <Image
-                src={BgImg3}
-                alt="Knowledge Background 3"
-                fill
-                className="object-cover"
-                sizes="100vw"
+              <video
+                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="auto"
+                className="w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
           <div className="container mx-auto max-w-full lg:max-w-[80%] xl:max-w-[90%] lg:p-0 z-10 relative">
-            <div className="knowledge-block-container flex flex-col md:flex-row justify-center relative">
+            <div className="knowledge-block-container flex flex-col md:flex-row justify-center xl:justify-end relative">
               <div className="relative mt-36" ref={block3Ref}>
                 <KnowledgeBlock
                   title={contents[2].title}

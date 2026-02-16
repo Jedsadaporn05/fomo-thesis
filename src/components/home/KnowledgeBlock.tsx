@@ -227,7 +227,7 @@ export default function KnowledgeBlock({
       {title && (
         <div
           ref={titleRef}
-          className={`h-fit absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3 z-5
+          className={`h-fit absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3
             ${isFirstSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] min-[640px]:w-[370px] min-[768px]:w-[430px] min-[1024px]:w-[500px] min-[1280px]:w-[530px] min-[1536px]:w-[620px] sm:ps-2" : ""}
             ${isSecondSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] min-[640px]:w-[370px] min-[768px]:w-[430px] min-[1024px]:w-[500px] min-[1280px]:w-[510px] min-[1536px]:w-[650px]" : ""}
             ${isLastSection ? "w-[170px] min-[355px]:w-[200px] min-[395px]:w-[230px] min-[450px]:w-[260px] min-[590px]:w-[320px] min-[640px]:w-[400px] min-[768px]:w-[470px] min-[1024px]:w-[540px] min-[1280px]:w-[570px] min-[1536px]:w-[700px] flex-row-reverse" : "flex-row"}`}

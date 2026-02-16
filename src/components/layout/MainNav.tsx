@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/src/components/ui/dropdown-menu";
 import { Menu, Music, Music2, Speaker, VolumeX, X, XIcon } from "lucide-react";
-import navLogo from "@/public/logo/LogoGracieShadow.png";
+import navLogo from "@/public/logo/LogoGracie.png";
 import { useEffect, useRef, useState } from "react";
 import { useAudioStore } from "@/src/store/useAudioStore";
 import {
