@@ -35,7 +35,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     const isCached = sessionStorage.getItem(PRELOADED_KEY);
 
     // assets to preload
-    const assets = ["/home/hero-section/HeroStart.mp4"];
+    const assets = [
+      "/logo/LogoGracieShadow.png",
+      "/home/hero-section/HeroStart.mp4",
+    ];
 
     const TOTAL = assets.length + 1;
     const MAX_PROGRESS = 85;
@@ -143,29 +146,33 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       ref={containerRef}
       className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#0a1738] text-white"
     >
-      <div className="flex flex-col items-center gap-6 w-full max-w-md px-8">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-[280px] min-[400px]:max-w-[320px] sm:max-w-[400px] md:max-w-[500px] lg:max-w-[600px] px-6">
         <Image
           src={Logo}
           alt="preloaderLogo"
-          width={250}
-          height={250}
+          width={500}
+          height={500}
           priority
           unoptimized
           loading="eager"
-          className="w-full max-w-[250px] 2xl:max-w-[500px] object-contain"
+          className="w-full h-auto max-w-[150px] min-[400px]:max-w-[180px] sm:max-w-[240px] md:max-w-[300px] lg:max-w-[360px] object-contain"
         />
 
         <div className="w-full flex flex-col gap-2">
-          <div className="w-full h-1.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">
+          <div className="w-full h-1 min-[400px]:h-1.5 sm:h-2 md:h-2.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">
             <div
               ref={progressBarRef}
               className="h-full w-0 bg-[#FF2D77] shadow-[0_0_12px_#FF2D77]"
             />
           </div>
 
-          <div className="flex justify-between text-sm text-gray-300">
-            <span>LOADING</span>
-            <span className="text-lg text-white">{progress}%</span>
+          <div className="flex justify-between items-end text-gray-300">
+            <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base font-medium tracking-widest">
+              LOADING
+            </span>
+            <span className="text-sm min-[400px]:text-base sm:text-lg md:text-xl font-bold text-white leading-none">
+              {progress}%
+            </span>
           </div>
         </div>
       </div>
