@@ -92,7 +92,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
       onMouseMove={isDesktop ? handleMouseMove : undefined}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="flex justify-center items-center relative w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh landscape:max-h-dvh overflow-hidden">
+      <div className="flex justify-center items-center relative w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-dvh landscape:max-h-dvh overflow-hidden">
         <motion.div
           style={{ translateX, translateY }}
           className="absolute inset-0 scale-[1.05] will-change-transform pointer-events-none"
@@ -109,12 +109,12 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
         <div className="relative w-full h-full">
           {/* Text on Image */}
           <div className="absolute w-full h-full">
-            <div className="container mx-auto w-full h-full flex flex-col justify-center items-center min-[768px]:items-end min-[3841px]:items-center px-6">
+            <div className="container mx-auto w-full h-full flex flex-col justify-center items-center min-[768px]:items-end min-[3841px]:items-center 3xl:px-6">
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate={startAnimation ? "visible" : "hidden"}
-                className=" flex flex-col justify-center items-center gap-4 lg:gap-8 2xl:gap-12"
+                className="flex flex-col justify-center items-center gap-4 lg:gap-8 2xl:gap-12"
               >
                 {/* Logo Title */}
                 <motion.div
@@ -126,7 +126,6 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                     alt="heroLogo"
                     width={800}
                     height={800}
-                    unoptimized
                     priority
                     className="max-w-50 sm:max-w-75 md:max-w-87.5 lg:max-w-100 xl:max-w-106.25 2xl:max-w-125 h-full object-contain object-center"
                   />

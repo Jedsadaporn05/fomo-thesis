@@ -29,7 +29,7 @@ const contents = [
           { text: "\nหรือ", isColor: false },
           { text: " ตกกระแส", isColor: true },
           {
-            text: " มักเกิดขึ้นเมื่อเราเห็นคนอื่นในโลกออนไลน์ดูมีความสุขกว่า\nทันสมัยกว่า หรือกำลัง “อินเทรนด์” ในสิ่งที่เรายังไม่มีหรือยังไม่ได้ทำเช่นเห็นเพื่อน\nโพสต์ไปเที่ยวต่างประเทศเห็นอินฟลูเอนเซอร์รีวิวรองเท้ารุ่นใหม่ที่ทุกคนใส่กันหมด\nแล้ว จนเกิดความคิดในใจว่า....",
+            text: " มักเกิดขึ้นเมื่อเราเห็นคนอื่นในโลกออนไลน์ดูมีความสุขกว่า\nทันสมัยกว่า หรือกำลัง “อินเทรนด์” ในสิ่งที่เรายังไม่มีหรือยังไม่ได้ทำเช่น เห็นเพื่อน\nโพสต์ไปเที่ยวต่างประเทศ เห็นอินฟลูเอนเซอร์รีวิวรองเท้ารุ่นใหม่ที่ทุกคนใส่กันหมด\nแล้ว จนเกิดความคิดในใจว่า....",
             isColor: false,
           },
         ],
@@ -56,7 +56,7 @@ const contents = [
         id: 1,
         spans: [
           {
-            text: "FOMO อาจดูเหมือนไม่ร้ายแรง แต่จริง ๆ แล้วส่งผลต่อชีวิตประจำวันมากกว่า\nที่คิดมันทำให้เรา รู้สึกเครียด วิตกกังวลและเปรียบเทียบตัวเองกับคนอื่นตลอดเวลา",
+            text: "FOMO อาจดูเหมือนไม่ร้ายแรง แต่จริง ๆ แล้วส่งผลต่อชีวิตประจำวันมากกว่าที่คิด\nมันทำให้เรารู้สึกเครียด วิตกกังวลและเปรียบเทียบตัวเองกับคนอื่นตลอดเวลา",
             isColor: false,
           },
         ],
@@ -158,7 +158,8 @@ const Content = React.memo(
       {data.map((block) => (
         <p
           key={block.id}
-          className="text-xs min-[450px]:text-sm sm:text-lg md:text-xl lg:text-2xl 2xl:text-3xl text-white sm:whitespace-pre-line"
+          className={`text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white 
+            ${block.id === 1 ? "sm:whitespace-pre-line xl:whitespace-normal 3xl:whitespace-pre-line" : "sm:whitespace-pre-line"}`}
         >
           {block.spans.map((span, index) => (
             <span
@@ -378,12 +379,13 @@ export default function KnowledgeSection() {
         {/* Block 1 */}
         <div
           id="Knowledge-1"
-          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
+          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-dvh relative flex items-center justify-center"
         >
           {/* Block 1 Gradient Top */}
           <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div className="knowledge-bg relative w-full h-full -top-10">
+              {/* Desktop */}
               <video
                 src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
                 muted
@@ -391,7 +393,17 @@ export default function KnowledgeSection() {
                 loop
                 playsInline
                 preload="auto"
-                className="w-full h-full object-cover object-center pointer-events-none"
+                className="hidden xl:block w-full h-full object-cover object-center pointer-events-none"
+              />
+              {/* Mobile */}
+              <video
+                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="auto"
+                className="block xl:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
@@ -400,18 +412,21 @@ export default function KnowledgeSection() {
               ref={measureContainerRef}
               className="knowledge-block-container flex flex-col md:flex-row justify-center xl:justify-end relative"
             >
-              <div className="relative" ref={block1Ref}>
+              <div
+                className="relative max-w-full xl:max-w-[49dvw] 3xl:max-w-full"
+                ref={block1Ref}
+              >
                 <KnowledgeBlock
                   title={contents[0].title}
                   triggerStart="top 75%"
-                  triggerEnd="bottom 65%"
+                  triggerEnd="bottom 75%"
                   isFirstSection={true}
                 >
                   <Content data={contents[0].contentDialog} />
                 </KnowledgeBlock>
               </div>
               <div
-                className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20"
+                className="hidden xl:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
                 style={{ height: lineCoords.h1 }}
               >
                 <KnowledgeLine x1={lineCoords.b1} x2={lineCoords.b2} />
@@ -425,12 +440,13 @@ export default function KnowledgeSection() {
         {/* Block 2 */}
         <div
           id="Knowledge-2"
-          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
+          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-dvh relative flex items-center justify-center"
         >
           {/* Block 2 Gradient Top */}
           <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div className="knowledge-bg relative w-full h-full -top-10">
+              {/* Desktop */}
               <video
                 src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
                 muted
@@ -438,24 +454,37 @@ export default function KnowledgeSection() {
                 loop
                 playsInline
                 preload="auto"
-                className="w-full h-full object-cover object-center pointer-events-none"
+                className="hidden xl:block w-full h-full object-cover object-center pointer-events-none"
+              />
+              {/* Mobile */}
+              <video
+                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="auto"
+                className="block xl:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
           <div className="container mx-auto max-w-full lg:max-w-[80%] xl:max-w-[90%] lg:p-0 z-10 relative">
             <div className="knowledge-block-container flex flex-col md:flex-row justify-center xl:justify-start relative">
-              <div className="relative" ref={block2Ref}>
+              <div
+                className="relative max-w-full xl:max-w-[49dvw] 3xl:max-w-full"
+                ref={block2Ref}
+              >
                 <KnowledgeBlock
                   title={contents[1].title}
                   triggerStart="top 75%"
-                  triggerEnd="bottom 70%"
+                  triggerEnd="bottom 82%"
                   isSecondSection={true}
                 >
                   <Content data={contents[1].contentDialog} />
                 </KnowledgeBlock>
               </div>
               <div
-                className="absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
+                className="hidden xl:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
                 style={{ height: lineCoords.h2 }}
               >
                 <KnowledgeLine x1={lineCoords.b2} x2={lineCoords.b3} />
@@ -469,12 +498,13 @@ export default function KnowledgeSection() {
         {/* Block 3 */}
         <div
           id="Knowledge-3"
-          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-[95dvh] 2xl:max-h-dvh relative flex items-center justify-center"
+          className="w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-dvh relative flex items-center justify-center"
         >
           {/* Block 3 Gradient Top */}
           <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
             <div className="knowledge-bg relative w-full h-full -top-10">
+              {/* Desktop */}
               <video
                 src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
                 muted
@@ -482,32 +512,45 @@ export default function KnowledgeSection() {
                 loop
                 playsInline
                 preload="auto"
-                className="w-full h-full object-cover object-center pointer-events-none"
+                className="hidden xl:block w-full h-full object-cover object-center pointer-events-none"
+              />
+              {/* Mobile */}
+              <video
+                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
+                muted
+                autoPlay
+                loop
+                playsInline
+                preload="auto"
+                className="block xl:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
           <div className="container mx-auto max-w-full lg:max-w-[80%] xl:max-w-[90%] lg:p-0 z-10 relative">
             <div className="knowledge-block-container flex flex-col md:flex-row justify-center xl:justify-end relative">
-              <div className="relative mt-36" ref={block3Ref}>
+              <div
+                className="relative max-w-full xl:max-w-[52dvw] 3xl:max-w-full"
+                ref={block3Ref}
+              >
                 <KnowledgeBlock
                   title={contents[2].title}
                   triggerStart="top 75%"
-                  triggerEnd="bottom 75%"
+                  triggerEnd="bottom 77%"
                   isLastSection={true}
                 >
                   <Content data={contents[2].contentDialog} />
                   <div
-                    className={`flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-6 lg:gap-12 xl:gap-18`}
+                    className={`flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-6 lg:gap-12 2xl:gap-6 3xl:gap-18`}
                   >
                     {contents[2].gridItems?.map((item, index) => (
                       <div
                         key={index}
-                        className="flex flex-col justify-start items-start gap-2"
+                        className="w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-2"
                       >
-                        <h3 className="text-xs min-[450px]:text-sm sm:text-lg md:text-xl lg:text-2xl 2xl:text-3xl text-[#FF3079] font-bold">
+                        <h3 className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
                           {item.title}
                         </h3>
-                        <p className="text-xs min-[450px]:text-sm sm:text-lg md:text-xl lg:text-2xl 2xl:text-3xl text-white xl:whitespace-pre-line leading-relaxed">
+                        <p className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line leading-relaxed">
                           {item.description}
                         </p>
                       </div>

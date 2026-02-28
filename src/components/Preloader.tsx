@@ -1,12 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
-
-import Logo from "@/public/logo/LogoGracie.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,7 +17,6 @@ const MAX_PROGRESS = 85;
 export default function Preloader({ onComplete }: PreloaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
-
   const [progress, setProgress] = useState(0);
   const lenis = useLenis();
 
@@ -130,13 +126,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       className="fixed inset-0 z-9999 flex items-center justify-center bg-[#0a1738] text-white"
     >
       <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-70 min-[400px]:max-w-[320px] sm:max-w-100 md:max-w-125 lg:max-w-150 px-6">
-        <Image
-          src={Logo}
-          alt="preloaderLogo"
-          width={500}
-          height={500}
-          priority
-          className="w-full h-auto max-w-37.5 min-[400px]:max-w-45 sm:max-w-60 md:max-w-75 lg:max-w-90 object-contain"
+        <video
+          src="\logo\LogoGracie.webm"
+          muted
+          autoPlay
+          loop
+          playsInline
+          className="w-full h-auto max-w-40 min-[400px]:max-w-50 sm:max-w-70 md:max-w-80 lg:max-w-100 object-contain pointer-events-none"
         />
         <div className="w-full flex flex-col gap-2">
           <div className="w-full h-1 min-[400px]:h-1.5 sm:h-2 md:h-2.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">

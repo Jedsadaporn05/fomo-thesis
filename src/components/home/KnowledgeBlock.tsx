@@ -227,10 +227,10 @@ export default function KnowledgeBlock({
       {title && (
         <div
           ref={titleRef}
-          className={`h-fit absolute top-0 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3
-            ${isFirstSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] min-[640px]:w-[370px] min-[768px]:w-[430px] min-[1024px]:w-[500px] min-[1280px]:w-[530px] min-[1536px]:w-[620px] sm:ps-2" : ""}
-            ${isSecondSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] min-[640px]:w-[370px] min-[768px]:w-[430px] min-[1024px]:w-[500px] min-[1280px]:w-[510px] min-[1536px]:w-[650px]" : ""}
-            ${isLastSection ? "w-[170px] min-[355px]:w-[200px] min-[395px]:w-[230px] min-[450px]:w-[260px] min-[590px]:w-[320px] min-[640px]:w-[400px] min-[768px]:w-[470px] min-[1024px]:w-[540px] min-[1280px]:w-[570px] min-[1536px]:w-[700px] flex-row-reverse" : "flex-row"}`}
+          className={`h-fit absolute top-1 2xl:top-1.25 3xl:top-1 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-2 lg:gap-3
+            ${isFirstSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[430px] lg:w-[500px] xl:w-[530px] 3xl:w-[620px] sm:ps-2" : ""}
+            ${isSecondSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[210px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[430px] lg:w-[500px] xl:w-[510px] 3xl:w-[650px]" : ""}
+            ${isLastSection ? "w-[170px] min-[355px]:w-[200px] min-[395px]:w-[230px] min-[450px]:w-[260px] min-[590px]:w-[320px] sm:w-[400px] md:w-[470px] lg:w-[540px] xl:w-[570px] 3xl:w-[700px] flex-row-reverse" : "flex-row"}`}
         >
           <Image
             src={title.imageFOMO}
@@ -238,9 +238,9 @@ export default function KnowledgeBlock({
             width={400}
             height={400}
             priority
-            className="w-auto h-[25px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] md:h-[75px] lg:h-[90px] xl:h-[95px] 2xl:h-[100px] object-contain shrink-0"
+            className="w-auto h-[25px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] md:h-[75px] lg:h-[90px] 3xl:h-[100px] object-contain shrink-0"
           />
-          <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl min-[640px]:text-4xl min-[768px]:text-[44px] min-[1536px]:text-7xl font-bold text-white whitespace-nowrap text-center">
+          <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl sm:text-4xl md:text-[44px] 2xl:text-[52px] 3xl:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
           </div>
           {title.imageQuestionMark && (
@@ -250,13 +250,13 @@ export default function KnowledgeBlock({
               width={400}
               height={400}
               priority
-              className="w-auto h-[20px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] lg:h-[75px] xl:h-[80px] 2xl:h-[90px] object-contain shrink-0"
+              className="w-auto h-[20px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] lg:h-[75px] xl:h-[80px] 3xl:h-[90px] object-contain shrink-0"
             />
           )}
         </div>
       )}
       {/* Content */}
-      <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 2xl:gap-12 px-5 min-[450px]:px-6 sm:px-8 lg:px-10 2xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-8 lg:pb-10 2xl:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-18 2xl:pt-22">
+      <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 2xl:gap-12 px-5 min-[450px]:px-6 sm:px-8 lg:px-10 3xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-8 lg:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-22">
         {children}
       </div>
     </div>
