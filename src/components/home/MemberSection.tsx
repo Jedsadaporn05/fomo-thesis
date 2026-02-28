@@ -63,9 +63,9 @@ export default function MemberSection() {
   return (
     <section
       id="Members"
-      className="w-full h-dvh flex justify-center items-center"
+      className="w-full h-full flex justify-center items-center"
     >
-      <div className="max-w-960 min-[3841px]:aspect-video w-full h-full py-12 pb-36 relative flex flex-col justify-center items-center">
+      <div className="max-w-960 min-[3841px]:aspect-video w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh py-12 pb-36 relative flex flex-col justify-center items-center">
         {/* Gradient Top */}
         <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
         {/* Image Background */}

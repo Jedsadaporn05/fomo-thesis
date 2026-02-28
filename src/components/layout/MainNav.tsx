@@ -123,7 +123,7 @@ export default function MainNav() {
               alt="navLogo"
               width={400}
               height={400}
-              className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 2xl:w-45 object-cover cursor-pointer"
+              className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 2xl:w-35 3xl:w-45 object-cover cursor-pointer"
               priority
             />
           </button>
@@ -132,11 +132,11 @@ export default function MainNav() {
         <div className="flex flex-row justify-end gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
           <Dialog>
             <DialogTrigger asChild>
-              <button className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 xl:w-14 lg:h-13 xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10">
+              <button className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10">
                 <div className="relative flex items-center justify-center">
                   <Music2
                     strokeWidth={2.5}
-                    className={`size-4 sm:size-5 md:size-6 lg:size-7 transition-all duration-500 ${
+                    className={`size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ${
                       bgmEnabled
                         ? "text-[#E51E5A] scale-100"
                         : "text-white/70 scale-90"
@@ -153,7 +153,7 @@ export default function MainNav() {
             <DialogContent className="w-full max-w-80 sm:max-w-90 md:max-w-95 lg:max-w-100 xl:max-w-105 2xl:max-w-110 rounded-3xl bg-[#0a1635]/95 backdrop-blur-xl border border-white/5 text-white shadow-2xl p-5 sm:p-6">
               <div className="flex flex-row justify-between items-center">
                 <DialogHeader>
-                  <DialogTitle className="text-start text-white font-medium text-base sm:text-lg md:text-xl lg:text-2xl tracking-wide">
+                  <DialogTitle className="text-start text-white font-medium text-base sm:text-lg md:text-xl 3xl:text-2xl tracking-wide">
                     การตั้งค่าเสียง
                   </DialogTitle>
                 </DialogHeader>
@@ -184,11 +184,11 @@ export default function MainNav() {
                             <VolumeX size={20} className="text-gray-500" />
                           )}
                         </div>
-                        <span className="text-sm sm:text-base md:text-lg lg:text-xl font-medium">
+                        <span className="text-sm sm:text-base md:text-lg 3xl:text-xl font-medium">
                           ดนตรีประกอบ
                         </span>
                       </button>
-                      <span className="text-sm sm:text-base md:text-lg lg:text-xl text-[#E51E5A] font-medium text-right">
+                      <span className="text-sm sm:text-base md:text-lg 3xl:text-xl text-[#E51E5A] font-medium text-right">
                         {Math.round(bgmVolume * 100)}%
                       </span>
                     </div>
@@ -218,12 +218,12 @@ export default function MainNav() {
                             <VolumeX size={20} className="text-gray-500" />
                           )}
                         </div>
-                        <span className="text-sm sm:text-base md:text-lg lg:text-xl font-medium">
+                        <span className="text-sm sm:text-base md:text-lg 3xl:text-xl font-medium">
                           เอฟเฟกต์เสียง
                         </span>
                       </button>
 
-                      <span className="text-sm sm:text-base md:text-lg lg:text-xl text-blue-400 font-bold-mefont-medium-right">
+                      <span className="text-sm sm:text-base md:text-lg 3xl:text-xl text-blue-400 font-bold-mefont-medium-right">
                         {Math.round(sfxVolume * 100)}%
                       </span>
                     </div>
@@ -245,12 +245,12 @@ export default function MainNav() {
                 onClick={() =>
                   playSFX("click", "/sounds/interactive/click-1.mp3")
                 }
-                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 xl:w-14 lg:h-13 xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white hover:text-[#E51E5A] shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none"
+                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white hover:text-[#E51E5A] shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none"
               >
                 <div className="relative flex items-center justify-center w-full h-full">
                   <Menu
                     strokeWidth={2.5}
-                    className={`absolute size-4 sm:size-5 md:size-6 lg:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                    className={`absolute size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
                       ${
                         open
                           ? "opacity-0 rotate-90 scale-50"
@@ -259,7 +259,7 @@ export default function MainNav() {
                   />
                   <X
                     strokeWidth={2.5}
-                    className={`absolute size-4 sm:size-5 md:size-6 lg:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                    className={`absolute size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
                       ${
                         open
                           ? "opacity-100 rotate-0 scale-100 text-[#E51E5A]"
@@ -279,7 +279,7 @@ export default function MainNav() {
                 <DropdownMenuItem
                   key={item.id}
                   onClick={() => scrollToSection(item.href)}
-                  className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl cursor-pointer rounded-lg px-3 py-2.5 font-semibold hover:bg-white/10 focus:bg-white/10 focus:text-white transition-colors"
+                  className="text-xs sm:text-sm md:text-base lg:text-lg 3xl:text-xl cursor-pointer rounded-lg px-3 py-2.5 font-semibold hover:bg-white/10 focus:bg-white/10 focus:text-white transition-colors"
                 >
                   {item.title}
                 </DropdownMenuItem>

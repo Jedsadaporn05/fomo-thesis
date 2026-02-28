@@ -88,33 +88,43 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
     <section
       id="Hero"
       style={{ perspective: "1200px" }}
-      className="w-full flex justify-center items-center"
+      className="w-full h-full flex justify-center items-center"
       onMouseMove={isDesktop ? handleMouseMove : undefined}
       onMouseLeave={handleMouseLeave}
     >
-      <div className="flex justify-center items-center relative w-full h-dvh max-h-[80dvh] md:max-h-[85dvh] lg:max-h-[90dvh] xl:max-h-dvh landscape:max-h-dvh overflow-hidden">
+      <div className="flex justify-center items-center relative w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh overflow-hidden">
         <motion.div
           style={{ translateX, translateY }}
-          className="absolute inset-0 scale-[1.05] will-change-transform pointer-events-none"
+          className="absolute inset-0 scale-[1.05] will-change-transform pointer-events-none aspect-auto"
         >
+          {/* Desktop */}
           <video
-            src="/home/hero-section/HeroStart.mp4"
+            src="/home/hero-section/hero-video.mp4"
             muted
             autoPlay
             loop
             playsInline
-            className="w-full h-full object-cover object-center pointer-events-none"
+            className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
+          />
+          {/* Mobile */}
+          <video
+            src="/home/hero-section/hero-video-mobile.mp4"
+            muted
+            autoPlay
+            loop
+            playsInline
+            className="block lg:hidden w-full h-full object-contain object-center pointer-events-none"
           />
         </motion.div>
         <div className="relative w-full h-full">
           {/* Text on Image */}
           <div className="absolute w-full h-full">
-            <div className="container mx-auto w-full h-full flex flex-col justify-center items-center min-[768px]:items-end min-[3841px]:items-center 3xl:px-6">
+            <div className="container mx-auto w-full h-full flex flex-col justify-end lg:justify-center items-center min-[1024px]:items-end min-[3841px]:items-center 2xl:px-54 3xl:px-6 pb-55 lg:pb-0">
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate={startAnimation ? "visible" : "hidden"}
-                className="flex flex-col justify-center items-center gap-4 lg:gap-8 2xl:gap-12"
+                className="flex flex-col justify-center items-center gap-16 sm:gap-18 lg:gap-8 3xl:gap-12"
               >
                 {/* Logo Title */}
                 <motion.div
@@ -127,9 +137,9 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                     width={800}
                     height={800}
                     priority
-                    className="max-w-50 sm:max-w-75 md:max-w-87.5 lg:max-w-100 xl:max-w-106.25 2xl:max-w-125 h-full object-contain object-center"
+                    className="max-w-70 sm:max-w-80 md:max-w-90 3xl:max-w-125 h-full object-contain object-center"
                   />
-                  <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl font-semibold tracking-wider text-[#FF2D77] text-center">
+                  <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold tracking-wider text-[#FF2D77] text-center">
                     THE MISSING OUT
                   </p>
                 </motion.div>
@@ -139,7 +149,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                   className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:*:text-primary"
                 >
                   <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
-                  <p className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-[26px] font-semibold text-white/90">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-2xl font-semibold text-white/90">
                     คลิกเพื่อเข้าสู่เรื่องราว
                   </p>
                   <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
@@ -148,7 +158,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
             </div>
           </div>
           {/* Blur Bottom */}
-          <div className="absolute bottom-0 w-full h-[15vh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-20" />
+          <div className="absolute bottom-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-20" />
         </div>
       </div>
     </section>
