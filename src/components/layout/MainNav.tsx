@@ -123,7 +123,7 @@ export default function MainNav() {
               alt="navLogo"
               width={400}
               height={400}
-              className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 2xl:w-35 3xl:w-45 object-cover cursor-pointer"
+              className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 3xl:w-45 object-cover cursor-pointer"
               priority
             />
           </button>

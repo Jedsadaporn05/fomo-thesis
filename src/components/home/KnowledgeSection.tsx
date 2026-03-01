@@ -159,7 +159,7 @@ const Content = React.memo(
         <p
           key={block.id}
           className={`text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white 
-            ${block.id === 1 ? "sm:whitespace-pre-line xl:whitespace-normal 3xl:whitespace-pre-line" : "sm:whitespace-pre-line"}`}
+            ${block.id === 1 ? "lg:whitespace-pre-line xl:whitespace-normal 3xl:whitespace-pre-line" : "lg:whitespace-pre-line"}`}
         >
           {block.spans.map((span, index) => (
             <span
@@ -379,7 +379,7 @@ export default function KnowledgeSection() {
         {/* Block 1 */}
         <div
           id="Knowledge-1"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-30 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
         >
           {/* Block 1 Gradient Top */}
           <div className="absolute top-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
@@ -403,7 +403,7 @@ export default function KnowledgeSection() {
                 loop
                 playsInline
                 preload="auto"
-                className="block lg:hidden w-full h-full object-contain object-center pointer-events-none"
+                className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
@@ -440,7 +440,7 @@ export default function KnowledgeSection() {
         {/* Block 2 */}
         <div
           id="Knowledge-2"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-30 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
         >
           {/* Block 2 Gradient Top */}
           <div className="absolute top-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
@@ -464,7 +464,7 @@ export default function KnowledgeSection() {
                 loop
                 playsInline
                 preload="auto"
-                className="block lg:hidden w-full h-full object-contain object-center pointer-events-none"
+                className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
@@ -498,7 +498,7 @@ export default function KnowledgeSection() {
         {/* Block 3 */}
         <div
           id="Knowledge-3"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-30 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
         >
           {/* Block 3 Gradient Top */}
           <div className="absolute top-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
@@ -522,7 +522,7 @@ export default function KnowledgeSection() {
                 loop
                 playsInline
                 preload="auto"
-                className="block lg:hidden w-full h-full object-contain object-center pointer-events-none"
+                className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
           </div>
@@ -550,7 +550,7 @@ export default function KnowledgeSection() {
                         <h3 className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
                           {item.title}
                         </h3>
-                        <p className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line leading-relaxed">
+                        <p className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line lg:leading-relaxed">
                           {item.description}
                         </p>
                       </div>

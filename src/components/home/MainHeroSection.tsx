@@ -113,18 +113,18 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
             autoPlay
             loop
             playsInline
-            className="block lg:hidden w-full h-full object-contain object-center pointer-events-none"
+            className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
           />
         </motion.div>
         <div className="relative w-full h-full">
           {/* Text on Image */}
           <div className="absolute w-full h-full">
-            <div className="container mx-auto w-full h-full flex flex-col justify-end lg:justify-center items-center min-[1024px]:items-end min-[3841px]:items-center 2xl:px-54 3xl:px-6 pb-55 lg:pb-0">
+            <div className="container mx-auto w-full h-full flex flex-col justify-end lg:justify-center items-center min-[1024px]:items-end min-[3841px]:items-center 2xl:px-54 3xl:px-6 pb-24 md:pb-28 lg:pb-0">
               <motion.div
                 variants={containerVariants}
                 initial="hidden"
                 animate={startAnimation ? "visible" : "hidden"}
-                className="flex flex-col justify-center items-center gap-16 sm:gap-18 lg:gap-8 3xl:gap-12"
+                className="flex flex-col justify-center items-center gap-10 lg:gap-8 3xl:gap-12"
               >
                 {/* Logo Title */}
                 <motion.div
@@ -137,7 +137,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                     width={800}
                     height={800}
                     priority
-                    className="max-w-70 sm:max-w-80 md:max-w-90 3xl:max-w-125 h-full object-contain object-center"
+                    className="max-w-60 sm:max-w-65 md:max-w-70 lg:max-w-90 3xl:max-w-125 h-full object-contain object-center"
                   />
                   <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold tracking-wider text-[#FF2D77] text-center">
                     THE MISSING OUT
