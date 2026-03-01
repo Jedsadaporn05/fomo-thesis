@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@custom-variant 3xl (@media (min-width: 2049px));
+
 @custom-variant dark (&:is(.dark *));
 
 @utility container {
@@ -26,6 +28,11 @@
   @media (min-width: 1280px) {
     padding-left: 4rem;
     padding-right: 4rem;
+  }
+
+  @media (min-width: 1536px) {
+    padding-left: 5rem;
+    padding-right: 5rem;
   }
 }
 

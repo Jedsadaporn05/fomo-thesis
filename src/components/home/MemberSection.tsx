@@ -2,7 +2,12 @@
 
 import Image from "next/image";
 import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
+import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
 import { easeOut, motion } from "framer-motion";
+import Advisor from "@/public/home/member-section/Advisor.png";
+import Q from "@/public/home/member-section/Q.png";
+import Ohm from "@/public/home/member-section/Ohm.png";
+import New from "@/public/home/member-section/New.png";
 
 const cards = [
   {
@@ -10,24 +15,28 @@ const cards = [
     nickName: "",
     name: "Mr.Nuttapong\nPrasertsung",
     position: "Advisor",
+    image: Advisor,
   },
   {
     id: 2,
     nickName: "Q",
     name: "Danuphon\nChaiyakham",
     position: "Graphic Designer",
+    image: Q,
   },
   {
     id: 3,
     nickName: "Ohm",
     name: "Teerapob\nProngrastme",
     position: "Graphic Designer",
+    image: Ohm,
   },
   {
     id: 4,
     nickName: "New",
     name: "Jedsadaporn\nJirakunkitti",
     position: "Developer",
+    image: New,
   },
 ];
 
@@ -61,24 +70,34 @@ export default function MemberSection() {
   };
 
   return (
-    <section id="Members" className="w-full flex justify-center">
-      <div className="max-w-960 min-[3841px]:aspect-video w-full h-full py-12 pb-36 relative flex flex-col justify-center items-center">
+    <section
+      id="Members"
+      className="w-full h-full flex justify-center items-center"
+    >
+      <div className="max-w-960 min-[3841px]:aspect-video min-[3841px]:min-h-full w-full min-h-dvh py-12 relative flex flex-col justify-center items-center">
         {/* Gradient Top */}
         <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
         {/* Image Background */}
-        <div className="hidden lg:block">
-          <div className="absolute w-full h-full inset-0">
-            <Image
-              src={MembersBgImg}
-              alt="Members Background 1"
-              fill
-              className="w-full h-full object-cover object-center pointer-events-none"
-              priority
-            />
-          </div>
+        <div className="absolute w-full h-full inset-0 aspect-auto">
+          {/* Desktop */}
+          <Image
+            src={MembersBgImg}
+            alt="Members Background"
+            fill
+            priority
+            className=" w-full h-full object-cover object-center pointer-events-none"
+          />
+          {/* Mobile */}
+          <Image
+            src={MembersBgMobileImg}
+            alt="Members Background Mobile"
+            fill
+            priority
+            className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
+          />
         </div>
         <motion.div
-          className="container mx-auto flex flex-col gap-16 lg:gap-24 lg:px-10 2xl:px-12 z-10"
+          className="container mx-auto flex flex-col gap-12 sm:gap-16 lg:gap-24 lg:px-10 3xl:px-12 z-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -87,24 +106,31 @@ export default function MemberSection() {
           {/* Title */}
           <motion.h2
             variants={titleVariants}
-            className="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold text-white text-center"
+            className="text-2xl sm:text-3xl md:text-4xl 3xl:text-5xl font-bold text-white text-center"
           >
             ทีมงานของเรา
           </motion.h2>
           {/* Content */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-items-center gap-12 xl:gap-24 2xl:gap-36">
+          <div className="grid grid-cols-1 lg:grid-cols-4 justify-items-center gap-6 sm:gap-12 xl:gap-24 2xl:gap-6 3xl:gap-36">
             {cards.map((card) => (
               <motion.article
                 key={card.id}
                 variants={sphereVariants}
-                className="flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 w-55 sm:w-65 lg:w-50 2xl:w-75"
+                className="w-full flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 max-w-40 sm:max-w-50 2xl:max-w-60 3xl:max-w-75"
               >
                 {/* Photo */}
-                <div className="w-full aspect-square rounded-4xl sm:rounded-[2.5rem] bg-[#FF0059] shadow-md transition-transform duration-300 ease-out hover:scale-103 cursor-pointer" />
+                <div className="relative w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 cursor-pointer overflow-hidden aspect-square">
+                  <Image
+                    src={card.image}
+                    alt={card.nickName || card.name}
+                    fill
+                    className="object-cover object-center"
+                  />
+                </div>
                 {/* Info */}
-                <div className="flex flex-col items-center lg:items-start gap-3 sm:gap-4 xl:gap-5 text-center lg:text-left">
+                <div className="w-full flex flex-col items-center lg:items-start gap-3 sm:gap-4 xl:gap-5 text-center lg:text-left">
                   {card.nickName && (
-                    <h3 className="text-2xl sm:text-3xl xl:text-4xl font-bold text-[#FF3279] uppercase">
+                    <h3 className="text-2xl sm:text-3xl xl:text-[34px] font-bold text-[#FF3279] uppercase">
                       {card.nickName}
                     </h3>
                   )}
