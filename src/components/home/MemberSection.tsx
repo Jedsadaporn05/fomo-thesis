@@ -1,13 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
-import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
+import { useMemo } from "react";
 import { easeOut, motion } from "framer-motion";
 import Advisor from "@/public/home/member-section/Advisor.png";
 import Q from "@/public/home/member-section/Q.png";
 import Ohm from "@/public/home/member-section/Ohm.png";
 import New from "@/public/home/member-section/New.png";
+import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
+import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
 
 const cards = [
   {
@@ -41,33 +42,43 @@ const cards = [
 ];
 
 export default function MemberSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.2,
+  const containerVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.12,
+          delayChildren: 0.2,
+        },
       },
-    },
-  };
+    }),
+    [],
+  );
 
-  const titleVariants = {
-    hidden: { opacity: 0, y: -50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: easeOut },
-    },
-  };
+  const titleVariants = useMemo(
+    () => ({
+      hidden: { opacity: 0, y: -50 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: easeOut },
+      },
+    }),
+    [],
+  );
 
-  const sphereVariants = {
-    hidden: { y: 50 },
-    visible: {
-      y: 0,
-      transition: { duration: 0.6, ease: easeOut },
-    },
-  };
+  const sphereVariants = useMemo(
+    () => ({
+      hidden: { y: 50 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.6, ease: easeOut },
+      },
+    }),
+    [],
+  );
 
   return (
     <section
@@ -97,7 +108,7 @@ export default function MemberSection() {
           />
         </div>
         <motion.div
-          className="container mx-auto flex flex-col gap-12 sm:gap-16 lg:gap-24 lg:px-10 3xl:px-12 z-10"
+          className="container mx-auto flex flex-col gap-12 sm:gap-16 lg:gap-24 lg:px-10 2xl:px-18 3xl:px-12 z-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -106,7 +117,7 @@ export default function MemberSection() {
           {/* Title */}
           <motion.h2
             variants={titleVariants}
-            className="text-2xl sm:text-3xl md:text-4xl 3xl:text-5xl font-bold text-white text-center"
+            className="text-2xl sm:text-3xl md:text-4xl 2xl:text-[40px] 3xl:text-5xl font-bold text-white text-center"
           >
             ทีมงานของเรา
           </motion.h2>
@@ -116,7 +127,7 @@ export default function MemberSection() {
               <motion.article
                 key={card.id}
                 variants={sphereVariants}
-                className="w-full flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 max-w-40 sm:max-w-50 2xl:max-w-60 3xl:max-w-75"
+                className="w-full flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 max-w-40 sm:max-w-50 2xl:max-w-55 3xl:max-w-75"
               >
                 {/* Photo */}
                 <div className="relative w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 cursor-pointer overflow-hidden aspect-square">
@@ -124,7 +135,7 @@ export default function MemberSection() {
                     src={card.image}
                     alt={card.nickName || card.name}
                     fill
-                    className="object-cover object-center"
+                    className="object-cover object-center pointer-events-none"
                   />
                 </div>
                 {/* Info */}

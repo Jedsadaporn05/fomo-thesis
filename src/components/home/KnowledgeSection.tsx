@@ -11,6 +11,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 import React, { useRef, useState, useEffect } from "react";
 
+interface KnowledgeProps {
+  startAnimation: boolean;
+}
+
 const contents = [
   {
     id: 1,
@@ -176,15 +180,15 @@ const Content = React.memo(
 );
 Content.displayName = "Content";
 
-export default function KnowledgeSection() {
+export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const measureContainerRef = useRef<HTMLDivElement>(null);
+  const videoRefs = useRef<HTMLVideoElement[]>([]);
   const refreshRef = useRef<number | null>(null);
-
   const block1Ref = useRef<HTMLDivElement>(null);
   const block2Ref = useRef<HTMLDivElement>(null);
   const block3Ref = useRef<HTMLDivElement>(null);
-
+  const [isNearViewport, setIsNearViewport] = useState(false);
   const [lineCoords, setLineCoords] = useState({
     b1: 75,
     b2: 25,
@@ -192,6 +196,48 @@ export default function KnowledgeSection() {
     h1: 150,
     h2: 150,
   });
+
+  // IntersectionObserver
+  useEffect(() => {
+    const section = containerRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsNearViewport(true);
+        }
+      },
+      {
+        root: null,
+        rootMargin: "1000px 0px", // preload 1000px
+        threshold: 0,
+      },
+    );
+
+    observer.observe(section);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // Warm preload videos
+  useEffect(() => {
+    if (!isNearViewport) return;
+
+    videoRefs.current.forEach((video) => {
+      if (!video) return;
+      video.load();
+    });
+  }, [isNearViewport]);
+
+  // Play video after startAnimation ready
+  useEffect(() => {
+    if (!startAnimation || !isNearViewport) return;
+
+    videoRefs.current.forEach((video) => {
+      video?.play().catch(() => {});
+    });
+  }, [startAnimation, isNearViewport]);
 
   // Line Coords
   useEffect(() => {
@@ -259,10 +305,17 @@ export default function KnowledgeSection() {
     }
 
     updateCoords();
+
+    return () => {
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   // ScrollTrigger Refresh
   useEffect(() => {
+    if (!isNearViewport) return;
+
     if (refreshRef.current) {
       cancelAnimationFrame(refreshRef.current);
     }
@@ -276,12 +329,12 @@ export default function KnowledgeSection() {
         cancelAnimationFrame(refreshRef.current);
       }
     };
-  }, [lineCoords.h1, lineCoords.h2]);
+  }, [lineCoords.h1, lineCoords.h2, isNearViewport]);
 
   // GSAP and Media Queries
   useGSAP(
     () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || isNearViewport) return;
 
       ScrollTrigger.matchMedia({
         "(min-width: 768px)": () => {
@@ -387,22 +440,26 @@ export default function KnowledgeSection() {
             <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
               <video
+                ref={(el) => {
+                  if (el) videoRefs.current[0] = el;
+                }}
                 src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
                 muted
-                autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
               />
               {/* Mobile */}
               <video
+                ref={(el) => {
+                  if (el) videoRefs.current[1] = el;
+                }}
                 src="/home/knowledge-section/knowledge-video-1-mobile.mp4"
                 muted
-                autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
@@ -448,22 +505,26 @@ export default function KnowledgeSection() {
             <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
               <video
+                ref={(el) => {
+                  if (el) videoRefs.current[2] = el;
+                }}
                 src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
                 muted
-                autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
               />
               {/* Mobile */}
               <video
+                ref={(el) => {
+                  if (el) videoRefs.current[3] = el;
+                }}
                 src="/home/knowledge-section/knowledge-video-2-mobile.mp4"
                 muted
-                autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>
@@ -506,22 +567,26 @@ export default function KnowledgeSection() {
             <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
               <video
+                ref={(el) => {
+                  if (el) videoRefs.current[4] = el;
+                }}
                 src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
                 muted
-                autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
               />
               {/* Mobile */}
               <video
+                ref={(el) => {
+                  if (el) videoRefs.current[5] = el;
+                }}
                 src="/home/knowledge-section/knowledge-video-3-mobile.mp4"
                 muted
-                autoPlay
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
               />
             </div>

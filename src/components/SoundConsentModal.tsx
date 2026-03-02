@@ -22,15 +22,7 @@ export default function SoundConsentModal() {
         >
           <motion.div
             key="sound-consent-modal"
-            className="
-            w-[92%] max-w-md sm:max-w-lg
-            rounded-3xl
-            bg-[#0a1635]/95
-            border border-white/10
-            shadow-2xl
-            p-6 sm:p-8 md:p-10
-            text-white
-          "
+            className="w-[92%] max-w-md sm:max-w-lg rounded-3xl bg-[#0a1635]/95 border border-white/10 shadow-2xl p-6 sm:p-8 md:p-10 text-white"
             initial={{ opacity: 0, y: 40, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
@@ -52,15 +44,7 @@ export default function SoundConsentModal() {
               <div className="flex flex-col sm:flex-row gap-3 w-full">
                 <button
                   onClick={grantPermission}
-                  className="
-                  flex-1 py-3 rounded-xl
-                  bg-[#FF2D77]
-                  hover:bg-[#E01560]
-                  font-semibold
-                  transition
-                  flex items-center justify-center gap-2
-                  cursor-pointer
-                "
+                  className="flex-1 py-3 rounded-xl bg-[#FF2D77] hover:bg-[#E01560] font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <Volume2 size={18} />
                   เปิดเสียง
@@ -68,22 +52,12 @@ export default function SoundConsentModal() {
 
                 <button
                   onClick={denyPermission}
-                  className="
-                  flex-1
-                  py-3 rounded-xl
-                  bg-white/10
-                  hover:bg-white/20
-                  text-gray-300
-                  transition
-                  flex items-center justify-center gap-2
-                  cursor-pointer
-                "
+                  className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 transition flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <VolumeX size={18} />
                   ปิดไว้ก่อน
                 </button>
               </div>
-
               <p className="text-base text-white">
                 สามารถเปิดหรือปรับเสียงได้ภายหลัง
               </p>

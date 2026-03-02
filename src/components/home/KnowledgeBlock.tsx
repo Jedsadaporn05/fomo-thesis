@@ -228,9 +228,9 @@ export default function KnowledgeBlock({
         <div
           ref={titleRef}
           className={`h-fit absolute top-1 2xl:top-1.25 3xl:top-1 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-1 sm:gap-2 md:gap-3 xl:gap-3
-            ${isFirstSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[200px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[400px] xl:w-[450px] 2xl:w-[470px] 3xl:w-[620px] ps-1 sm:ps-2" : ""}
-            ${isSecondSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[200px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[400px] xl:w-[440px] 2xl:w-[470px] 3xl:w-[650px]" : ""}
-            ${isLastSection ? "w-[165px] min-[355px]:w-[200px] min-[395px]:w-[215px] min-[450px]:w-[260px] min-[590px]:w-[320px] sm:w-[400px] md:w-[440px] xl:w-[480px] 2xl:w-[510px] 3xl:w-[700px] flex-row-reverse" : "flex-row"}`}
+            ${isFirstSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[200px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[400px] xl:w-[450px] 2xl:w-[460px] 3xl:w-[620px] ps-1 sm:ps-2" : ""}
+            ${isSecondSection ? "w-[150px] min-[355px]:w-[180px] min-[395px]:w-[200px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[400px] xl:w-[440px] 2xl:w-[460px] 3xl:w-[650px]" : ""}
+            ${isLastSection ? "w-[165px] min-[355px]:w-[200px] min-[395px]:w-[215px] min-[450px]:w-[260px] min-[590px]:w-[320px] sm:w-[400px] md:w-[440px] xl:w-[480px] 2xl:w-[500px] 3xl:w-[700px] flex-row-reverse" : "flex-row"}`}
         >
           <Image
             src={title.imageFOMO}
