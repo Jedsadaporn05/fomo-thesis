@@ -34,15 +34,6 @@ export default function HomeWrapper() {
     return () => window.removeEventListener("resize", checkSize);
   }, []);
 
-  // Browser scroll restoration
-  useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-  }, []);
-
   useEffect(() => {
     if (permission === "granted") {
       playBGM("home", "/sounds/music/bgm-1.mp3");
@@ -54,6 +45,22 @@ export default function HomeWrapper() {
   };
 
   const lastBreakpoint = useRef<string>("");
+
+  // Close restoration
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
+
+  // Refresh after ready
+  useEffect(() => {
+    if (!isReady || isSmallScreen) return;
+
+    requestAnimationFrame(() => {
+      ScrollTrigger.refresh();
+    });
+  }, [isReady, isSmallScreen]);
 
   // Handle Resize Force Refresh for GSAP stability
   useEffect(() => {
