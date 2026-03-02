@@ -168,7 +168,7 @@ export const useAudioStore = create<AudioState>()(
       },
     }),
     {
-      name: "audio-storage",
+      name: "audio-settings",
       partialize: (s) => ({
         permission: s.permission,
         bgmEnabled: s.bgmEnabled,
