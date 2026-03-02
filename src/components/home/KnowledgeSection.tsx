@@ -184,7 +184,6 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const measureContainerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<HTMLVideoElement[]>([]);
-  const refreshRef = useRef<number | null>(null);
   const block1Ref = useRef<HTMLDivElement>(null);
   const block2Ref = useRef<HTMLDivElement>(null);
   const block3Ref = useRef<HTMLDivElement>(null);
@@ -277,15 +276,16 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
           h2: Math.max(120, r3.top - r2.bottom),
         };
 
-        setLineCoords((prev) =>
-          prev.b1 === next.b1 &&
-          prev.b2 === next.b2 &&
-          prev.b3 === next.b3 &&
-          prev.h1 === next.h1 &&
-          prev.h2 === next.h2
-            ? prev
-            : next,
-        );
+        setLineCoords((prev) => {
+          const isChanged =
+            Math.abs(prev.b1 - next.b1) > 1 ||
+            Math.abs(prev.b2 - next.b2) > 1 ||
+            Math.abs(prev.b3 - next.b3) > 1 ||
+            Math.abs(prev.h1 - next.h1) > 5 ||
+            Math.abs(prev.h2 - next.h2) > 5;
+
+          return isChanged ? next : prev;
+        });
       });
     };
 
@@ -311,25 +311,6 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
-
-  // ScrollTrigger Refresh
-  useEffect(() => {
-    if (!isNearViewport) return;
-
-    if (refreshRef.current) {
-      cancelAnimationFrame(refreshRef.current);
-    }
-
-    refreshRef.current = requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-    });
-
-    return () => {
-      if (refreshRef.current) {
-        cancelAnimationFrame(refreshRef.current);
-      }
-    };
-  }, [lineCoords.h1, lineCoords.h2, isNearViewport]);
 
   // GSAP and Media Queries
   useGSAP(
