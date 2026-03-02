@@ -46,22 +46,6 @@ export default function HomeWrapper() {
 
   const lastBreakpoint = useRef<string>("");
 
-  // Close restoration
-  useEffect(() => {
-    if ("scrollRestoration" in window.history) {
-      window.history.scrollRestoration = "manual";
-    }
-  }, []);
-
-  // Refresh after ready
-  useEffect(() => {
-    if (!isReady || isSmallScreen) return;
-
-    requestAnimationFrame(() => {
-      ScrollTrigger.refresh();
-    });
-  }, [isReady, isSmallScreen]);
-
   // Handle Resize Force Refresh for GSAP stability
   useEffect(() => {
     if (isSmallScreen) return;
