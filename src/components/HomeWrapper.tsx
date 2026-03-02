@@ -22,33 +22,26 @@ export default function HomeWrapper() {
   const playBGM = useAudioStore((s) => s.playBGM);
   const permission = useAudioStore((s) => s.permission);
 
-  // Check if screen is less then <320px
-  useEffect(() => {
-    const checkSize = () => {
-      setIsSmallScreen(window.innerWidth < 320);
-    };
-
-    checkSize();
-    window.addEventListener("resize", checkSize);
-
-    return () => window.removeEventListener("resize", checkSize);
-  }, []);
-
   useEffect(() => {
     if (permission === "granted") {
       playBGM("home", "/sounds/music/bgm-1.mp3");
     }
   }, [permission, playBGM]);
 
-  const handlePreloaderComplete = () => {
-    setIsReady(true);
-  };
-
   const lastBreakpoint = useRef<string>("");
 
-  // Handle Resize Force Refresh for GSAP stability
+  // Handle Resize Force Refresh for GSAP stability and Check if screen is less then <320px
   useEffect(() => {
-    if (isSmallScreen) return;
+    const mediaQuery = window.matchMedia("(max-width: 319px)");
+
+    const handleSmallScreenChange = (
+      e: MediaQueryListEvent | MediaQueryList,
+    ) => {
+      setIsSmallScreen(e.matches);
+    };
+
+    handleSmallScreenChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleSmallScreenChange);
 
     const getBreakpoint = () => {
       const w = window.innerWidth;
@@ -62,7 +55,9 @@ export default function HomeWrapper() {
     lastBreakpoint.current = getBreakpoint();
     let timeoutId: number | null = null;
 
-    const handleResize = () => {
+    const handleResizeForGSAP = () => {
+      if (mediaQuery.matches) return;
+
       const current = getBreakpoint();
 
       if (current !== lastBreakpoint.current) {
@@ -77,46 +72,47 @@ export default function HomeWrapper() {
 
           window.setTimeout(() => {
             setIsRefreshing(false);
-          }, 300);
+          }, 150);
         }, 200);
       }
     };
 
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("orientationchange", handleResize);
+    window.addEventListener("resize", handleResizeForGSAP);
+    window.addEventListener("orientationchange", handleResizeForGSAP);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("orientationchange", handleResize);
+      mediaQuery.removeEventListener("change", handleSmallScreenChange);
+      window.removeEventListener("resize", handleResizeForGSAP);
+      window.removeEventListener("orientationchange", handleResizeForGSAP);
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [isSmallScreen]);
+  }, []);
 
+  const handlePreloaderComplete = () => setIsReady(true);
   const preloader = !isReady || isRefreshing;
+
+  if (isSmallScreen) {
+    return <SmallScreenOverlay />;
+  }
 
   return (
     <>
-      {isSmallScreen && <SmallScreenOverlay />}
+      {preloader && <Preloader onComplete={handlePreloaderComplete} />}
 
-      {!isSmallScreen && (
-        <>
-          {preloader && <Preloader onComplete={handlePreloaderComplete} />}
-          <div
-            style={{
-              opacity: preloader ? 0 : 1,
-              pointerEvents: preloader ? "none" : "auto",
-              transition: "opacity 0.4s ease",
-            }}
-          >
-            <MainNav />
-            <MainHeroSection
-              startAnimation={!preloader && permission !== "unknown"}
-            />
-            <KnowledgeSection startAnimation={!preloader} />
-            <MemberSection />
-          </div>
-        </>
-      )}
+      <div
+        style={{
+          opacity: preloader ? 0 : 1,
+          pointerEvents: preloader ? "none" : "auto",
+          transition: "opacity 0.4s ease",
+        }}
+      >
+        <MainNav />
+        <MainHeroSection
+          startAnimation={!preloader && permission !== "unknown"}
+        />
+        <KnowledgeSection startAnimation={!preloader} />
+        <MemberSection />
+      </div>
     </>
   );
 }
