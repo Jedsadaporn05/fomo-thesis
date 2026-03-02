@@ -11,7 +11,7 @@ import {
   useTransform,
 } from "framer-motion";
 import useIsDesktop from "@/src/hooks/useIsDesktop";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 interface HeroProps {
   startAnimation: boolean;
@@ -19,20 +19,21 @@ interface HeroProps {
 
 export default function MainHeroSection({ startAnimation }: HeroProps) {
   const isDesktop = useIsDesktop();
-
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-
   const springConfig = { stiffness: 40, damping: 25, mass: 1 };
   const range = 32; // default value 32
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
+  const desktopVideoRef = useRef<HTMLVideoElement | null>(null);
+  const mobileVideoRef = useRef<HTMLVideoElement | null>(null);
 
   const translateX = useTransform(
     smoothX,
     [-1, 1],
     isDesktop ? [`-${range}px`, `${range}px`] : ["0px", "0px"],
   );
+
   const translateY = useTransform(
     smoothY,
     [-1, 1],
@@ -40,6 +41,16 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
   );
 
   const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    if (!startAnimation) return;
+
+    mouseX.set(0);
+    mouseY.set(0);
+
+    desktopVideoRef.current?.play().catch(() => {});
+    mobileVideoRef.current?.play().catch(() => {});
+  }, [startAnimation]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDesktop) return;
@@ -75,6 +86,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
       },
     },
   };
+
   const itemVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -89,7 +101,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
       id="Hero"
       style={{ perspective: "1200px" }}
       className="w-full h-full flex justify-center items-center"
-      onMouseMove={isDesktop ? handleMouseMove : undefined}
+      onMouseMove={isDesktop && startAnimation ? handleMouseMove : undefined}
       onMouseLeave={handleMouseLeave}
     >
       <div className="flex justify-center items-center relative w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh overflow-hidden">
@@ -99,20 +111,22 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
         >
           {/* Desktop */}
           <video
-            src="/home/hero-section/hero-video.mp4"
+            ref={desktopVideoRef}
+            src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/hero/hero-video.mp4"
             muted
-            autoPlay
             loop
             playsInline
+            preload="metadata"
             className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
           />
           {/* Mobile */}
           <video
+            ref={mobileVideoRef}
             src="/home/hero-section/hero-video-mobile.mp4"
             muted
-            autoPlay
             loop
             playsInline
+            preload="metadata"
             className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
           />
         </motion.div>
@@ -124,7 +138,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                 variants={containerVariants}
                 initial="hidden"
                 animate={startAnimation ? "visible" : "hidden"}
-                className="flex flex-col justify-center items-center gap-10 lg:gap-8 3xl:gap-12"
+                className="flex flex-col justify-center items-center gap-10 lg:gap-8 2xl:gap-10 3xl:gap-12"
               >
                 {/* Logo Title */}
                 <motion.div
@@ -149,7 +163,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
                   className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:*:text-primary"
                 >
                   <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
-                  <p className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-2xl font-semibold text-white/90">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-semibold text-white/90">
                     คลิกเพื่อเข้าสู่เรื่องราว
                   </p>
                   <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />

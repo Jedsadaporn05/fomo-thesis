@@ -48,8 +48,9 @@ export default function Preloader({ onComplete }: PreloaderProps) {
 
       gsap.to(containerRef.current, {
         opacity: 0,
-        scale: 1.05,
-        filter: "blur(12px)",
+        y: -30,
+        // scale: 1.05,
+        // filter: "blur(12px)",
         duration: 0.6,
         ease: "power2.inOut",
         onComplete: () => {
@@ -127,7 +128,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       ref={containerRef}
       className="fixed inset-0 z-9999 flex items-center justify-center bg-[#0a1738] text-white"
     >
-      <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-70 min-[400px]:max-w-[320px] sm:max-w-100 md:max-w-125 lg:max-w-150 px-6">
+      <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-70 min-[400px]:max-w-[320px] sm:max-w-100 md:max-w-125 3xl:max-w-150 px-6">
         {/* Desktop */}
         <video
           src="\logo\LogoGracie.webm"
@@ -135,7 +136,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           autoPlay
           loop
           playsInline
-          className="hidden xl:block w-full h-auto max-w-40 min-[400px]:max-w-50 sm:max-w-70 md:max-w-80 lg:max-w-100 object-contain pointer-events-none"
+          className="hidden xl:block w-full h-auto max-w-40 min-[400px]:max-w-50 sm:max-w-70 md:max-w-80 3xl:max-w-100 object-contain pointer-events-none"
         />
         {/* Mobile */}
         <Image
@@ -144,7 +145,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
           width={500}
           height={500}
           priority
-          className="block xl:hidden w-full h-auto max-w-37.5 min-[400px]:max-w-45 sm:max-w-60 md:max-w-75 lg:max-w-90 object-contain"
+          className="block xl:hidden w-full h-auto max-w-37.5 min-[400px]:max-w-45 sm:max-w-60 md:max-w-75 3xl:max-w-90 object-contain"
         />
         <div className="w-full flex flex-col gap-2">
           <div className="w-full h-1 min-[400px]:h-1.5 sm:h-2 md:h-2.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">
@@ -153,7 +154,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               className="h-full w-0 bg-[#FF2D77] shadow-[0_0_12px_#FF2D77]"
             />
           </div>
-
           <div className="flex justify-between items-end text-gray-300">
             <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base font-medium tracking-widest">
               LOADING

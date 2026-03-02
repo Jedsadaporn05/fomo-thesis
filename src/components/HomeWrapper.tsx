@@ -34,6 +34,15 @@ export default function HomeWrapper() {
     return () => window.removeEventListener("resize", checkSize);
   }, []);
 
+  // Browser scroll restoration
+  useEffect(() => {
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  }, []);
+
   useEffect(() => {
     if (permission === "granted") {
       playBGM("home", "/sounds/music/bgm-1.mp3");
@@ -98,16 +107,23 @@ export default function HomeWrapper() {
     <>
       {isSmallScreen && <SmallScreenOverlay />}
 
-      {!isSmallScreen && preloader && (
-        <Preloader onComplete={handlePreloaderComplete} />
-      )}
-
-      {!isSmallScreen && !preloader && (
+      {!isSmallScreen && (
         <>
-          <MainNav />
-          <MainHeroSection startAnimation={permission !== "unknown"} />
-          <KnowledgeSection />
-          <MemberSection />
+          {preloader && <Preloader onComplete={handlePreloaderComplete} />}
+          <div
+            style={{
+              opacity: preloader ? 0 : 1,
+              pointerEvents: preloader ? "none" : "auto",
+              transition: "opacity 0.4s ease",
+            }}
+          >
+            <MainNav />
+            <MainHeroSection
+              startAnimation={!preloader && permission !== "unknown"}
+            />
+            <KnowledgeSection startAnimation={!preloader} />
+            <MemberSection />
+          </div>
         </>
       )}
     </>
