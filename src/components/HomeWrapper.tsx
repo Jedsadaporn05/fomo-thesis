@@ -18,7 +18,6 @@ export default function HomeWrapper() {
   const [isReady, setIsReady] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-
   const playBGM = useAudioStore((s) => s.playBGM);
   const permission = useAudioStore((s) => s.permission);
 
@@ -90,6 +89,38 @@ export default function HomeWrapper() {
 
   const handlePreloaderComplete = () => setIsReady(true);
   const preloader = !isReady || isRefreshing;
+
+  useEffect(() => {
+    if (preloader) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+
+      setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 100);
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [preloader]);
+
+  useEffect(() => {
+    const handleWindowLoad = () => {
+      setTimeout(() => {
+        ScrollTrigger.refresh(true);
+      }, 200);
+    };
+
+    if (document.readyState === "complete") {
+      handleWindowLoad();
+    } else {
+      window.addEventListener("load", handleWindowLoad);
+    }
+
+    return () => window.removeEventListener("load", handleWindowLoad);
+  }, []);
 
   if (isSmallScreen) {
     return <SmallScreenOverlay />;

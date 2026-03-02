@@ -50,6 +50,7 @@ export default function MainHeroSection({ startAnimation }: HeroProps) {
 
     desktopVideoRef.current?.play().catch(() => {});
     mobileVideoRef.current?.play().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [startAnimation]);
 
   const handleMouseMove = (e: React.MouseEvent) => {

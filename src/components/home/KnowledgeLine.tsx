@@ -110,6 +110,13 @@ export default function KnowledgeLine({
     () => {
       if (!pathRef.current || !width || !height) return;
 
+      const length = pathRef.current.getTotalLength();
+
+      if (length === 0) {
+        gsap.delayedCall(0.1, () => ScrollTrigger.refresh());
+        return;
+      }
+
       ScrollTrigger.matchMedia({
         "(max-width: 639px)": () => {
           gsap.set(pathRef.current, { strokeWidth: 4 });
@@ -118,8 +125,6 @@ export default function KnowledgeLine({
           gsap.set(pathRef.current, { strokeWidth: 6 });
         },
       });
-
-      const length = pathRef.current.getTotalLength();
 
       gsap.set(pathRef.current, {
         strokeDasharray: length,
@@ -185,7 +190,7 @@ export default function KnowledgeLine({
         tl.kill();
       };
     },
-    { dependencies: [path], scope: containerRef },
+    { dependencies: [path, width, height], scope: containerRef },
   );
 
   if (!width || !height) {

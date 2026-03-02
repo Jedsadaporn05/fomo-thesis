@@ -137,6 +137,10 @@ export default function KnowledgeBlock({
 
       const left = leftPathRef.current;
       const right = rightPathRef.current;
+      const lLength = left.getTotalLength();
+      const rLength = right.getTotalLength();
+
+      if (lLength === 0 || rLength === 0) return;
 
       ScrollTrigger.matchMedia({
         "(max-width: 639px)": () => {
@@ -146,9 +150,6 @@ export default function KnowledgeBlock({
           gsap.set([left, right], { strokeWidth: 6 });
         },
       });
-
-      const lLength = left.getTotalLength();
-      const rLength = right.getTotalLength();
 
       gsap.set([left, right], { autoAlpha: 1 });
 
