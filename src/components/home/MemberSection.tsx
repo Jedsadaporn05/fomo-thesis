@@ -87,7 +87,7 @@ export default function MemberSection() {
     >
       <div className="max-w-960 min-[3841px]:aspect-video min-[3841px]:min-h-full w-full min-h-dvh py-12 relative flex flex-col justify-center items-center">
         {/* Gradient Top */}
-        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+        <div className="absolute top-0 w-full h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
         {/* Image Background */}
         <div className="absolute w-full h-full inset-0 aspect-auto">
           {/* Desktop */}
@@ -95,7 +95,6 @@ export default function MemberSection() {
             src={MembersBgImg}
             alt="Members Background"
             fill
-            priority
             className=" w-full h-full object-cover object-center pointer-events-none"
           />
           {/* Mobile */}
@@ -103,12 +102,11 @@ export default function MemberSection() {
             src={MembersBgMobileImg}
             alt="Members Background Mobile"
             fill
-            priority
             className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
           />
         </div>
         <motion.div
-          className="container mx-auto flex flex-col gap-12 sm:gap-16 lg:gap-24 lg:px-10 2xl:px-18 3xl:px-12 z-10"
+          className="container mx-auto flex flex-col gap-12 sm:gap-16 lg:gap-24 z-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -122,12 +120,12 @@ export default function MemberSection() {
             ทีมงานของเรา
           </motion.h2>
           {/* Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 justify-items-center gap-6 sm:gap-12 xl:gap-24 2xl:gap-6 3xl:gap-36">
+          <div className="grid grid-cols-1 lg:grid-cols-4 justify-items-center gap-6 lg:gap-0">
             {cards.map((card) => (
               <motion.article
                 key={card.id}
                 variants={sphereVariants}
-                className="w-full flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 max-w-40 sm:max-w-50 2xl:max-w-55 3xl:max-w-75"
+                className="w-full h-full flex flex-row lg:flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 max-w-full lg:max-w-50 2xl:max-w-60 3xl:max-w-90"
               >
                 {/* Photo */}
                 <div className="relative w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 cursor-pointer overflow-hidden aspect-square">
@@ -141,12 +139,12 @@ export default function MemberSection() {
                 {/* Info */}
                 <div className="w-full flex flex-col items-center lg:items-start gap-3 sm:gap-4 xl:gap-5 text-center lg:text-left">
                   {card.nickName && (
-                    <h3 className="text-2xl sm:text-3xl xl:text-[34px] font-bold text-[#FF3279] uppercase">
+                    <h3 className="text-2xl sm:text-3xl 2xl:text-[32px] 3xl:text-[34px] font-bold text-[#FF3279] uppercase">
                       {card.nickName}
                     </h3>
                   )}
                   <h4
-                    className={`text-lg sm:text-xl xl:text-2xl font-semibold uppercase whitespace-pre-line ${
+                    className={`text-lg sm:text-xl 2xl:text-[22px] 3xl:text-2xl font-semibold uppercase whitespace-pre-line ${
                       card.id === 1 ? "text-[#FF3279]" : "text-white"
                     }`}
                   >

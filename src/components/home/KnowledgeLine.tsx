@@ -1,9 +1,16 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useMemo } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+} from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useBreakpointValue } from "@/src/hooks/useBreakpointValue";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,6 +46,16 @@ interface KnowledgeLineProps {
   className?: string;
   hasDiamondStart?: boolean;
   hasDiamondEnd?: boolean;
+  strokeWidths?: {
+    lg?: number;
+    xl?: number;
+    "2xl"?: number;
+  };
+  diamondSizes?: {
+    lg?: number;
+    xl?: number;
+    "2xl"?: number;
+  };
 }
 
 export default function KnowledgeLine({
@@ -47,11 +64,15 @@ export default function KnowledgeLine({
   className,
   hasDiamondStart = true,
   hasDiamondEnd = true,
+  strokeWidths = { lg: 5, xl: 6, "2xl": 7 },
+  diamondSizes = { lg: 12, xl: 14, "2xl": 16 },
 }: KnowledgeLineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const startDiamondRef = useRef<SVGPathElement>(null);
   const endDiamondRef = useRef<SVGPathElement>(null);
+  const strokeWidth = useBreakpointValue(strokeWidths) ?? 6;
+  const diamondSize = useBreakpointValue(diamondSizes) ?? 24;
 
   const [size, setSize] = useState({ width: 0, height: 0 });
 
@@ -61,6 +82,7 @@ export default function KnowledgeLine({
     if (!el) return;
 
     let rafId: number | null = null;
+    let refreshTimeout: number | NodeJS.Timeout;
 
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
@@ -72,6 +94,11 @@ export default function KnowledgeLine({
             ? prev
             : { width, height },
         );
+
+        clearTimeout(refreshTimeout);
+        refreshTimeout = setTimeout(() => {
+          ScrollTrigger.refresh(true);
+        }, 150);
       });
     });
 
@@ -79,6 +106,7 @@ export default function KnowledgeLine({
 
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
+      clearTimeout(refreshTimeout);
       ro.disconnect();
     };
   }, []);
@@ -95,16 +123,18 @@ export default function KnowledgeLine({
     return getOrthogonalPath(startX, endX, height, 60);
   }, [width, height, startX, endX]);
 
-  const diamondSize = 14;
   const half = diamondSize;
 
-  const diamondPath = (cx: number, cy: number) => `
+  const diamondPath = useCallback(
+    (cx: number, cy: number) => `
     M ${cx} ${cy - half}
     L ${cx + half} ${cy}
     L ${cx} ${cy + half}
     L ${cx - half} ${cy}
     Z
-  `;
+  `,
+    [half],
+  );
 
   useGSAP(
     () => {
@@ -112,19 +142,7 @@ export default function KnowledgeLine({
 
       const length = pathRef.current.getTotalLength();
 
-      if (length === 0) {
-        gsap.delayedCall(0.1, () => ScrollTrigger.refresh());
-        return;
-      }
-
-      ScrollTrigger.matchMedia({
-        "(max-width: 639px)": () => {
-          gsap.set(pathRef.current, { strokeWidth: 4 });
-        },
-        "(min-width: 640px)": () => {
-          gsap.set(pathRef.current, { strokeWidth: 6 });
-        },
-      });
+      if (length === 0) return;
 
       gsap.set(pathRef.current, {
         strokeDasharray: length,
@@ -203,7 +221,7 @@ export default function KnowledgeLine({
         width="100%"
         height="100%"
         viewBox={`0 0 ${width} ${height}`}
-        className="overflow-visible"
+        className="overflow-visible will-change-transform"
         shapeRendering="geometricPrecision"
       >
         {/* Line */}
@@ -212,7 +230,7 @@ export default function KnowledgeLine({
           d={path}
           fill="none"
           stroke="#FF699D"
-          strokeWidth={6}
+          strokeWidth={strokeWidth}
           strokeLinecap="round"
           strokeLinejoin="round"
         />

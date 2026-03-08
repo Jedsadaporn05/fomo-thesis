@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import Image from "next/image";
 import Logo from "@/public/logo/LogoGracie.png";
+import useIsDesktop from "../hooks/useIsDesktop";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,10 +14,11 @@ interface PreloaderProps {
   onComplete: () => void;
 }
 
-const PRELOADED_KEY = "app-preloaded";
+const PRELOADED_KEY = "isPreloaded";
 const MAX_PROGRESS = 85;
 
 export default function Preloader({ onComplete }: PreloaderProps) {
+  const isDesktop = useIsDesktop();
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
@@ -130,23 +132,28 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     >
       <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-70 min-[400px]:max-w-[320px] sm:max-w-100 md:max-w-125 3xl:max-w-150 px-6">
         {/* Desktop */}
-        <video
-          src="\logo\LogoGracie.webm"
-          muted
-          autoPlay
-          loop
-          playsInline
-          className="hidden xl:block w-full h-auto max-w-40 min-[400px]:max-w-50 sm:max-w-70 md:max-w-80 3xl:max-w-100 object-contain pointer-events-none"
-        />
+        {isDesktop && (
+          <video
+            src="\logo\LogoGracie.webm"
+            muted
+            autoPlay
+            loop
+            playsInline
+            preload="auto"
+            className="hidden lg:block w-full h-auto max-w-40 min-[400px]:max-w-50 sm:max-w-70 md:max-w-80 3xl:max-w-100 object-contain pointer-events-none"
+          />
+        )}
         {/* Mobile */}
-        <Image
-          src={Logo}
-          alt="preloaderLogo"
-          width={500}
-          height={500}
-          priority
-          className="block xl:hidden w-full h-auto max-w-37.5 min-[400px]:max-w-45 sm:max-w-60 md:max-w-75 3xl:max-w-90 object-contain"
-        />
+        {!isDesktop && (
+          <Image
+            src={Logo}
+            alt="preloaderLogo"
+            width={500}
+            height={500}
+            priority
+            className="block lg:hidden w-full h-auto max-w-37.5 min-[400px]:max-w-45 sm:max-w-60 md:max-w-75 3xl:max-w-90 object-contain"
+          />
+        )}
         <div className="w-full flex flex-col gap-2">
           <div className="w-full h-1 min-[400px]:h-1.5 sm:h-2 md:h-2.5 bg-gray-800/50 rounded-full overflow-hidden border border-white/10">
             <div

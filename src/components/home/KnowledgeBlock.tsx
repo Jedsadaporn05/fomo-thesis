@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 import Image, { StaticImageData } from "next/image";
+import { useBreakpointValue } from "@/src/hooks/useBreakpointValue";
 
 interface KnowledgeBlockProps {
   children: React.ReactNode;
@@ -20,6 +21,14 @@ interface KnowledgeBlockProps {
   isFirstSection?: boolean;
   isSecondSection?: boolean;
   isLastSection?: boolean;
+  strokeWidths?: {
+    base?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+    "2xl"?: number;
+  };
 }
 
 export default function KnowledgeBlock({
@@ -30,11 +39,13 @@ export default function KnowledgeBlock({
   isFirstSection,
   isSecondSection,
   isLastSection,
+  strokeWidths = { base: 2, sm: 3, md: 4, lg: 5, xl: 6, "2xl": 7 },
 }: KnowledgeBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const leftPathRef = useRef<SVGPathElement>(null);
   const rightPathRef = useRef<SVGPathElement>(null);
+  const strokeWidth = useBreakpointValue(strokeWidths) ?? 5;
 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [titleRect, setTitleRect] = useState({
@@ -51,6 +62,8 @@ export default function KnowledgeBlock({
     if (!container || !titleEl) return;
 
     let rafId: number | null = null;
+
+    let refreshTimeout: number | NodeJS.Timeout;
 
     const update = () => {
       if (rafId) return;
@@ -82,6 +95,12 @@ export default function KnowledgeBlock({
             ? prev
             : next;
         });
+
+        // Force a scroll trigger refresh when dimensions change
+        clearTimeout(refreshTimeout);
+        refreshTimeout = setTimeout(() => {
+          ScrollTrigger.refresh(true);
+        }, 150);
       });
     };
 
@@ -90,7 +109,13 @@ export default function KnowledgeBlock({
     observer.observe(titleEl);
 
     update();
-  }, [isLastSection]);
+
+    return () => {
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      clearTimeout(refreshTimeout);
+    };
+  }, []);
 
   const { width, height } = dimensions;
   const isMobile =
@@ -142,16 +167,7 @@ export default function KnowledgeBlock({
 
       if (lLength === 0 || rLength === 0) return;
 
-      ScrollTrigger.matchMedia({
-        "(max-width: 639px)": () => {
-          gsap.set([left, right], { strokeWidth: 5 });
-        },
-        "(min-width: 640px)": () => {
-          gsap.set([left, right], { strokeWidth: 6 });
-        },
-      });
-
-      gsap.set([left, right], { autoAlpha: 1 });
+      gsap.set([left, right], { strokeWidth: strokeWidth, autoAlpha: 1 });
 
       gsap.fromTo(
         left,
@@ -187,7 +203,7 @@ export default function KnowledgeBlock({
     },
     {
       scope: containerRef,
-      dependencies: [leftPath, rightPath],
+      dependencies: [leftPath, rightPath, strokeWidth],
     },
   );
 
@@ -196,7 +212,11 @@ export default function KnowledgeBlock({
       {/* Animation Border */}
       <div className="absolute inset-0 pointer-events-none z-10">
         {width > 0 && height > 0 && (
-          <svg width="100%" height="100%" className="overflow-visible">
+          <svg
+            width="100%"
+            height="100%"
+            className="overflow-visible will-change-transform"
+          >
             <defs>
               <linearGradient id="neonText" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#FF0059" />
@@ -208,7 +228,7 @@ export default function KnowledgeBlock({
               d={leftPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="5"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -217,7 +237,7 @@ export default function KnowledgeBlock({
               d={rightPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="5"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
               className="opacity-0"
             />

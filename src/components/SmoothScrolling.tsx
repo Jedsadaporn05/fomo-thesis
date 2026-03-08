@@ -29,6 +29,7 @@ export default function SmoothScrolling({
       ref={lenisRef}
       root
       autoRaf={false}
+      onScroll={() => ScrollTrigger.update()}
       options={{
         lerp: 0.075,
         smoothWheel: true,

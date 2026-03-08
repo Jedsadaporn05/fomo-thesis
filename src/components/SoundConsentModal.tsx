@@ -14,7 +14,7 @@ export default function SoundConsentModal() {
       {permission === "unknown" && (
         <motion.div
           key="sound-consent-backdrop"
-          className="fixed inset-0 z-100 flex items-center justify-center bg-[#0a1738]"
+          className="fixed inset-0 z-100 flex items-center justify-center bg-[#0a1738] px-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -22,7 +22,7 @@ export default function SoundConsentModal() {
         >
           <motion.div
             key="sound-consent-modal"
-            className="w-[92%] max-w-md sm:max-w-lg rounded-3xl bg-[#0a1635]/95 border border-white/10 shadow-2xl p-6 sm:p-8 md:p-10 text-white"
+            className="container mx-auto w-full max-w-md sm:max-w-lg rounded-3xl bg-[#0a1635]/95 border border-white/10 shadow-2xl p-6 sm:p-8 md:p-10"
             initial={{ opacity: 0, y: 40, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
@@ -30,11 +30,11 @@ export default function SoundConsentModal() {
           >
             <div className="flex flex-col items-center text-center gap-6">
               <div className="p-5 sm:p-6 rounded-full bg-[#FF2D77]/20 text-[#FF2D77]">
-                <Volume2 className="w-7 h-7 sm:w-8 sm:h-8" />
+                <Volume2 className="size-7 lg:size-8" strokeWidth={2} />
               </div>
 
               <div className="space-y-2">
-                <p className="text-lg text-white leading-relaxed">
+                <p className="text-sm sm:text-base lg:text-lg text-white leading-relaxed">
                   เรื่องราวนี้ถูกออกแบบให้มีดนตรี
                   <br className="hidden sm:block" />
                   และเสียงประกอบเพื่อเสริมประสบการณ์
@@ -46,20 +46,24 @@ export default function SoundConsentModal() {
                   onClick={grantPermission}
                   className="flex-1 py-3 rounded-xl bg-[#FF2D77] hover:bg-[#E01560] font-semibold transition flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <Volume2 size={18} />
-                  เปิดเสียง
+                  <Volume2 className="size-5 lg:size-6" strokeWidth={2} />
+                  <span className="text-sm sm:text-base lg:text-lg text-white">
+                    เปิดเสียง
+                  </span>
                 </button>
 
                 <button
                   onClick={denyPermission}
                   className="flex-1 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 transition flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <VolumeX size={18} />
-                  ปิดไว้ก่อน
+                  <VolumeX className="size-5 lg:size-6" strokeWidth={2} />
+                  <span className="text-sm sm:text-base lg:text-lg text-white">
+                    ปิดไว้ก่อน
+                  </span>
                 </button>
               </div>
-              <p className="text-base text-white">
-                สามารถเปิดหรือปรับเสียงได้ภายหลัง
+              <p className="text-sm sm:text-base lg:text-lg text-white">
+                สามารถเปิดหรือปรับเสียงได้ที่การตั้งค่า
               </p>
             </div>
           </motion.div>
