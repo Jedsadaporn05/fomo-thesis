@@ -159,7 +159,7 @@ const Content = React.memo(
         <p
           key={block.id}
           className={`text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white 
-            ${block.id === 1 ? "lg:whitespace-normal 3xl:whitespace-pre-line" : "lg:whitespace-pre-line"}`}
+            ${block.id === 1 ? "whitespace-normal md:whitespace-pre-line lg:whitespace-normal 3xl:whitespace-pre-line" : "whitespace-pre-line"}`}
         >
           {block.spans.map((span, index) => (
             <span
@@ -410,12 +410,12 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Block 1 */}
         <div
           id="Knowledge-1"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 1 Gradient Top */}
-          <div className="absolute top-0 w-full h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
+          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
+            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
               {isDesktop && (
                 <video
@@ -441,7 +441,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   loop
                   playsInline
                   preload="metadata"
-                  className="w-full h-full object-cover object-center pointer-events-none"
+                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
                 />
               )}
             </div>
@@ -459,7 +459,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 triggerStart="top 75%"
                 triggerEnd="bottom 75%"
                 isFirstSection={true}
-                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "2xl": 7 }}
+                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
                 <Content data={contents[0].contentDialog} />
               </KnowledgeBlock>
@@ -472,24 +472,24 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 <KnowledgeLine
                   x1={lineCoords.b1}
                   x2={lineCoords.b2}
-                  strokeWidths={{ lg: 5, xl: 6, "2xl": 7 }}
-                  diamondSizes={{ lg: 12, xl: 14, "2xl": 16 }}
+                  strokeWidths={{ lg: 5, xl: 6, "3xl": 7 }}
+                  diamondSizes={{ lg: 12, xl: 14, "3xl": 16 }}
                 />
               </div>
             )}
           </div>
           {/* Block 1 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
+          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
         </div>
         {/* Block 2 */}
         <div
           id="Knowledge-2"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 2 Gradient Top */}
-          <div className="absolute top-0 w-full h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
+          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
+            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
               {isDesktop && (
                 <video
@@ -515,7 +515,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   loop
                   playsInline
                   preload="metadata"
-                  className="w-full h-full object-cover object-center pointer-events-none"
+                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
                 />
               )}
             </div>
@@ -530,7 +530,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 triggerStart="top 75%"
                 triggerEnd="bottom 82%"
                 isSecondSection={true}
-                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "2xl": 7 }}
+                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
                 <Content data={contents[1].contentDialog} />
               </KnowledgeBlock>
@@ -543,24 +543,24 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 <KnowledgeLine
                   x1={lineCoords.b2}
                   x2={lineCoords.b3}
-                  strokeWidths={{ lg: 5, xl: 6, "2xl": 7 }}
-                  diamondSizes={{ lg: 12, xl: 14, "2xl": 16 }}
+                  strokeWidths={{ lg: 5, xl: 6, "3xl": 7 }}
+                  diamondSizes={{ lg: 12, xl: 14, "3xl": 16 }}
                 />
               </div>
             )}
           </div>
           {/* Block 2 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
+          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
         </div>
         {/* Block 3 */}
         <div
           id="Knowledge-3"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 3 Gradient Top */}
-          <div className="absolute top-0 w-full h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
+          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
+            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
               {isDesktop && (
                 <video
@@ -586,7 +586,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   loop
                   playsInline
                   preload="metadata"
-                  className="w-full h-full object-cover object-center pointer-events-none"
+                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
                 />
               )}
             </div>
@@ -601,7 +601,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 triggerStart="top 75%"
                 triggerEnd="bottom 77%"
                 isLastSection={true}
-                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "2xl": 7 }}
+                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
                 <Content data={contents[2].contentDialog} />
                 <div
@@ -610,7 +610,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   {contents[2].gridItems?.map((item, index) => (
                     <div
                       key={index}
-                      className="w-auto lg:w-full xl:w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-2"
+                      className="w-auto lg:w-full xl:w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-0.5 lg:gap-2"
                     >
                       <h3 className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
                         {item.title}
@@ -625,7 +625,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
             </div>
           </div>
           {/* Block 3 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
+          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
         </div>
       </div>
     </section>

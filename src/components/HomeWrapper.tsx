@@ -32,7 +32,7 @@ export default function HomeWrapper() {
 
   useEffect(() => {
     if (permission === "granted") {
-      playBGM("home", "/sounds/music/bgm-1.mp3");
+      playBGM("home", "/sounds/music/homepage-bgm.mp3");
     }
   }, [permission, playBGM]);
 

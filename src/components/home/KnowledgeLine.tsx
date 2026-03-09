@@ -50,11 +50,13 @@ interface KnowledgeLineProps {
     lg?: number;
     xl?: number;
     "2xl"?: number;
+    "3xl"?: number;
   };
   diamondSizes?: {
     lg?: number;
     xl?: number;
     "2xl"?: number;
+    "3xl"?: number;
   };
 }
 
@@ -64,8 +66,8 @@ export default function KnowledgeLine({
   className,
   hasDiamondStart = true,
   hasDiamondEnd = true,
-  strokeWidths = { lg: 5, xl: 6, "2xl": 7 },
-  diamondSizes = { lg: 12, xl: 14, "2xl": 16 },
+  strokeWidths = { lg: 5, xl: 6, "3xl": 7 },
+  diamondSizes = { lg: 12, xl: 14, "3xl": 16 },
 }: KnowledgeLineProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);

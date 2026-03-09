@@ -28,6 +28,7 @@ interface KnowledgeBlockProps {
     lg?: number;
     xl?: number;
     "2xl"?: number;
+    "3xl"?: number;
   };
 }
 
@@ -39,7 +40,7 @@ export default function KnowledgeBlock({
   isFirstSection,
   isSecondSection,
   isLastSection,
-  strokeWidths = { base: 2, sm: 3, md: 4, lg: 5, xl: 6, "2xl": 7 },
+  strokeWidths = { base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 },
 }: KnowledgeBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
@@ -258,8 +259,7 @@ export default function KnowledgeBlock({
             alt="FOMO"
             width={400}
             height={400}
-            priority
-            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] 3xl:h-[100px] object-contain shrink-0"
+            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] 2xl:h-[70px] 3xl:h-[100px] object-contain shrink-0"
           />
           <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl sm:text-4xl md:text-[42px] 2xl:text-[52px] 3xl:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
@@ -270,14 +270,13 @@ export default function KnowledgeBlock({
               alt="Question Mark"
               width={400}
               height={400}
-              priority
               className="w-auto h-[23px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] xl:h-[80px] 3xl:h-[90px] object-contain shrink-0"
             />
           )}
         </div>
       )}
       {/* Content */}
-      <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 2xl:gap-12 px-5 min-[450px]:px-6 sm:px-8 3xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-8 lg:pb-10 xl:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-22">
+      <div className="flex flex-col gap-4 sm:gap-5 2xl:gap-10 3xl:gap-12 px-5 min-[450px]:px-6 sm:px-6 3xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-6 lg:pb-10 xl:pb-12 2xl:pb-10 3xl:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-20 2xl:pt-18 3xl:pt-24">
         {children}
       </div>
     </div>

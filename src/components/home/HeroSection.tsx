@@ -9,6 +9,7 @@ import {
   useMotionValue,
   useSpring,
   useTransform,
+  useScroll,
 } from "framer-motion";
 import useIsDesktop from "@/src/hooks/useIsDesktop";
 import { useEffect, useRef } from "react";
@@ -41,6 +42,9 @@ export default function HeroSection({ startAnimation }: HeroProps) {
   );
 
   const rafRef = useRef<number | null>(null);
+
+  const { scrollY } = useScroll();
+  const opacity = useTransform(scrollY, [0, 150], [1, 0]);
 
   useEffect(() => {
     if (!startAnimation) {
@@ -122,7 +126,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
       <div className="flex justify-center items-center relative w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh overflow-hidden">
         <motion.div
           style={{ translateX, translateY }}
-          className="absolute inset-0 scale-[1.05] will-change-transform pointer-events-none aspect-auto"
+          className="absolute inset-0 md:scale-126 lg:scale-100 xl:scale-[1.05] will-change-transform pointer-events-none aspect-auto"
         >
           {/* Desktop */}
           {isDesktop && (
@@ -153,12 +157,12 @@ export default function HeroSection({ startAnimation }: HeroProps) {
           )}
         </motion.div>
         {/* Text on Image */}
-        <div className="container mx-auto z-10 relative w-full h-full flex flex-col justify-end lg:justify-center items-center min-[1024px]:items-end min-[3841px]:items-center pb-24 md:pb-28 lg:pb-0">
+        <div className="container mx-auto z-10 w-full h-full relative flex flex-col justify-end lg:justify-center items-center min-[1024px]:items-end min-[3841px]:items-center pb-50 lg:pb-0">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={startAnimation ? "visible" : "hidden"}
-            className="flex flex-col justify-center items-center gap-10 lg:gap-8 2xl:gap-10 3xl:gap-12 lg:px-24 xl:px-32 2xl:px-50 3xl:px-64"
+            className="flex flex-col justify-center items-center gap-10 lg:gap-8 2xl:gap-10 3xl:gap-12 lg:px-24 xl:px-32 2xl:px-52 3xl:px-64"
           >
             {/* Logo Title */}
             <motion.div
@@ -190,8 +194,31 @@ export default function HeroSection({ startAnimation }: HeroProps) {
             </Link>
           </motion.div>
         </div>
+        {/* Scroll Indicator */}
+        <motion.div
+          style={{ opacity }}
+          className="absolute bottom-[5.75dvh] lg:bottom-[5.5dvh] 3xl:bottom-[5dvh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30 pointer-events-none"
+        >
+          <div className="w-5.5 sm:w-6 3xl:w-6.5 h-9 sm:h-9.5 3xl:h-10 border-2 border-white/30 rounded-full flex justify-center p-0.5 sm:p-1 relative bg-white/5 backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+            <motion.div
+              animate={{
+                y: [0, 15, 0],
+                opacity: [1, 0.5, 1],
+              }}
+              transition={{
+                duration: 2.5,
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+              className="w-1.5 sm:w-1.75 3xl:w-2 h-1.5 sm:h-1.75 3xl:h-2 bg-[#FF2D77] rounded-full drop-shadow-[0_0_3px_rgba(255,45,119,0.8)]"
+            />
+          </div>
+          <span className="text-[9px] 3xl:text-[10px] text-white/50 tracking-[0.2em] font-medium uppercase mt-0.75 drop-shadow-md">
+            Scroll
+          </span>
+        </motion.div>
         {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-20" />
+        <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-20" />
       </div>
     </section>
   );

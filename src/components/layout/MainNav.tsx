@@ -15,7 +15,7 @@ import {
   VolumeX,
   X,
   XIcon,
-  SignalHigh,
+  Eye,
 } from "lucide-react";
 import navLogo from "@/public/logo/LogoGracie.png";
 import { useEffect, useRef, useState } from "react";
@@ -338,7 +338,7 @@ export default function MainNav() {
             <DropdownMenuContent
               align="end"
               sideOffset={12}
-              className="w-full rounded-xl border border-white/10 bg-[#0a1635]/95 backdrop-blur-md p-1 sm:p-1.25 md:p-1.5 lg:p.1-.75 xl:p-2 text-white shadow-xl"
+              className="w-full rounded-xl border border-white/10 bg-[#0a1635]/95 backdrop-blur-md px-0 py-1 sm:p-1.25 md:p-1.5 lg:p.1-.75 xl:p-2 text-white shadow-xl"
             >
               {menuItems.map((item) => (
                 <DropdownMenuItem
@@ -355,7 +355,7 @@ export default function MainNav() {
                     }
                   `}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   <span
                     className={`relative z-10 transition-transform duration-300 ${
                       activeSection !== item.href
@@ -376,9 +376,9 @@ export default function MainNav() {
                           stiffness: 200,
                         }}
                       >
-                        <SignalHigh
+                        <Eye
                           className="size-4 sm:size-5 lg:size-6 xl:size-7 pb-0.75 xl:pb-1.25 text-[#FF2D77] drop-shadow-[0_0_3px_rgba(255,45,119,0.6)]"
-                          strokeWidth={2.5}
+                          strokeWidth={2}
                         />
                       </motion.div>
                     )}

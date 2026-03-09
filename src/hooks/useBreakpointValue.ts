@@ -7,6 +7,7 @@ type BreakpointMap<T> = {
   lg?: T;
   xl?: T;
   "2xl"?: T;
+  "3xl"?: T;
 };
 
 export const BREAKPOINTS = {
@@ -15,12 +16,13 @@ export const BREAKPOINTS = {
   lg: 1024,
   xl: 1280,
   "2xl": 1536,
+  "3xl": 2049,
 };
 
 function getMatch<T>(values: BreakpointMap<T>): T | undefined {
   const width = window.innerWidth;
 
-  const keys = (["2xl", "xl", "lg", "md", "sm"] as const).filter(
+  const keys = (["3xl", "2xl", "xl", "lg", "md", "sm"] as const).filter(
     (k) => k in values,
   );
 

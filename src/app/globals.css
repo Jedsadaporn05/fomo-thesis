@@ -13,12 +13,6 @@
 
   @media (min-width: 475px) {
     max-width: none;
-    padding-left: 2.5rem;
-    padding-right: 2.5rem;
-  }
-
-  @media (min-width: 640px) {
-    max-width: none;
     padding-left: 3rem;
     padding-right: 3rem;
   }
