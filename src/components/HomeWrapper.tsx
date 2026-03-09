@@ -4,13 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import dynamic from "next/dynamic";
+
 import Preloader from "@/src/components/Preloader";
 import MainNav from "@/src/components/layout/MainNav";
-import MainHeroSection from "@/src/components/home/MainHeroSection";
-import KnowledgeSection from "@/src/components/home/KnowledgeSection";
-import MemberSection from "@/src/components/home/MemberSection";
-import { useAudioStore } from "@/src/store/useAudioStore";
+import HeroSection from "@/src/components/home/HeroSection";
 import SmallScreenOverlay from "./SmallScreenOverlay";
+import { useAudioStore } from "@/src/store/useAudioStore";
+
+const KnowledgeSection = dynamic(
+  () => import("@/src/components/home/KnowledgeSection"),
+  { ssr: false },
+);
+const MemberSection = dynamic(
+  () => import("@/src/components/home/MemberSection"),
+  { ssr: false },
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -23,7 +32,7 @@ export default function HomeWrapper() {
 
   useEffect(() => {
     if (permission === "granted") {
-      playBGM("home", "/sounds/music/bgm-1.mp3");
+      playBGM("home", "/sounds/music/homepage-bgm.mp3");
     }
   }, [permission, playBGM]);
 
@@ -138,9 +147,7 @@ export default function HomeWrapper() {
         }}
       >
         <MainNav />
-        <MainHeroSection
-          startAnimation={!preloader && permission !== "unknown"}
-        />
+        <HeroSection startAnimation={!preloader && permission !== "unknown"} />
         <KnowledgeSection startAnimation={!preloader} />
         <MemberSection />
       </div>

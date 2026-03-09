@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 import Image, { StaticImageData } from "next/image";
+import { useBreakpointValue } from "@/src/hooks/useBreakpointValue";
 
 interface KnowledgeBlockProps {
   children: React.ReactNode;
@@ -20,6 +21,15 @@ interface KnowledgeBlockProps {
   isFirstSection?: boolean;
   isSecondSection?: boolean;
   isLastSection?: boolean;
+  strokeWidths?: {
+    base?: number;
+    sm?: number;
+    md?: number;
+    lg?: number;
+    xl?: number;
+    "2xl"?: number;
+    "3xl"?: number;
+  };
 }
 
 export default function KnowledgeBlock({
@@ -30,11 +40,13 @@ export default function KnowledgeBlock({
   isFirstSection,
   isSecondSection,
   isLastSection,
+  strokeWidths = { base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 },
 }: KnowledgeBlockProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
   const leftPathRef = useRef<SVGPathElement>(null);
   const rightPathRef = useRef<SVGPathElement>(null);
+  const strokeWidth = useBreakpointValue(strokeWidths) ?? 5;
 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [titleRect, setTitleRect] = useState({
@@ -51,6 +63,8 @@ export default function KnowledgeBlock({
     if (!container || !titleEl) return;
 
     let rafId: number | null = null;
+
+    let refreshTimeout: number | NodeJS.Timeout;
 
     const update = () => {
       if (rafId) return;
@@ -82,6 +96,12 @@ export default function KnowledgeBlock({
             ? prev
             : next;
         });
+
+        // Force a scroll trigger refresh when dimensions change
+        clearTimeout(refreshTimeout);
+        refreshTimeout = setTimeout(() => {
+          ScrollTrigger.refresh(true);
+        }, 150);
       });
     };
 
@@ -90,7 +110,13 @@ export default function KnowledgeBlock({
     observer.observe(titleEl);
 
     update();
-  }, [isLastSection]);
+
+    return () => {
+      observer.disconnect();
+      if (rafId) cancelAnimationFrame(rafId);
+      clearTimeout(refreshTimeout);
+    };
+  }, []);
 
   const { width, height } = dimensions;
   const isMobile =
@@ -142,16 +168,7 @@ export default function KnowledgeBlock({
 
       if (lLength === 0 || rLength === 0) return;
 
-      ScrollTrigger.matchMedia({
-        "(max-width: 639px)": () => {
-          gsap.set([left, right], { strokeWidth: 5 });
-        },
-        "(min-width: 640px)": () => {
-          gsap.set([left, right], { strokeWidth: 6 });
-        },
-      });
-
-      gsap.set([left, right], { autoAlpha: 1 });
+      gsap.set([left, right], { strokeWidth: strokeWidth, autoAlpha: 1 });
 
       gsap.fromTo(
         left,
@@ -187,7 +204,7 @@ export default function KnowledgeBlock({
     },
     {
       scope: containerRef,
-      dependencies: [leftPath, rightPath],
+      dependencies: [leftPath, rightPath, strokeWidth],
     },
   );
 
@@ -196,7 +213,11 @@ export default function KnowledgeBlock({
       {/* Animation Border */}
       <div className="absolute inset-0 pointer-events-none z-10">
         {width > 0 && height > 0 && (
-          <svg width="100%" height="100%" className="overflow-visible">
+          <svg
+            width="100%"
+            height="100%"
+            className="overflow-visible will-change-transform"
+          >
             <defs>
               <linearGradient id="neonText" x1="0%" y1="0%" x2="0%" y2="100%">
                 <stop offset="0%" stopColor="#FF0059" />
@@ -208,7 +229,7 @@ export default function KnowledgeBlock({
               d={leftPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="5"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -217,7 +238,7 @@ export default function KnowledgeBlock({
               d={rightPath}
               fill="none"
               stroke="url(#neonText)"
-              strokeWidth="5"
+              strokeWidth={strokeWidth}
               strokeLinecap="round"
               className="opacity-0"
             />
@@ -238,8 +259,7 @@ export default function KnowledgeBlock({
             alt="FOMO"
             width={400}
             height={400}
-            priority
-            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] 3xl:h-[100px] object-contain shrink-0"
+            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[65px] 2xl:h-[70px] 3xl:h-[100px] object-contain shrink-0"
           />
           <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl sm:text-4xl md:text-[42px] 2xl:text-[52px] 3xl:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
@@ -250,14 +270,13 @@ export default function KnowledgeBlock({
               alt="Question Mark"
               width={400}
               height={400}
-              priority
               className="w-auto h-[23px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] xl:h-[80px] 3xl:h-[90px] object-contain shrink-0"
             />
           )}
         </div>
       )}
       {/* Content */}
-      <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 2xl:gap-12 px-5 min-[450px]:px-6 sm:px-8 3xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-8 lg:pb-10 xl:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-22">
+      <div className="flex flex-col gap-4 sm:gap-5 2xl:gap-10 3xl:gap-12 px-5 min-[450px]:px-6 sm:px-6 3xl:px-12 pb-5 min-[450px]:pb-6 sm:pb-6 lg:pb-10 xl:pb-12 2xl:pb-10 3xl:pb-12 pt-8 min-[450px]:pt-10 sm:pt-12 md:pt-14 lg:pt-16 xl:pt-20 2xl:pt-18 3xl:pt-24">
         {children}
       </div>
     </div>

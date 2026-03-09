@@ -7,13 +7,9 @@ import KnowledgeLine from "./KnowledgeLine";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-gsap.registerPlugin(ScrollTrigger);
 import React, { useRef, useState, useEffect } from "react";
-
-interface KnowledgeProps {
-  startAnimation: boolean;
-}
+import useIsDesktop from "@/src/hooks/useIsDesktop";
+gsap.registerPlugin(ScrollTrigger);
 
 const contents = [
   {
@@ -162,8 +158,8 @@ const Content = React.memo(
       {data.map((block) => (
         <p
           key={block.id}
-          className={`text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white 
-            ${block.id === 1 ? "lg:whitespace-pre-line xl:whitespace-normal 3xl:whitespace-pre-line" : "lg:whitespace-pre-line"}`}
+          className={`text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white 
+            ${block.id === 1 ? "whitespace-normal md:whitespace-pre-line lg:whitespace-normal 3xl:whitespace-pre-line" : "whitespace-pre-line"}`}
         >
           {block.spans.map((span, index) => (
             <span
@@ -180,7 +176,12 @@ const Content = React.memo(
 );
 Content.displayName = "Content";
 
+interface KnowledgeProps {
+  startAnimation: boolean;
+}
+
 export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
+  const isDesktop = useIsDesktop();
   const containerRef = useRef<HTMLDivElement>(null);
   const measureContainerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<HTMLVideoElement[]>([]);
@@ -209,11 +210,10 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
       },
       {
         root: null,
-        rootMargin: "1000px 0px", // preload 1000px
+        rootMargin: "500px 0px",
         threshold: 0,
       },
     );
-
     observer.observe(section);
 
     return () => observer.disconnect();
@@ -234,12 +234,16 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     if (!startAnimation || !isNearViewport) return;
 
     videoRefs.current.forEach((video) => {
-      video?.play().catch(() => {});
+      video?.play().catch(() => {
+        // ignore autoplay block
+      });
     });
   }, [startAnimation, isNearViewport]);
 
   // Line Coords
   useEffect(() => {
+    if (!isDesktop) return;
+
     let rafId: number | null = null;
 
     const updateCoords = () => {
@@ -294,15 +298,6 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     if (measureContainerRef.current) {
       observer.observe(measureContainerRef.current);
     }
-    if (block1Ref.current) {
-      observer.observe(block1Ref.current);
-    }
-    if (block2Ref.current) {
-      observer.observe(block2Ref.current);
-    }
-    if (block3Ref.current) {
-      observer.observe(block3Ref.current);
-    }
 
     updateCoords();
 
@@ -310,98 +305,100 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
       observer.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isDesktop]);
 
   // GSAP and Media Queries
   useGSAP(
     () => {
-      if (!containerRef.current || isNearViewport) return;
+      if (!containerRef.current) return;
 
-      ScrollTrigger.matchMedia({
-        "(min-width: 768px)": () => {
-          const blocks = gsap.utils.toArray<HTMLElement>(
-            ".knowledge-block-container",
-          );
-          const bgs = gsap.utils.toArray<HTMLElement>(
-            containerRef.current!.querySelectorAll(".knowledge-bg"),
-          );
+      ScrollTrigger.saveStyles(".knowledge-bg, .knowledge-block-container");
 
-          // Background parallax
-          bgs.forEach((bg) => {
-            gsap.to(bg, {
-              y: 80,
-              ease: "none",
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 768px)", () => {
+        const blocks = gsap.utils.toArray<HTMLElement>(
+          ".knowledge-block-container",
+        );
+        const bgs = gsap.utils.toArray<HTMLElement>(
+          containerRef.current!.querySelectorAll(".knowledge-bg"),
+        );
+
+        // Background parallax
+        bgs.forEach((bg) => {
+          gsap.to(bg, {
+            y: 80,
+            ease: "none",
+            scrollTrigger: {
+              trigger: bg.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+        });
+
+        // Blocks fade in
+        blocks.forEach((block) => {
+          gsap.fromTo(
+            block,
+            { opacity: 0, y: 60 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
               scrollTrigger: {
-                trigger: bg.parentElement,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
+                trigger: block,
+                start: "top 80%",
+                toggleActions: "play none none reverse",
                 invalidateOnRefresh: true,
               },
-            });
-          });
-
-          // Blocks fade in
-          blocks.forEach((block) => {
-            gsap.fromTo(
-              block,
-              { opacity: 0, y: 60 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: block,
-                  start: "top 80%",
-                  toggleActions: "play none none reverse",
-                  invalidateOnRefresh: true,
-                },
-              },
-            );
-          });
-        },
-
-        "(max-width: 767px)": () => {
-          const blocks = gsap.utils.toArray<HTMLElement>(
-            ".knowledge-block-container",
+            },
           );
-          const bgs = gsap.utils.toArray<HTMLElement>(".knowledge-bg");
+        });
+      });
 
-          // Mobile parallax
-          bgs.forEach((bg) => {
-            gsap.to(bg, {
-              y: 40,
-              ease: "none",
+      mm.add("(max-width: 767px)", () => {
+        const blocks = gsap.utils.toArray<HTMLElement>(
+          ".knowledge-block-container",
+        );
+        const bgs = gsap.utils.toArray<HTMLElement>(".knowledge-bg");
+
+        // Mobile parallax
+        bgs.forEach((bg) => {
+          gsap.to(bg, {
+            y: 40,
+            ease: "none",
+            scrollTrigger: {
+              trigger: bg.parentElement,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
+          });
+        });
+
+        blocks.forEach((block) => {
+          gsap.fromTo(
+            block,
+            { opacity: 0, y: 40 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
               scrollTrigger: {
-                trigger: bg.parentElement,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: true,
+                trigger: block,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
                 invalidateOnRefresh: true,
               },
-            });
-          });
-
-          blocks.forEach((block) => {
-            gsap.fromTo(
-              block,
-              { opacity: 0, y: 40 },
-              {
-                opacity: 1,
-                y: 0,
-                duration: 0.6,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: block,
-                  start: "top 85%",
-                  toggleActions: "play none none reverse",
-                  invalidateOnRefresh: true,
-                },
-              },
-            );
-          });
-        },
+            },
+          );
+        });
       });
     },
     { scope: containerRef },
@@ -413,201 +410,222 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Block 1 */}
         <div
           id="Knowledge-1"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 1 Gradient Top */}
-          <div className="absolute top-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
+            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
-              <video
-                ref={(el) => {
-                  if (el) videoRefs.current[0] = el;
-                }}
-                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
-              />
+              {isDesktop && (
+                <video
+                  ref={(el) => {
+                    if (el) videoRefs.current[0] = el;
+                  }}
+                  src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover object-center pointer-events-none"
+                />
+              )}
               {/* Mobile */}
-              <video
-                ref={(el) => {
-                  if (el) videoRefs.current[1] = el;
-                }}
-                src="/home/knowledge-section/knowledge-video-1-mobile.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
-              />
+              {!isDesktop && (
+                <video
+                  ref={(el) => {
+                    if (el) videoRefs.current[1] = el;
+                  }}
+                  src="/home/knowledge-section/knowledge-video-1-mobile.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
+                />
+              )}
             </div>
           </div>
-          <div className="container mx-auto max-w-full lg:max-w-[90%] lg:p-0 z-10 relative">
+          <div
+            ref={measureContainerRef}
+            className="knowledge-block-container container mx-auto z-10 flex flex-col md:flex-row justify-center lg:justify-end relative"
+          >
             <div
-              ref={measureContainerRef}
-              className="knowledge-block-container flex flex-col md:flex-row justify-center lg:justify-end relative"
+              className="relative max-w-full lg:max-w-[55dvw] xl:max-w-[49dvw] 3xl:max-w-full"
+              ref={block1Ref}
             >
-              <div
-                className="relative max-w-full lg:max-w-[52dvw] xl:max-w-[49dvw] 3xl:max-w-full"
-                ref={block1Ref}
+              <KnowledgeBlock
+                title={contents[0].title}
+                triggerStart="top 75%"
+                triggerEnd="bottom 75%"
+                isFirstSection={true}
+                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
-                <KnowledgeBlock
-                  title={contents[0].title}
-                  triggerStart="top 75%"
-                  triggerEnd="bottom 75%"
-                  isFirstSection={true}
-                >
-                  <Content data={contents[0].contentDialog} />
-                </KnowledgeBlock>
-              </div>
+                <Content data={contents[0].contentDialog} />
+              </KnowledgeBlock>
+            </div>
+            {isDesktop && (
               <div
-                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
+                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20 xl:pb-22"
                 style={{ height: lineCoords.h1 }}
               >
-                <KnowledgeLine x1={lineCoords.b1} x2={lineCoords.b2} />
+                <KnowledgeLine
+                  x1={lineCoords.b1}
+                  x2={lineCoords.b2}
+                  strokeWidths={{ lg: 5, xl: 6, "3xl": 7 }}
+                  diamondSizes={{ lg: 12, xl: 14, "3xl": 16 }}
+                />
               </div>
-            </div>
+            )}
           </div>
           {/* Block 1 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-5" />
+          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
         </div>
-
         {/* Block 2 */}
         <div
           id="Knowledge-2"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 2 Gradient Top */}
-          <div className="absolute top-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
+            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
-              <video
-                ref={(el) => {
-                  if (el) videoRefs.current[2] = el;
-                }}
-                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
-              />
+              {isDesktop && (
+                <video
+                  ref={(el) => {
+                    if (el) videoRefs.current[2] = el;
+                  }}
+                  src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover object-center pointer-events-none"
+                />
+              )}
               {/* Mobile */}
-              <video
-                ref={(el) => {
-                  if (el) videoRefs.current[3] = el;
-                }}
-                src="/home/knowledge-section/knowledge-video-2-mobile.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
-              />
+              {!isDesktop && (
+                <video
+                  ref={(el) => {
+                    if (el) videoRefs.current[3] = el;
+                  }}
+                  src="/home/knowledge-section/knowledge-video-2-mobile.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
+                />
+              )}
             </div>
           </div>
-          <div className="container mx-auto max-w-full lg:max-w-[90%] lg:p-0 z-10 relative">
-            <div className="knowledge-block-container flex flex-col md:flex-row justify-center lg:justify-start relative">
-              <div
-                className="relative max-w-full lg:max-w-[51dvw] xl:max-w-[49dvw] 3xl:max-w-full"
-                ref={block2Ref}
+          <div className="knowledge-block-container container mx-auto z-10 flex flex-col md:flex-row justify-center lg:justify-start relative">
+            <div
+              className="relative max-w-full lg:max-w-[50dvw] xl:max-w-[49dvw] 3xl:max-w-full"
+              ref={block2Ref}
+            >
+              <KnowledgeBlock
+                title={contents[1].title}
+                triggerStart="top 75%"
+                triggerEnd="bottom 82%"
+                isSecondSection={true}
+                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
-                <KnowledgeBlock
-                  title={contents[1].title}
-                  triggerStart="top 75%"
-                  triggerEnd="bottom 82%"
-                  isSecondSection={true}
-                >
-                  <Content data={contents[1].contentDialog} />
-                </KnowledgeBlock>
-              </div>
+                <Content data={contents[1].contentDialog} />
+              </KnowledgeBlock>
+            </div>
+            {isDesktop && (
               <div
-                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-22"
+                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20 xl:pb-22"
                 style={{ height: lineCoords.h2 }}
               >
-                <KnowledgeLine x1={lineCoords.b2} x2={lineCoords.b3} />
+                <KnowledgeLine
+                  x1={lineCoords.b2}
+                  x2={lineCoords.b3}
+                  strokeWidths={{ lg: 5, xl: 6, "3xl": 7 }}
+                  diamondSizes={{ lg: 12, xl: 14, "3xl": 16 }}
+                />
               </div>
-            </div>
+            )}
           </div>
           {/* Block 2 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-5" />
+          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
         </div>
-
         {/* Block 3 */}
         <div
           id="Knowledge-3"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-18 sm:pt-25 lg:pt-0"
+          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 3 Gradient Top */}
-          <div className="absolute top-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg relative w-full h-full -top-10 aspect-auto">
+            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
               {/* Desktop */}
-              <video
-                ref={(el) => {
-                  if (el) videoRefs.current[4] = el;
-                }}
-                src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
-              />
+              {isDesktop && (
+                <video
+                  ref={(el) => {
+                    if (el) videoRefs.current[4] = el;
+                  }}
+                  src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full object-cover object-center pointer-events-none"
+                />
+              )}
               {/* Mobile */}
-              <video
-                ref={(el) => {
-                  if (el) videoRefs.current[5] = el;
-                }}
-                src="/home/knowledge-section/knowledge-video-3-mobile.mp4"
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
-              />
+              {!isDesktop && (
+                <video
+                  ref={(el) => {
+                    if (el) videoRefs.current[5] = el;
+                  }}
+                  src="/home/knowledge-section/knowledge-video-3-mobile.mp4"
+                  muted
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
+                />
+              )}
             </div>
           </div>
-          <div className="container mx-auto max-w-full lg:max-w-[90%] lg:p-0 z-10 relative">
-            <div className="knowledge-block-container flex flex-col md:flex-row justify-center lg:justify-end relative">
-              <div
-                className="relative max-w-full lg:max-w-[57dvw] xl:max-w-[52dvw] 3xl:max-w-full"
-                ref={block3Ref}
+          <div className="knowledge-block-container container mx-auto z-10 flex flex-col md:flex-row justify-center lg:justify-end relative">
+            <div
+              className="relative max-w-full lg:max-w-[55dvw] xl:max-w-[52dvw] 3xl:max-w-full"
+              ref={block3Ref}
+            >
+              <KnowledgeBlock
+                title={contents[2].title}
+                triggerStart="top 75%"
+                triggerEnd="bottom 77%"
+                isLastSection={true}
+                strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
-                <KnowledgeBlock
-                  title={contents[2].title}
-                  triggerStart="top 75%"
-                  triggerEnd="bottom 77%"
-                  isLastSection={true}
+                <Content data={contents[2].contentDialog} />
+                <div
+                  className={`flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-4 lg:gap-8 xl:gap-12 2xl:gap-6 3xl:gap-18`}
                 >
-                  <Content data={contents[2].contentDialog} />
-                  <div
-                    className={`flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-4 lg:gap-8 xl:gap-12 2xl:gap-6 3xl:gap-18`}
-                  >
-                    {contents[2].gridItems?.map((item, index) => (
-                      <div
-                        key={index}
-                        className="w-auto lg:w-full xl:w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-2"
-                      >
-                        <h3 className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
-                          {item.title}
-                        </h3>
-                        <p className="text-xs min-[450px]:text-sm sm:text-md md:text-lg lg:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line lg:leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    ))}
-                  </div>
-                </KnowledgeBlock>
-              </div>
+                  {contents[2].gridItems?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="w-auto lg:w-full xl:w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-0.5 lg:gap-2"
+                    >
+                      <h3 className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line lg:leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </KnowledgeBlock>
             </div>
           </div>
           {/* Block 3 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[7dvh] lg:h-[15dvh] pointer-events-none bg-linear-to-t from-[#0a1738] to-transparent z-5" />
+          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
         </div>
       </div>
     </section>

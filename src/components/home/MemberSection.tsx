@@ -85,9 +85,9 @@ export default function MemberSection() {
       id="Members"
       className="w-full h-full flex justify-center items-center"
     >
-      <div className="max-w-960 min-[3841px]:aspect-video min-[3841px]:min-h-full w-full min-h-dvh py-12 relative flex flex-col justify-center items-center">
+      <div className="max-w-960 min-[3841px]:aspect-video min-[3841px]:min-h-full w-full min-h-dvh relative flex flex-col justify-center items-center py-30 lg:py-12">
         {/* Gradient Top */}
-        <div className="absolute top-0 w-full h-[15vh] pointer-events-none bg-linear-to-b from-[#0a1738] to-transparent z-5" />
+        <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
         {/* Image Background */}
         <div className="absolute w-full h-full inset-0 aspect-auto">
           {/* Desktop */}
@@ -95,7 +95,6 @@ export default function MemberSection() {
             src={MembersBgImg}
             alt="Members Background"
             fill
-            priority
             className=" w-full h-full object-cover object-center pointer-events-none"
           />
           {/* Mobile */}
@@ -103,12 +102,11 @@ export default function MemberSection() {
             src={MembersBgMobileImg}
             alt="Members Background Mobile"
             fill
-            priority
             className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
           />
         </div>
         <motion.div
-          className="container mx-auto flex flex-col gap-12 sm:gap-16 lg:gap-24 lg:px-10 2xl:px-18 3xl:px-12 z-10"
+          className="container mx-auto flex flex-col gap-18 sm:gap-20 md:gap-22 lg:gap-20 xl:gap-24 3xl:gap-32 z-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -117,42 +115,46 @@ export default function MemberSection() {
           {/* Title */}
           <motion.h2
             variants={titleVariants}
-            className="text-2xl sm:text-3xl md:text-4xl 2xl:text-[40px] 3xl:text-5xl font-bold text-white text-center"
+            className="text-2xl sm:text-3xl md:text-[40px] lg:text-4xl 2xl:text-[40px] 3xl:text-6xl font-bold text-white text-center"
           >
             ทีมงานของเรา
           </motion.h2>
           {/* Content */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 justify-items-center gap-6 sm:gap-12 xl:gap-24 2xl:gap-6 3xl:gap-36">
+          <div className="grid grid-cols-1 lg:grid-cols-4 justify-items-center gap-14 min-[475px]:gap-18 sm:gap-20 lg:gap-0">
             {cards.map((card) => (
               <motion.article
                 key={card.id}
                 variants={sphereVariants}
-                className="w-full flex flex-col items-center xl:items-start gap-6 sm:gap-10 xl:gap-12 max-w-40 sm:max-w-50 2xl:max-w-55 3xl:max-w-75"
+                className="w-full h-full flex flex-row lg:flex-col items-start gap-6 min-[475px]:gap-16 sm:gap-20 md:gap-24 lg:gap-10 xl:gap-12 max-w-100 sm:max-w-110 md:max-w-140 lg:max-w-45 xl:max-w-50 2xl:max-w-60 3xl:max-w-80"
               >
                 {/* Photo */}
-                <div className="relative w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 cursor-pointer overflow-hidden aspect-square">
+                <div className="relative max-[475px]:w-[40%] max-[475px]:shrink-0 w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 cursor-pointer overflow-hidden aspect-square">
                   <Image
                     src={card.image}
                     alt={card.nickName || card.name}
                     fill
-                    className="object-cover object-center pointer-events-none"
+                    className="object-contain object-center pointer-events-none"
                   />
                 </div>
                 {/* Info */}
-                <div className="w-full flex flex-col items-center lg:items-start gap-3 sm:gap-4 xl:gap-5 text-center lg:text-left">
+                <div
+                  className={`w-full h-full lg:h-fit flex flex-col items-start gap-2 min-[475px]:gap-4 md:gap-5 lg:gap-4 xl:gap-5 text-left ${card.id === 1 ? "pt-2 md:pt-4 lg:pt-0" : "pt-1 lg:pt-0"}`}
+                >
                   {card.nickName && (
-                    <h3 className="text-2xl sm:text-3xl xl:text-[34px] font-bold text-[#FF3279] uppercase">
+                    <h3 className="text-xl min-[475px]:text-3xl sm:text-[34px] md:text-[45px] lg:text-3xl 2xl:text-[32px] 3xl:text-[42px] font-bold text-[#FF3279] uppercase">
                       {card.nickName}
                     </h3>
                   )}
                   <h4
-                    className={`text-lg sm:text-xl xl:text-2xl font-semibold uppercase whitespace-pre-line ${
-                      card.id === 1 ? "text-[#FF3279]" : "text-white"
+                    className={`font-semibold uppercase whitespace-pre-line ${
+                      card.id === 1
+                        ? "text-[#FF3279] text-base min-[475px]:text-xl sm:text-2xl md:text-3xl lg:text-xl 2xl:text-[22px] 3xl:text-3xl"
+                        : "text-white text-base min-[475px]:text-xl sm:text-[22px] md:text-2xl lg:text-xl 2xl:text-[22px] 3xl:text-3xl"
                     }`}
                   >
                     {card.name}
                   </h4>
-                  <p className="text-sm sm:text-base xl:text-lg font-light uppercase text-white">
+                  <p className="text-sm sm:text-base md:text-lg lg:text-base xl:text-lg 3xl:text-xl font-light uppercase text-white">
                     {card.position}
                   </p>
                 </div>
