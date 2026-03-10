@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import SmoothScrolling from "@/src/components/SmoothScrolling";
-import SoundConsentModal from "@/src/components/SoundConsentModal";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -24,13 +23,24 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <link
+          rel="preload"
+          as="video"
+          href="/logo/LogoGracie.webm"
+          type="video/webm"
+        />
+        <link
+          rel="preload"
+          as="video"
+          href="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
+          type="video/mp4"
+        />
       </head>
       <body
         className={`${ibmPlexSansThai.className} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
         <SmoothScrolling>
-          <SoundConsentModal />
           <main>{children}</main>
         </SmoothScrolling>
       </body>

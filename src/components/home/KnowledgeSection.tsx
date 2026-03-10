@@ -410,7 +410,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Block 1 */}
         <div
           id="Knowledge-1"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
+          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 1 Gradient Top */}
           <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
@@ -422,7 +422,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   ref={(el) => {
                     if (el) videoRefs.current[0] = el;
                   }}
-                  src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-1.mp4"
+                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1.mp4"
                   muted
                   loop
                   playsInline
@@ -436,7 +436,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   ref={(el) => {
                     if (el) videoRefs.current[1] = el;
                   }}
-                  src="/home/knowledge-section/knowledge-video-1-mobile.mp4"
+                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1-mobile.mp4"
                   muted
                   loop
                   playsInline
@@ -448,7 +448,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
           </div>
           <div
             ref={measureContainerRef}
-            className="knowledge-block-container container mx-auto z-10 flex flex-col md:flex-row justify-center lg:justify-end relative"
+            className="knowledge-block-container container mx-auto max-w-none z-10 flex flex-col md:flex-row justify-center lg:justify-end relative"
           >
             <div
               className="relative max-w-full lg:max-w-[55dvw] xl:max-w-[49dvw] 3xl:max-w-full"
@@ -484,7 +484,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Block 2 */}
         <div
           id="Knowledge-2"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
+          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 2 Gradient Top */}
           <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
@@ -496,7 +496,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   ref={(el) => {
                     if (el) videoRefs.current[2] = el;
                   }}
-                  src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-2.mp4"
+                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2.mp4"
                   muted
                   loop
                   playsInline
@@ -510,7 +510,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   ref={(el) => {
                     if (el) videoRefs.current[3] = el;
                   }}
-                  src="/home/knowledge-section/knowledge-video-2-mobile.mp4"
+                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2-mobile.mp4"
                   muted
                   loop
                   playsInline
@@ -520,7 +520,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
               )}
             </div>
           </div>
-          <div className="knowledge-block-container container mx-auto z-10 flex flex-col md:flex-row justify-center lg:justify-start relative">
+          <div className="knowledge-block-container container mx-auto max-w-none z-10 flex flex-col md:flex-row justify-center lg:justify-start relative">
             <div
               className="relative max-w-full lg:max-w-[50dvw] xl:max-w-[49dvw] 3xl:max-w-full"
               ref={block2Ref}
@@ -555,7 +555,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Block 3 */}
         <div
           id="Knowledge-3"
-          className="w-full h-dvh max-h-dvh lg:max-h-[95dvh] xl:max-h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
+          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
           {/* Block 3 Gradient Top */}
           <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
@@ -567,7 +567,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   ref={(el) => {
                     if (el) videoRefs.current[4] = el;
                   }}
-                  src="https://fomo-thesis.jedsadapornnew05.workers.dev/video/knowledge/knowledge-video-3.mp4"
+                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3.mp4"
                   muted
                   loop
                   playsInline
@@ -581,7 +581,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                   ref={(el) => {
                     if (el) videoRefs.current[5] = el;
                   }}
-                  src="/home/knowledge-section/knowledge-video-3-mobile.mp4"
+                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3-mobile.mp4"
                   muted
                   loop
                   playsInline
@@ -591,7 +591,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
               )}
             </div>
           </div>
-          <div className="knowledge-block-container container mx-auto z-10 flex flex-col md:flex-row justify-center lg:justify-end relative">
+          <div className="knowledge-block-container container mx-auto max-w-none z-10 flex flex-col md:flex-row justify-center lg:justify-end relative">
             <div
               className="relative max-w-full lg:max-w-[55dvw] xl:max-w-[52dvw] 3xl:max-w-full"
               ref={block3Ref}

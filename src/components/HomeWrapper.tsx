@@ -11,6 +11,7 @@ import MainNav from "@/src/components/layout/MainNav";
 import HeroSection from "@/src/components/home/HeroSection";
 import SmallScreenOverlay from "./SmallScreenOverlay";
 import { useAudioStore } from "@/src/store/useAudioStore";
+import SoundConsentModal from "./SoundConsentModal";
 
 const KnowledgeSection = dynamic(
   () => import("@/src/components/home/KnowledgeSection"),
@@ -138,6 +139,7 @@ export default function HomeWrapper() {
   return (
     <>
       {preloader && <Preloader onComplete={handlePreloaderComplete} />}
+      <SoundConsentModal />
 
       <div
         style={{
