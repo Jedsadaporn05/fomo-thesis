@@ -106,7 +106,7 @@ export default function MemberSection() {
           />
         </div>
         <motion.div
-          className="container mx-auto flex flex-col gap-18 sm:gap-20 md:gap-22 lg:gap-20 xl:gap-24 3xl:gap-32 z-10"
+          className="container mx-auto max-w-none flex flex-col gap-18 sm:gap-20 md:gap-22 lg:gap-20 xl:gap-24 3xl:gap-32 z-10"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"

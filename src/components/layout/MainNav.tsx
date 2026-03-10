@@ -181,7 +181,7 @@ export default function MainNav() {
       <nav className="w-full h-full flex flex-row justify-between items-center">
         {/* Left Side */}
         <div className="flex flex-row justify-start">
-          <button onClick={() => scrollToSection("Hero")}>
+          <button type="button" onClick={() => scrollToSection("Hero")}>
             <Image
               src={navLogo}
               alt="navLogo"
@@ -196,7 +196,10 @@ export default function MainNav() {
         <div className="flex flex-row justify-end gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
           <Dialog>
             <DialogTrigger asChild>
-              <button className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10">
+              <button
+                type="button"
+                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10"
+              >
                 <div className="relative flex items-center justify-center">
                   <Music2
                     strokeWidth={2.5}
@@ -234,6 +237,7 @@ export default function MainNav() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
                       <button
+                        type="button"
                         onClick={toggleBgmMute}
                         className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group"
                       >
@@ -268,6 +272,7 @@ export default function MainNav() {
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
                       <button
+                        type="button"
                         onClick={toggleSfxMute}
                         className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group"
                       >
@@ -307,6 +312,7 @@ export default function MainNav() {
             <DropdownMenuTrigger asChild>
               <div className="relative inline-flex outline-none">
                 <button
+                  type="button"
                   onClick={() =>
                     playSFX("click", "/sounds/interactive/click-1.mp3")
                   }
@@ -347,7 +353,7 @@ export default function MainNav() {
                     scrollToSection(item.href);
                     setOpen(false);
                   }}
-                  className={`group relative flex items-center justify-between gap-3.5 text-xs sm:text-sm md:text-base lg:text-lg 3xl:text-xl cursor-pointer rounded-lg px-3.5 py-2.5 3xl:py-3 font-medium transition-all duration-300 ease-out outline-none overflow-hidden focus:bg-transparent focus:text-none
+                  className={`group relative flex items-center justify-between gap-1.5 sm:gap-2.5 lg:gap-3.5 text-xs sm:text-sm md:text-base lg:text-lg 3xl:text-xl cursor-pointer rounded-lg px-3.5 py-2.5 3xl:py-3 font-medium transition-all duration-300 ease-out outline-none overflow-hidden focus:bg-transparent focus:text-none
                     ${
                       activeSection === item.href
                         ? "text-[#FF2D77]"
