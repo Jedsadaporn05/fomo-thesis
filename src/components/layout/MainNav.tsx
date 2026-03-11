@@ -121,7 +121,7 @@ export default function MainNav() {
   useEffect(() => {
     const observerOptions = {
       root: null,
-      rootMargin: "-25% 0px -25% 0px",
+      rootMargin: "-40% 0px -40% 0px",
       threshold: 0,
     };
 

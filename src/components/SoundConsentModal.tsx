@@ -108,7 +108,7 @@ export default function SoundConsentModal({ isReady }: SoundConsentModalProps) {
                   ref={grantButtonRef}
                   onClick={grantPermission}
                   aria-label="เปิดเสียงประกอบเรื่องราว"
-                  className="flex-1 py-2.5 lg:py-3 rounded-xl bg-[#FF2D77] hover:bg-[#E01560] font-semibold transition flex items-center justify-center gap-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1635]"
+                  className="flex-1 py-2.5 lg:py-3 rounded-xl bg-[#FF2D77]/85 hover:bg-[#E01560]/90 font-semibold transition flex items-center justify-center gap-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1635]"
                 >
                   <Volume2
                     className="size-5 lg:size-6"
