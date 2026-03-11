@@ -166,8 +166,10 @@ export default function HomeWrapper() {
   return (
     <>
       {preloaderActive && <Preloader onComplete={handlePreloaderComplete} />}
+      
+      <SoundConsentModal isReady={!preloaderActive} />
 
-      <SoundConsentModal />
+      {/* Main Content Container */}
       <div
         aria-hidden={preloaderActive}
         style={{
@@ -179,7 +181,7 @@ export default function HomeWrapper() {
       >
         <MainNav />
         <HeroSection
-          startAnimation={!preloaderActive && permission !== "unknown"}
+          startAnimation={!preloaderActive}
         />
         <KnowledgeSection startAnimation={!preloaderActive} />
         <MemberSection />

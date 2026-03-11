@@ -69,7 +69,6 @@ export default function MainNav() {
     setSfxVolume,
     toggleBgmMute,
     toggleSfxMute,
-    playSFX,
     bgmEnabled,
     sfxEnabled,
   } = useAudioStore();
@@ -170,12 +169,10 @@ export default function MainNav() {
         ${!showNavbar ? "-translate-y-full" : "translate-y-0"}
        `}
     >
-      {/* Background Shadow Gradient */}
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-20 lg:h-25 lg:bg-linear-to-b from-[#1A060D]/40 to-transparent -z-10"
         aria-hidden="true"
       />
-
       <nav
         className="w-full h-full flex flex-row justify-between items-center"
         aria-label="Main navigation"
@@ -357,9 +354,6 @@ export default function MainNav() {
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                onClick={() =>
-                  playSFX("click", "/sounds/interactive/click-1.mp3")
-                }
                 aria-label={open ? "ปิดเมนู" : "เปิดเมนูนำทาง"}
                 className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
               >
