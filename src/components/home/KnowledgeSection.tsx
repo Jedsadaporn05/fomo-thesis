@@ -184,7 +184,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
   const isDesktop = useIsDesktop();
   const containerRef = useRef<HTMLDivElement>(null);
   const measureContainerRef = useRef<HTMLDivElement>(null);
-  const videoRefs = useRef<HTMLVideoElement[]>([]);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
   const block1Ref = useRef<HTMLDivElement>(null);
   const block2Ref = useRef<HTMLDivElement>(null);
   const block3Ref = useRef<HTMLDivElement>(null);
@@ -197,7 +197,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     h2: 150,
   });
 
-  // IntersectionObserver
+  // IntersectionObserver for lazy loading videos
   useEffect(() => {
     const section = containerRef.current;
     if (!section) return;
@@ -210,7 +210,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
       },
       {
         root: null,
-        rootMargin: "500px 0px",
+        rootMargin: "600px 0px",
         threshold: 0,
       },
     );
@@ -219,28 +219,24 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     return () => observer.disconnect();
   }, []);
 
-  // Warm preload videos
+  // Warm preload & play videos based on visibility and animation status
   useEffect(() => {
     if (!isNearViewport) return;
 
     videoRefs.current.forEach((video) => {
       if (!video) return;
+
       video.load();
+
+      if (startAnimation) {
+        video.play().catch(() => {
+          // ignore autoplay block
+        });
+      }
     });
-  }, [isNearViewport]);
+  }, [isNearViewport, startAnimation, isDesktop]);
 
-  // Play video after startAnimation ready
-  useEffect(() => {
-    if (!startAnimation || !isNearViewport) return;
-
-    videoRefs.current.forEach((video) => {
-      video?.play().catch(() => {
-        // ignore autoplay block
-      });
-    });
-  }, [startAnimation, isNearViewport]);
-
-  // Line Coords
+  // Line Coords Calculation
   useEffect(() => {
     if (!isDesktop) return;
 
@@ -262,7 +258,6 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
 
         const containerRect =
           measureContainerRef.current.getBoundingClientRect();
-
         const r1 = block1Ref.current.getBoundingClientRect();
         const r2 = block2Ref.current.getBoundingClientRect();
         const r3 = block3Ref.current.getBoundingClientRect();
@@ -294,11 +289,8 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     };
 
     const observer = new ResizeObserver(updateCoords);
-
-    if (measureContainerRef.current) {
+    if (measureContainerRef.current)
       observer.observe(measureContainerRef.current);
-    }
-
     updateCoords();
 
     return () => {
@@ -307,27 +299,23 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     };
   }, [isDesktop]);
 
-  // GSAP and Media Queries
+  // GSAP Parallax and Animations
   useGSAP(
     () => {
       if (!containerRef.current) return;
 
       ScrollTrigger.saveStyles(".knowledge-bg, .knowledge-block-container");
-
       const mm = gsap.matchMedia();
 
-      mm.add("(min-width: 768px)", () => {
-        const blocks = gsap.utils.toArray<HTMLElement>(
-          ".knowledge-block-container",
-        );
+      // Helper function to create parallax
+      const createParallax = (yVal: number) => {
         const bgs = gsap.utils.toArray<HTMLElement>(
-          containerRef.current!.querySelectorAll(".knowledge-bg"),
+          ".knowledge-bg",
+          containerRef.current!,
         );
-
-        // Background parallax
         bgs.forEach((bg) => {
           gsap.to(bg, {
-            y: 80,
+            y: yVal,
             ease: "none",
             scrollTrigger: {
               trigger: bg.parentElement,
@@ -338,68 +326,49 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
             },
           });
         });
+      };
 
-        // Blocks fade in
+      // Helper for block animations
+      const createBlockAnimations = (
+        yVal: number,
+        startPos: string,
+        duration: number,
+      ) => {
+        const blocks = gsap.utils.toArray<HTMLElement>(
+          ".knowledge-block-container",
+          containerRef.current!,
+        );
         blocks.forEach((block) => {
           gsap.fromTo(
             block,
-            { opacity: 0, y: 60 },
+            { opacity: 0, y: yVal },
             {
               opacity: 1,
               y: 0,
-              duration: 0.8,
+              duration: duration,
               ease: "power2.out",
               scrollTrigger: {
                 trigger: block,
-                start: "top 80%",
+                start: startPos,
                 toggleActions: "play none none reverse",
                 invalidateOnRefresh: true,
               },
             },
           );
         });
+      };
+
+      mm.add("(min-width: 768px)", () => {
+        createParallax(80);
+        createBlockAnimations(60, "top 80%", 0.8);
       });
 
       mm.add("(max-width: 767px)", () => {
-        const blocks = gsap.utils.toArray<HTMLElement>(
-          ".knowledge-block-container",
-        );
-        const bgs = gsap.utils.toArray<HTMLElement>(".knowledge-bg");
-
-        // Mobile parallax
-        bgs.forEach((bg) => {
-          gsap.to(bg, {
-            y: 40,
-            ease: "none",
-            scrollTrigger: {
-              trigger: bg.parentElement,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: true,
-              invalidateOnRefresh: true,
-            },
-          });
-        });
-
-        blocks.forEach((block) => {
-          gsap.fromTo(
-            block,
-            { opacity: 0, y: 40 },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: block,
-                start: "top 85%",
-                toggleActions: "play none none reverse",
-                invalidateOnRefresh: true,
-              },
-            },
-          );
-        });
+        createParallax(40);
+        createBlockAnimations(40, "top 85%", 0.6);
       });
+
+      return () => mm.revert();
     },
     { scope: containerRef },
   );
@@ -407,43 +376,33 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
   return (
     <section ref={containerRef} className="w-full h-full flex justify-center">
       <div className="max-w-960 min-[3841px]:aspect-9/16 w-full h-full relative flex flex-col items-center overflow-hidden">
-        {/* Block 1 */}
+        {/* Knowledge 1 */}
         <div
           id="Knowledge-1"
           className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
-          {/* Block 1 Gradient Top */}
-          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
+          <div
+            className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5"
+            aria-hidden="true"
+          />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
-              {/* Desktop */}
-              {isDesktop && (
-                <video
-                  ref={(el) => {
-                    if (el) videoRefs.current[0] = el;
-                  }}
-                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1.mp4"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover object-center pointer-events-none"
-                />
-              )}
-              {/* Mobile */}
-              {!isDesktop && (
-                <video
-                  ref={(el) => {
-                    if (el) videoRefs.current[1] = el;
-                  }}
-                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1-mobile.mp4"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
-                />
-              )}
+            <div className="knowledge-bg relative w-full h-full -top-10">
+              <video
+                ref={(el) => {
+                  videoRefs.current[0] = el;
+                }}
+                src={
+                  isDesktop
+                    ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1.mp4"
+                    : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1-mobile.mp4"
+                }
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-hidden="true"
+                className={`w-full h-full object-cover object-center pointer-events-none ${!isDesktop ? "md:scale-126 lg:scale-100" : ""}`}
+              />
             </div>
           </div>
           <div
@@ -466,7 +425,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
             </div>
             {isDesktop && (
               <div
-                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20 xl:pb-22"
+                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20 3xl:pb-22"
                 style={{ height: lineCoords.h1 }}
               >
                 <KnowledgeLine
@@ -478,46 +437,38 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
               </div>
             )}
           </div>
-          {/* Block 1 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
+          <div
+            className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5"
+            aria-hidden="true"
+          />
         </div>
-        {/* Block 2 */}
+        {/* Knowledge 2 */}
         <div
           id="Knowledge-2"
           className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
-          {/* Block 2 Gradient Top */}
-          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
+          <div
+            className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5"
+            aria-hidden="true"
+          />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
-              {/* Desktop */}
-              {isDesktop && (
-                <video
-                  ref={(el) => {
-                    if (el) videoRefs.current[2] = el;
-                  }}
-                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2.mp4"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover object-center pointer-events-none"
-                />
-              )}
-              {/* Mobile */}
-              {!isDesktop && (
-                <video
-                  ref={(el) => {
-                    if (el) videoRefs.current[3] = el;
-                  }}
-                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2-mobile.mp4"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
-                />
-              )}
+            <div className="knowledge-bg relative w-full h-full -top-10">
+              <video
+                ref={(el) => {
+                  videoRefs.current[1] = el;
+                }}
+                src={
+                  isDesktop
+                    ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2.mp4"
+                    : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2-mobile.mp4"
+                }
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-hidden="true"
+                className={`w-full h-full object-cover object-center pointer-events-none ${!isDesktop ? "md:scale-126 lg:scale-100" : ""}`}
+              />
             </div>
           </div>
           <div className="knowledge-block-container container mx-auto max-w-none z-10 flex flex-col md:flex-row justify-center lg:justify-start relative">
@@ -537,7 +488,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
             </div>
             {isDesktop && (
               <div
-                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20 xl:pb-22"
+                className="hidden lg:block absolute top-full left-0 w-full z-10 pointer-events-none pt-12 pb-20 3xl:pb-22"
                 style={{ height: lineCoords.h2 }}
               >
                 <KnowledgeLine
@@ -549,46 +500,39 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
               </div>
             )}
           </div>
-          {/* Block 2 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
+          <div
+            className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5"
+            aria-hidden="true"
+          />
         </div>
-        {/* Block 3 */}
+
+        {/* Knowledge 3 */}
         <div
           id="Knowledge-3"
           className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
         >
-          {/* Block 3 Gradient Top */}
-          <div className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5" />
+          <div
+            className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5"
+            aria-hidden="true"
+          />
           <div className="absolute inset-0 w-full h-full z-0 pointer-events-none overflow-hidden">
-            <div className="knowledge-bg  relative w-full h-full -top-10 aspect-auto">
-              {/* Desktop */}
-              {isDesktop && (
-                <video
-                  ref={(el) => {
-                    if (el) videoRefs.current[4] = el;
-                  }}
-                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3.mp4"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full object-cover object-center pointer-events-none"
-                />
-              )}
-              {/* Mobile */}
-              {!isDesktop && (
-                <video
-                  ref={(el) => {
-                    if (el) videoRefs.current[5] = el;
-                  }}
-                  src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3-mobile.mp4"
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  className="w-full h-full md:scale-126 lg:scale-100 object-cover object-center pointer-events-none"
-                />
-              )}
+            <div className="knowledge-bg relative w-full h-full -top-10">
+              <video
+                ref={(el) => {
+                  videoRefs.current[2] = el;
+                }}
+                src={
+                  isDesktop
+                    ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3.mp4"
+                    : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3-mobile.mp4"
+                }
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-hidden="true"
+                className={`w-full h-full object-cover object-center pointer-events-none ${!isDesktop ? "md:scale-126 lg:scale-100" : ""}`}
+              />
             </div>
           </div>
           <div className="knowledge-block-container container mx-auto max-w-none z-10 flex flex-col md:flex-row justify-center lg:justify-end relative">
@@ -604,17 +548,15 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 strokeWidths={{ base: 2, sm: 3, md: 4, lg: 5, xl: 6, "3xl": 7 }}
               >
                 <Content data={contents[2].contentDialog} />
-                <div
-                  className={`flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-4 lg:gap-8 xl:gap-12 2xl:gap-6 3xl:gap-18`}
-                >
+                <div className="flex flex-col lg:flex-row justify-between items-start gap-3 md:gap-4 lg:gap-8 xl:gap-12 2xl:gap-6 3xl:gap-18">
                   {contents[2].gridItems?.map((item, index) => (
                     <div
                       key={index}
                       className="w-auto lg:w-full xl:w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-0.5 lg:gap-2"
                     >
-                      <h3 className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
+                      <p className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
                         {item.title}
-                      </h3>
+                      </p>
                       <p className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line lg:leading-relaxed">
                         {item.description}
                       </p>
@@ -624,8 +566,10 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
               </KnowledgeBlock>
             </div>
           </div>
-          {/* Block 3 Gradient Bottom */}
-          <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5" />
+          <div
+            className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-5"
+            aria-hidden="true"
+          />
         </div>
       </div>
     </section>

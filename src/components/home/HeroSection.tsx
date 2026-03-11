@@ -23,11 +23,10 @@ export default function HeroSection({ startAnimation }: HeroProps) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springConfig = { stiffness: 40, damping: 25, mass: 1 };
-  const range = 32; // default value 32
+  const range = 32;
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
-  const desktopVideoRef = useRef<HTMLVideoElement | null>(null);
-  const mobileVideoRef = useRef<HTMLVideoElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const translateX = useTransform(
     smoothX,
@@ -46,22 +45,25 @@ export default function HeroSection({ startAnimation }: HeroProps) {
   const { scrollY } = useScroll();
   const opacity = useTransform(scrollY, [0, 150], [1, 0]);
 
+  // Video playback and source management
   useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
     if (!startAnimation) {
       mouseX.set(0);
       mouseY.set(0);
+      video.pause();
       return;
     }
 
-    if (isDesktop) {
-      desktopVideoRef.current?.play().catch(() => {});
-      mobileVideoRef.current?.pause();
-    } else {
-      mobileVideoRef.current?.play().catch(() => {});
-      desktopVideoRef.current?.pause();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [startAnimation, isDesktop]);
+    // Force reload video source if it changes due to resize
+    video.load();
+
+    video.play().catch(() => {
+      // Autoplay might be blocked by browser
+    });
+  }, [startAnimation, isDesktop, mouseX, mouseY]);
 
   useEffect(() => {
     return () => {
@@ -74,9 +76,9 @@ export default function HeroSection({ startAnimation }: HeroProps) {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDesktop || !startAnimation) return;
     if (rafRef.current) return;
+
     const target = e.currentTarget;
-    const clientX = e.clientX;
-    const clientY = e.clientY;
+    const { clientX, clientY } = e;
 
     rafRef.current = requestAnimationFrame(() => {
       const rect = target.getBoundingClientRect();
@@ -122,37 +124,29 @@ export default function HeroSection({ startAnimation }: HeroProps) {
       className="w-full h-full flex justify-center items-center"
       onMouseMove={isDesktop && startAnimation ? handleMouseMove : undefined}
       onMouseLeave={handleMouseLeave}
+      aria-label="Hero Section"
     >
       <div className="flex justify-center items-center relative w-full h-dvh overflow-hidden">
         <motion.div
           style={{ translateX, translateY }}
           className="absolute inset-0 md:scale-126 lg:scale-100 xl:scale-[1.05] will-change-transform pointer-events-none aspect-auto"
+          aria-hidden="true"
         >
-          {/* Desktop */}
-          {isDesktop && (
-            <video
-              ref={desktopVideoRef}
-              src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="hidden lg:block w-full h-full object-cover object-center pointer-events-none"
-            />
-          )}
-          {/* Mobile */}
-          {!isDesktop && (
-            <video
-              ref={mobileVideoRef}
-              src="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video-mobile.mp4"
-              muted
-              loop
-              playsInline
-              preload="auto"
-              className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
-            />
-          )}
+          <video
+            ref={videoRef}
+            src={
+              isDesktop
+                ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
+                : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video-mobile.mp4"
+            }
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            className="w-full h-full object-cover object-center pointer-events-none"
+          />
         </motion.div>
+
         {/* Text on Image */}
         <div className="container mx-auto max-w-none z-10 w-full h-full relative flex flex-col justify-end lg:justify-center items-center min-[1024px]:items-end min-[3841px]:items-center pb-40 sm:pb-45 md:pb-50 lg:pb-0">
           <motion.div
@@ -168,33 +162,39 @@ export default function HeroSection({ startAnimation }: HeroProps) {
             >
               <Image
                 src={Logo}
-                alt="heroLogo"
+                alt="FOMO The Missing Out - Logo"
                 width={500}
                 height={500}
                 priority
-                className="max-w-50 sm:max-w-60 md:max-w-70 lg:max-w-80 xl:max-w-90 2xl:max-w-100 3xl:max-w-125 h-full object-contain object-center"
+                className="max-w-50 sm:max-w-60 md:max-w-70 lg:max-w-80 xl:max-w-90 2xl:max-w-100 3xl:max-w-125 h-full object-contain object-center pointer-events-none"
               />
-              <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold tracking-wider text-[#FF2D77] text-center">
+              <h1 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold tracking-wider text-[#FF2D77] text-center">
                 THE MISSING OUT
-              </p>
+              </h1>
             </motion.div>
-            {/* Button */}
             <Link
-              href={"/story"}
-              className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:*:text-primary"
+              href="/story"
+              aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
+              className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:*:text-primary group"
             >
-              <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
-              <p className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-semibold text-white/90">
+              <div
+                className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                aria-hidden="true"
+              />
+              <span className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-semibold text-white/90">
                 คลิกเพื่อเข้าสู่เรื่องราว
-              </p>
-              <div className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent" />
+              </span>
+              <div
+                className="w-full h-0.5 sm:h-0.75 lg:h-1 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                aria-hidden="true"
+              />
             </Link>
           </motion.div>
         </div>
-        {/* Scroll Indicator */}
         <motion.div
           style={{ opacity }}
           className="absolute bottom-[5dvh] lg:bottom-[5.25dvh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30 pointer-events-none"
+          aria-hidden="true"
         >
           <div className="w-5.25 sm:w-5.5 md:w-6 3xl:w-6.5 h-8.5 sm:h-9 md:h-9.5 3xl:h-10 border-2 border-white/30 rounded-full flex justify-center p-0.5 sm:p-1 relative bg-white/5 backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.05)]">
             <motion.div
@@ -214,8 +214,11 @@ export default function HeroSection({ startAnimation }: HeroProps) {
             Scroll
           </span>
         </motion.div>
-        {/* Blur Bottom */}
-        <div className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-20" />
+        {/* Bottom Fade Gradient */}
+        <div
+          className="absolute bottom-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-t from-[#0f1636] to-transparent z-20"
+          aria-hidden="true"
+        />
       </div>
     </section>
   );

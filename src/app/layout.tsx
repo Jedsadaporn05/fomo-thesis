@@ -29,12 +29,6 @@ export default function RootLayout({
           href="/logo/LogoGracie.webm"
           type="video/webm"
         />
-        <link
-          rel="preload"
-          as="video"
-          href="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
-          type="video/mp4"
-        />
       </head>
       <body
         className={`${ibmPlexSansThai.className} antialiased custom-scrollbar`}

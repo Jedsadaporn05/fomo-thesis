@@ -82,7 +82,7 @@ export default function MainNav() {
     }
   };
 
-  // Navbar Scroll and Hide
+  // Navbar Scroll and Hide Logic
   const lastScrollY = useRef(0);
   const ticking = useRef(false);
   const [showNavbar, setShowNavbar] = useState(true);
@@ -108,7 +108,6 @@ export default function MainNav() {
           lastScrollY.current = currentScrollY;
           ticking.current = false;
         });
-
         ticking.current = true;
       }
     };
@@ -119,54 +118,49 @@ export default function MainNav() {
 
   const [activeSection, setActiveSection] = useState<string>("Hero");
 
+  // IntersectionObserver to detect active section
   useEffect(() => {
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -25% 0px",
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveSection(entry.target.id);
         }
       });
-    };
+    }, observerOptions);
 
-    const observerOptions = {
-      root: null,
-      rootMargin: "-50% 0px -50% 0px",
-      threshold: 0,
-    };
+    // Polling mechanism to handle Dynamic Components (ssr: false)
+    const observedIds = new Set<string>();
 
-    const observer = new IntersectionObserver(
-      observerCallback,
-      observerOptions,
-    );
-
-    const observedElements = new Set<string>();
-
-    // eslint-disable-next-line prefer-const
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-
-    const checkAndObserve = () => {
+    const startObserving = () => {
       menuItems.forEach((item) => {
-        if (!observedElements.has(item.href)) {
+        if (!observedIds.has(item.href)) {
           const el = document.getElementById(item.href);
           if (el) {
             observer.observe(el);
-            observedElements.add(item.href);
+            observedIds.add(item.href);
           }
         }
       });
 
-      if (observedElements.size === menuItems.length && intervalId) {
-        clearInterval(intervalId);
+      // Stop polling if all items are found
+      if (observedIds.size === menuItems.length) {
+        clearInterval(pollInterval);
       }
     };
 
-    checkAndObserve();
+    const pollInterval = setInterval(startObserving, 500);
 
-    intervalId = setInterval(checkAndObserve, 500);
+    startObserving();
 
     return () => {
       observer.disconnect();
-      if (intervalId) clearInterval(intervalId);
+      clearInterval(pollInterval);
     };
   }, []);
 
@@ -176,33 +170,49 @@ export default function MainNav() {
         ${!showNavbar ? "-translate-y-full" : "translate-y-0"}
        `}
     >
-      {/* Shadow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-20 lg:h-25 lg:bg-linear-to-b from-[#1A060D]/40 to-transparent -z-10" />
-      <nav className="w-full h-full flex flex-row justify-between items-center">
-        {/* Left Side */}
+      {/* Background Shadow Gradient */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-screen h-20 lg:h-25 lg:bg-linear-to-b from-[#1A060D]/40 to-transparent -z-10"
+        aria-hidden="true"
+      />
+
+      <nav
+        className="w-full h-full flex flex-row justify-between items-center"
+        aria-label="Main navigation"
+      >
+        {/* Logo Section */}
         <div className="flex flex-row justify-start">
-          <button type="button" onClick={() => scrollToSection("Hero")}>
+          <button
+            type="button"
+            onClick={() => scrollToSection("Hero")}
+            aria-label="กลับไปที่หน้าแรกด้านบนสุด"
+            className="outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] rounded-lg transition-all"
+          >
             <Image
               src={navLogo}
-              alt="navLogo"
+              alt="FOMO The Missing Out Logo"
               width={400}
               height={400}
+              draggable="false"
               className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 3xl:w-45 object-cover cursor-pointer"
               priority
             />
           </button>
         </div>
-        {/* Right Side */}
+        {/* Action Buttons */}
         <div className="flex flex-row justify-end gap-1.5 sm:gap-2 md:gap-3 lg:gap-4">
+          {/* Audio Settings Dialog */}
           <Dialog>
             <DialogTrigger asChild>
               <button
                 type="button"
-                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10"
+                aria-label="ตั้งค่าเสียงประกอบ"
+                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
               >
                 <div className="relative flex items-center justify-center">
                   <Music2
                     strokeWidth={2.5}
+                    aria-hidden="true"
                     className={`size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ${
                       bgmEnabled
                         ? "text-[#E51E5A] scale-100"
@@ -213,6 +223,7 @@ export default function MainNav() {
                     className={`absolute bg-white h-[1.25px] sm:h-[1.5px] md:h-[1.75px] lg:h-0.75 rounded-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -rotate-45 transition-all duration-300 ease-out ${
                       !bgmEnabled ? "w-[120%] opacity-100" : "w-0 opacity-0"
                     }`}
+                    aria-hidden="true"
                   />
                 </div>
               </button>
@@ -224,39 +235,57 @@ export default function MainNav() {
                     การตั้งค่าเสียง
                   </DialogTitle>
                 </DialogHeader>
-                <DialogClose className="text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer">
+                <DialogClose
+                  className="text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer outline-none focus-visible:text-[#E51E5A]"
+                  aria-label="ปิดหน้าต่างตั้งค่า"
+                >
                   <XIcon
                     strokeWidth={3}
                     className="size-4 sm:size-5 md:size-6"
+                    aria-hidden="true"
                   />
                 </DialogClose>
               </div>
               <div className="flex flex-col gap-8 py-2">
                 <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-7 px-1">
-                  {/* BGM */}
+                  {/* BGM Control */}
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
                       <button
                         type="button"
                         onClick={toggleBgmMute}
-                        className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group"
+                        aria-label={
+                          bgmEnabled ? "ปิดดนตรีประกอบ" : "เปิดดนตรีประกอบ"
+                        }
+                        className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group outline-none"
                       >
                         <div
-                          className={`p-2 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors ${
+                          className={`p-2 rounded-lg bg-white/5 group-hover:bg-white/10 group-focus-visible:ring-2 group-focus-visible:ring-[#FF2D77] transition-colors ${
                             bgmVolume === 0 ? "text-gray-500" : "text-[#E51E5A]"
                           }`}
                         >
                           {bgmEnabled && bgmVolume > 0 ? (
-                            <Music size={20} className="text-[#E51E5A]" />
+                            <Music
+                              size={20}
+                              className="text-[#E51E5A]"
+                              aria-hidden="true"
+                            />
                           ) : (
-                            <VolumeX size={20} className="text-gray-500" />
+                            <VolumeX
+                              size={20}
+                              className="text-gray-500"
+                              aria-hidden="true"
+                            />
                           )}
                         </div>
                         <span className="text-sm sm:text-base md:text-lg 3xl:text-xl font-medium">
                           ดนตรีประกอบ
                         </span>
                       </button>
-                      <span className="text-sm sm:text-base md:text-lg 3xl:text-xl text-[#E51E5A] font-medium text-right">
+                      <span
+                        className="text-sm sm:text-base md:text-lg 3xl:text-xl text-[#E51E5A] font-medium"
+                        aria-live="polite"
+                      >
                         {Math.round(bgmVolume * 100)}%
                       </span>
                     </div>
@@ -265,34 +294,49 @@ export default function MainNav() {
                       max={1}
                       step={0.01}
                       onValueChange={(val) => setBgmVolume(val[0])}
-                      className="cursor-pointer py-1 sm:py-1.25 md:py-1.5 lg:py-1.75 xl:py-2"
+                      aria-label="ปรับระดับเสียงดนตรีประกอบ"
+                      className="cursor-pointer py-1"
                     />
                   </div>
-                  {/* SFX */}
+
+                  {/* SFX Control */}
                   <div className="space-y-3">
                     <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
                       <button
                         type="button"
                         onClick={toggleSfxMute}
-                        className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group"
+                        aria-label={
+                          sfxEnabled ? "ปิดเอฟเฟกต์เสียง" : "เปิดเอฟเฟกต์เสียง"
+                        }
+                        className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group outline-none"
                       >
                         <div
-                          className={`p-2 rounded-lg bg-white/5 group-hover:bg-white/10 transition-colors ${
+                          className={`p-2 rounded-lg bg-white/5 group-hover:bg-white/10 group-focus-visible:ring-2 group-focus-visible:ring-blue-400 transition-colors ${
                             sfxVolume === 0 ? "text-gray-500" : "text-blue-400"
                           }`}
                         >
                           {sfxEnabled && sfxVolume > 0 ? (
-                            <Speaker size={20} className="text-blue-400" />
+                            <Speaker
+                              size={20}
+                              className="text-blue-400"
+                              aria-hidden="true"
+                            />
                           ) : (
-                            <VolumeX size={20} className="text-gray-500" />
+                            <VolumeX
+                              size={20}
+                              className="text-gray-500"
+                              aria-hidden="true"
+                            />
                           )}
                         </div>
                         <span className="text-sm sm:text-base md:text-lg 3xl:text-xl font-medium">
                           เอฟเฟกต์เสียง
                         </span>
                       </button>
-
-                      <span className="text-sm sm:text-base md:text-lg 3xl:text-xl text-blue-400 font-bold-mefont-medium-right">
+                      <span
+                        className="text-sm sm:text-base md:text-lg 3xl:text-xl text-blue-400 font-medium"
+                        aria-live="polite"
+                      >
                         {Math.round(sfxVolume * 100)}%
                       </span>
                     </div>
@@ -301,7 +345,8 @@ export default function MainNav() {
                       max={1}
                       step={0.01}
                       onValueChange={(val) => setSfxVolume(val[0])}
-                      className="cursor-pointer py-1 sm:py-1.25 md:py-1.5 lg:py-1.75 xl:py-2"
+                      aria-label="ปรับระดับเสียงเอฟเฟกต์"
+                      className="cursor-pointer py-1"
                     />
                   </div>
                 </div>
@@ -310,37 +355,31 @@ export default function MainNav() {
           </Dialog>
           <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
             <DropdownMenuTrigger asChild>
-              <div className="relative inline-flex outline-none">
-                <button
-                  type="button"
-                  onClick={() =>
-                    playSFX("click", "/sounds/interactive/click-1.mp3")
-                  }
-                  className={`cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none`}
-                >
-                  <div className="relative flex items-center justify-center w-full h-full">
-                    <Menu
-                      strokeWidth={2.5}
-                      className={`absolute size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
-                        ${
-                          open
-                            ? "opacity-0 rotate-90 scale-50"
-                            : "opacity-100 rotate-0 scale-100 group-hover:text-white"
-                        }`}
-                    />
-                    <X
-                      strokeWidth={2.5}
-                      className={`absolute size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
-                        ${
-                          open
-                            ? "opacity-100 rotate-0 scale-100 text-[#E51E5A]"
-                            : "opacity-0 -rotate-90 scale-50"
-                        }`}
-                    />
-                  </div>
-                </button>
-              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  playSFX("click", "/sounds/interactive/click-1.mp3")
+                }
+                aria-label={open ? "ปิดเมนู" : "เปิดเมนูนำทาง"}
+                className="cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+              >
+                <div className="relative flex items-center justify-center w-full h-full">
+                  <Menu
+                    strokeWidth={2.5}
+                    aria-hidden="true"
+                    className={`absolute size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                        ${open ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100 group-hover:text-white"}`}
+                  />
+                  <X
+                    strokeWidth={2.5}
+                    aria-hidden="true"
+                    className={`absolute size-4 sm:size-5 md:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                        ${open ? "opacity-100 rotate-0 scale-100 text-[#E51E5A]" : "opacity-0 -rotate-90 scale-50"}`}
+                  />
+                </div>
+              </button>
             </DropdownMenuTrigger>
+
             <DropdownMenuContent
               align="end"
               sideOffset={12}
@@ -353,21 +392,13 @@ export default function MainNav() {
                     scrollToSection(item.href);
                     setOpen(false);
                   }}
-                  className={`group relative flex items-center justify-between gap-1.5 sm:gap-2.5 lg:gap-3.5 text-xs sm:text-sm md:text-base lg:text-lg 3xl:text-xl cursor-pointer rounded-lg px-3.5 py-2.5 3xl:py-3 font-medium transition-all duration-300 ease-out outline-none overflow-hidden focus:bg-transparent focus:text-none
-                    ${
-                      activeSection === item.href
-                        ? "text-[#FF2D77]"
-                        : "text-white hover:text-[#FF2D77]"
-                    }
+                  className={`group relative flex items-center justify-between gap-1.5 sm:gap-2.5 lg:gap-3.5 text-xs sm:text-sm md:text-base lg:text-lg 3xl:text-xl cursor-pointer rounded-lg px-3.5 py-2.5 3xl:py-3 font-medium transition-all duration-300 ease-out outline-none overflow-hidden focus:bg-transparent focus:text-[#FF2D77]
+                    ${activeSection === item.href ? "text-[#FF2D77]" : "text-white hover:text-[#FF2D77]"}
                   `}
                 >
                   <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                   <span
-                    className={`relative z-10 transition-transform duration-300 ${
-                      activeSection !== item.href
-                        ? "group-hover:translate-x-2"
-                        : ""
-                    }`}
+                    className={`relative z-10 transition-transform duration-300 ${activeSection !== item.href ? "group-hover:translate-x-2" : ""}`}
                   >
                     {item.title}
                   </span>
@@ -385,6 +416,7 @@ export default function MainNav() {
                         <Eye
                           className="size-4 sm:size-5 lg:size-6 xl:size-7 pb-0.75 xl:pb-1.25 text-[#FF2D77] drop-shadow-[0_0_3px_rgba(255,45,119,0.6)]"
                           strokeWidth={2}
+                          aria-hidden="true"
                         />
                       </motion.div>
                     )}

@@ -48,23 +48,21 @@ export default function KnowledgeBlock({
   const rightPathRef = useRef<SVGPathElement>(null);
   const strokeWidth = useBreakpointValue(strokeWidths) ?? 5;
 
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [titleRect, setTitleRect] = useState({
+  // Combined state for all layout measurements
+  const [layout, setLayout] = useState({
     width: 0,
     height: 0,
-    x: 0,
-    y: 0,
+    titleW: 0,
+    titleX: 0,
   });
 
-  // Resize observer
+  // Resize observer to track container and title dimensions
   useEffect(() => {
     const container = containerRef.current;
     const titleEl = titleRef.current;
     if (!container || !titleEl) return;
 
     let rafId: number | null = null;
-
-    let refreshTimeout: number | NodeJS.Timeout;
 
     const update = () => {
       if (rafId) return;
@@ -75,33 +73,23 @@ export default function KnowledgeBlock({
         const c = container.getBoundingClientRect();
         const t = titleEl.getBoundingClientRect();
 
-        setDimensions((prev) =>
-          prev.width === c.width && prev.height === c.height
-            ? prev
-            : { width: c.width, height: c.height },
-        );
-
-        setTitleRect((prev) => {
+        setLayout((prev) => {
           const next = {
-            width: t.width,
-            height: t.height,
-            x: t.left - c.left,
-            y: t.top - c.top,
+            width: c.width,
+            height: c.height,
+            titleW: t.width,
+            titleX: t.left - c.left,
           };
 
-          return prev.width === next.width &&
-            prev.height === next.height &&
-            prev.x === next.x &&
-            prev.y === next.y
-            ? prev
-            : next;
-        });
+          // Only update if values actually changed more than 1px
+          const isChanged =
+            Math.abs(prev.width - next.width) > 1 ||
+            Math.abs(prev.height - next.height) > 1 ||
+            Math.abs(prev.titleW - next.titleW) > 1 ||
+            Math.abs(prev.titleX - next.titleX) > 1;
 
-        // Force a scroll trigger refresh when dimensions change
-        clearTimeout(refreshTimeout);
-        refreshTimeout = setTimeout(() => {
-          ScrollTrigger.refresh(true);
-        }, 150);
+          return isChanged ? next : prev;
+        });
       });
     };
 
@@ -114,23 +102,28 @@ export default function KnowledgeBlock({
     return () => {
       observer.disconnect();
       if (rafId) cancelAnimationFrame(rafId);
-      clearTimeout(refreshTimeout);
     };
   }, []);
 
-  const { width, height } = dimensions;
+  const { width, height, titleW, titleX } = layout;
+
+  // Calculate SVG properties
   const isMobile =
     typeof window !== "undefined" ? window.innerWidth < 768 : false;
   const r = isMobile ? 24 : 48;
   const safeW = width > 0 ? width : 100;
   const safeH = height > 0 ? height : 100;
-  const tStart = titleRect.x - 10;
-  const tEnd = titleRect.x + titleRect.width + 10;
 
-  // Prepare paths
-  const leftPath = React.useMemo(() => {
+  // Title gap offsets
+  const tStart = titleX - 10;
+  const tEnd = titleX + titleW + 10;
+
+  // Prepare SVG paths with useMemo to avoid recalculation on unrelated renders
+  const { leftPath, rightPath } = React.useMemo(() => {
     const startLeft = Math.max(r, Math.min(safeW - r, tStart));
-    return `
+    const startRight = Math.max(r, Math.min(safeW - r, tEnd));
+
+    const lp = `
         M ${startLeft} 0
         L ${r} 0
         Q 0 0 0 ${r}
@@ -138,11 +131,8 @@ export default function KnowledgeBlock({
         Q 0 ${safeH} ${r} ${safeH}
         L ${safeW / 2} ${safeH}
      `;
-  }, [r, safeW, safeH, tStart]);
 
-  const rightPath = React.useMemo(() => {
-    const startRight = Math.max(r, Math.min(safeW - r, tEnd));
-    return `
+    const rp = `
         M ${startRight} 0
         L ${safeW - r} 0
         Q ${safeW} 0 ${safeW} ${r}
@@ -150,61 +140,57 @@ export default function KnowledgeBlock({
         Q ${safeW} ${safeH} ${safeW - r} ${safeH}
         L ${safeW / 2} ${safeH}
      `;
-  }, [r, safeW, safeH, tEnd]);
+
+    return { leftPath: lp, rightPath: rp };
+  }, [r, safeW, safeH, tStart, tEnd]);
 
   useGSAP(
     () => {
-      if (
-        !leftPathRef.current ||
-        !rightPathRef.current ||
-        !containerRef.current
-      )
-        return;
-
       const left = leftPathRef.current;
       const right = rightPathRef.current;
+      const container = containerRef.current;
+
+      if (!left || !right || !container) return;
+
       const lLength = left.getTotalLength();
       const rLength = right.getTotalLength();
 
       if (lLength === 0 || rLength === 0) return;
 
-      gsap.set([left, right], { strokeWidth: strokeWidth, autoAlpha: 1 });
+      // Initial state
+      gsap.set([left, right], {
+        strokeWidth: strokeWidth,
+        autoAlpha: 1,
+        strokeDasharray: (i) => (i === 0 ? lLength : rLength),
+        strokeDashoffset: (i) => (i === 0 ? lLength : rLength),
+      });
 
-      gsap.fromTo(
-        left,
-        { strokeDasharray: lLength, strokeDashoffset: lLength },
-        {
+      // Unified animation for both paths
+      const paths = [left, right];
+
+      paths.forEach((path) => {
+        gsap.to(path, {
           strokeDashoffset: 0,
           ease: "power2.out",
           scrollTrigger: {
-            trigger: containerRef.current,
+            trigger: container,
             start: triggerStart,
             end: triggerEnd,
             scrub: 1,
             invalidateOnRefresh: true,
           },
-        },
-      );
-
-      gsap.fromTo(
-        right,
-        { strokeDasharray: rLength, strokeDashoffset: rLength },
-        {
-          strokeDashoffset: 0,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: triggerStart,
-            end: triggerEnd,
-            scrub: 1,
-            invalidateOnRefresh: true,
-          },
-        },
-      );
+        });
+      });
     },
     {
       scope: containerRef,
-      dependencies: [leftPath, rightPath, strokeWidth],
+      dependencies: [
+        leftPath,
+        rightPath,
+        strokeWidth,
+        triggerStart,
+        triggerEnd,
+      ],
     },
   );
 
@@ -259,7 +245,7 @@ export default function KnowledgeBlock({
             alt="FOMO"
             width={400}
             height={400}
-            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[60px] lg:h-[65px] 2xl:h-[70px] 3xl:h-[100px] object-contain shrink-0"
+            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[60px] lg:h-[65px] 2xl:h-[70px] 3xl:h-[100px] object-contain shrink-0 pointer-events-none"
           />
           <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl sm:text-4xl md:text-[42px] 2xl:text-[52px] 3xl:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
@@ -270,7 +256,7 @@ export default function KnowledgeBlock({
               alt="Question Mark"
               width={400}
               height={400}
-              className="w-auto h-[23px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] xl:h-[80px] 3xl:h-[90px] object-contain shrink-0"
+              className="w-auto h-[23px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] xl:h-[80px] 3xl:h-[90px] object-contain shrink-0 pointer-events-none"
             />
           )}
         </div>
