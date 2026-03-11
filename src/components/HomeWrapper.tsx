@@ -31,18 +31,36 @@ export default function HomeWrapper() {
   const playBGM = useAudioStore((s) => s.playBGM);
   const permission = useAudioStore((s) => s.permission);
 
+  const lastBreakpoint = useRef<string>("");
+
+  const timeoutRefs = useRef<
+    Record<string, ReturnType<typeof setTimeout> | null>
+  >({
+    resize: null,
+    refresh: null,
+    ready: null,
+    load: null,
+  });
+
+  // Cleanup helper with proper typing
+  const clearRefTimeout = (key: string) => {
+    const timeout = timeoutRefs.current[key];
+    if (timeout) {
+      clearTimeout(timeout);
+      timeoutRefs.current[key] = null;
+    }
+  };
+
+  // Audio Playback
   useEffect(() => {
     if (permission === "granted") {
       playBGM("home", "/sounds/music/homepage-bgm.mp3");
     }
   }, [permission, playBGM]);
 
-  const lastBreakpoint = useRef<string>("");
-
-  // Handle Resize Force Refresh for GSAP stability and Check if screen is less then <320px
+  // Screen Check & Breakpoint Logic
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 319px)");
-
     const handleSmallScreenChange = (
       e: MediaQueryListEvent | MediaQueryList,
     ) => {
@@ -62,74 +80,83 @@ export default function HomeWrapper() {
     };
 
     lastBreakpoint.current = getBreakpoint();
-    let timeoutId: number | null = null;
 
     const handleResizeForGSAP = () => {
       if (mediaQuery.matches) return;
-
       const current = getBreakpoint();
 
       if (current !== lastBreakpoint.current) {
         lastBreakpoint.current = current;
-
-        if (timeoutId) clearTimeout(timeoutId);
-
         setIsRefreshing(true);
 
-        timeoutId = window.setTimeout(() => {
+        clearRefTimeout("resize");
+        timeoutRefs.current.resize = setTimeout(() => {
           ScrollTrigger.refresh(true);
 
-          window.setTimeout(() => {
+          clearRefTimeout("refresh");
+          timeoutRefs.current.refresh = setTimeout(() => {
             setIsRefreshing(false);
           }, 150);
-        }, 200);
+        }, 250);
       }
     };
 
-    window.addEventListener("resize", handleResizeForGSAP);
-    window.addEventListener("orientationchange", handleResizeForGSAP);
+    window.addEventListener("resize", handleResizeForGSAP, { passive: true });
+    window.addEventListener("orientationchange", handleResizeForGSAP, {
+      passive: true,
+    });
+
+    const currentTimeouts = { ...timeoutRefs.current };
 
     return () => {
       mediaQuery.removeEventListener("change", handleSmallScreenChange);
       window.removeEventListener("resize", handleResizeForGSAP);
       window.removeEventListener("orientationchange", handleResizeForGSAP);
-      if (timeoutId) clearTimeout(timeoutId);
+      Object.keys(currentTimeouts).forEach((key) => {
+        const timeout = currentTimeouts[key];
+        if (timeout) {
+          clearTimeout(timeout);
+        }
+      });
     };
   }, []);
 
   const handlePreloaderComplete = () => setIsReady(true);
-  const preloader = !isReady || isRefreshing;
+  const preloaderActive = !isReady || isRefreshing;
 
+  // Body Scroll Management & Initial Refresh
   useEffect(() => {
-    if (preloader) {
+    if (preloaderActive) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
 
-      setTimeout(() => {
+      clearRefTimeout("ready");
+      timeoutRefs.current.ready = setTimeout(() => {
         ScrollTrigger.refresh(true);
-      }, 100);
+      }, 150);
     }
 
     return () => {
       document.body.style.overflow = "";
     };
-  }, [preloader]);
+  }, [preloaderActive]);
 
+  // Window Load Fallback
   useEffect(() => {
     const handleWindowLoad = () => {
-      setTimeout(() => {
+      clearRefTimeout("load");
+      timeoutRefs.current.load = setTimeout(() => {
         ScrollTrigger.refresh(true);
-      }, 200);
+      }, 300);
     };
 
     if (document.readyState === "complete") {
       handleWindowLoad();
     } else {
-      window.addEventListener("load", handleWindowLoad);
+      window.addEventListener("load", handleWindowLoad, { once: true });
+      return () => window.removeEventListener("load", handleWindowLoad);
     }
-
-    return () => window.removeEventListener("load", handleWindowLoad);
   }, []);
 
   if (isSmallScreen) {
@@ -138,19 +165,23 @@ export default function HomeWrapper() {
 
   return (
     <>
-      {preloader && <Preloader onComplete={handlePreloaderComplete} />}
-      <SoundConsentModal />
+      {preloaderActive && <Preloader onComplete={handlePreloaderComplete} />}
 
+      <SoundConsentModal />
       <div
+        aria-hidden={preloaderActive}
         style={{
-          opacity: preloader ? 0 : 1,
-          pointerEvents: preloader ? "none" : "auto",
-          transition: "opacity 0.4s ease",
+          opacity: preloaderActive ? 0 : 1,
+          pointerEvents: preloaderActive ? "none" : "auto",
+          transition: "opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          willChange: "opacity",
         }}
       >
         <MainNav />
-        <HeroSection startAnimation={!preloader && permission !== "unknown"} />
-        <KnowledgeSection startAnimation={!preloader} />
+        <HeroSection
+          startAnimation={!preloaderActive && permission !== "unknown"}
+        />
+        <KnowledgeSection startAnimation={!preloaderActive} />
         <MemberSection />
       </div>
     </>

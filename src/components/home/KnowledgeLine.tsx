@@ -78,13 +78,13 @@ export default function KnowledgeLine({
 
   const [size, setSize] = useState({ width: 0, height: 0 });
 
-  // Resize observer
+  // Resize observer with proper cleanup
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
     let rafId: number | null = null;
-    let refreshTimeout: number | NodeJS.Timeout;
+    let refreshTimeout: NodeJS.Timeout;
 
     const ro = new ResizeObserver(([entry]) => {
       const { width, height } = entry.contentRect;
@@ -99,7 +99,7 @@ export default function KnowledgeLine({
 
         clearTimeout(refreshTimeout);
         refreshTimeout = setTimeout(() => {
-          ScrollTrigger.refresh(true);
+          ScrollTrigger.refresh();
         }, 150);
       });
     });
@@ -115,102 +115,81 @@ export default function KnowledgeLine({
 
   const { width, height } = size;
 
-  // Calculate start and end X positions
-  const startX = (x1 / 100) * width;
-  const endX = (x2 / 100) * width;
-
-  // Calculate path
-  const path = useMemo(() => {
-    if (!width || !height) return "";
-    return getOrthogonalPath(startX, endX, height, 60);
-  }, [width, height, startX, endX]);
-
-  const half = diamondSize;
+  // Memoized positions and paths
+  const { startX, endX, path } = useMemo(() => {
+    const sX = (x1 / 100) * width;
+    const eX = (x2 / 100) * width;
+    return {
+      startX: sX,
+      endX: eX,
+      path: width && height ? getOrthogonalPath(sX, eX, height, 60) : "",
+    };
+  }, [width, height, x1, x2]);
 
   const diamondPath = useCallback(
     (cx: number, cy: number) => `
-    M ${cx} ${cy - half}
-    L ${cx + half} ${cy}
-    L ${cx} ${cy + half}
-    L ${cx - half} ${cy}
+    M ${cx} ${cy - diamondSize}
+    L ${cx + diamondSize} ${cy}
+    L ${cx} ${cy + diamondSize}
+    L ${cx - diamondSize} ${cy}
     Z
   `,
-    [half],
+    [diamondSize],
   );
 
   useGSAP(
     () => {
-      if (!pathRef.current || !width || !height) return;
+      const line = pathRef.current;
+      const startD = startDiamondRef.current;
+      const endD = endDiamondRef.current;
+      const container = containerRef.current;
 
-      const length = pathRef.current.getTotalLength();
+      if (!line || !width || !height || !container) return;
 
+      const length = line.getTotalLength();
       if (length === 0) return;
 
-      gsap.set(pathRef.current, {
+      // Reset states
+      gsap.set(line, {
         strokeDasharray: length,
         strokeDashoffset: length,
         autoAlpha: 0,
       });
-
-      gsap.set([startDiamondRef.current, endDiamondRef.current], {
-        autoAlpha: 0,
-      });
+      gsap.set([startD, endD], { autoAlpha: 0 });
 
       const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: containerRef.current,
+          trigger: container,
           start: "top 65%",
           end: "bottom 80%",
           scrub: 0.8,
           invalidateOnRefresh: true,
         },
-        defaults: {
-          immediateRender: false,
-        },
       });
 
-      if (hasDiamondStart && startDiamondRef.current) {
-        tl.to(
-          startDiamondRef.current,
-          {
-            autoAlpha: 1,
-            duration: 0.05,
-            ease: "power1.out",
-          },
-          0,
-        );
+      // Animation Sequence
+      if (hasDiamondStart && startD) {
+        tl.to(startD, { autoAlpha: 1, duration: 0.05 }, 0);
       }
 
-      // Draw line
       tl.to(
-        pathRef.current,
-        {
-          autoAlpha: 1,
-          strokeDashoffset: 0,
-          duration: 1,
-          ease: "none",
-        },
+        line,
+        { autoAlpha: 1, strokeDashoffset: 0, duration: 1, ease: "none" },
         0,
       );
 
-      if (hasDiamondEnd && endDiamondRef.current) {
-        tl.to(
-          endDiamondRef.current,
-          {
-            autoAlpha: 1,
-            duration: 0.1,
-            ease: "power1.out",
-          },
-          0.9,
-        );
+      if (hasDiamondEnd && endD) {
+        tl.to(endD, { autoAlpha: 1, duration: 0.1 }, 0.9);
       }
 
       return () => {
-        tl.scrollTrigger?.kill();
         tl.kill();
       };
     },
-    { dependencies: [path, width, height], scope: containerRef },
+    {
+      dependencies: [path, width, height, hasDiamondStart, hasDiamondEnd],
+      scope: containerRef,
+    },
   );
 
   if (!width || !height) {

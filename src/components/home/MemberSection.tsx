@@ -95,6 +95,7 @@ export default function MemberSection() {
             src={MembersBgImg}
             alt="Members Background"
             fill
+            sizes="100vw"
             className=" w-full h-full object-cover object-center pointer-events-none"
           />
           {/* Mobile */}
@@ -102,6 +103,7 @@ export default function MemberSection() {
             src={MembersBgMobileImg}
             alt="Members Background Mobile"
             fill
+            sizes="100vw"
             className="block lg:hidden w-full h-full object-cover object-center pointer-events-none"
           />
         </div>
@@ -110,7 +112,7 @@ export default function MemberSection() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
           {/* Title */}
           <motion.h2
@@ -133,6 +135,7 @@ export default function MemberSection() {
                     src={card.image}
                     alt={card.nickName || card.name}
                     fill
+                    sizes="(max-width: 1024px) 50vw, 25vw"
                     className="object-contain object-center pointer-events-none"
                   />
                 </div>
@@ -145,7 +148,7 @@ export default function MemberSection() {
                       {card.nickName}
                     </h3>
                   )}
-                  <h4
+                  <h3
                     className={`font-semibold uppercase whitespace-pre-line ${
                       card.id === 1
                         ? "text-[#FF3279] text-base min-[475px]:text-xl sm:text-2xl md:text-3xl lg:text-xl 2xl:text-[22px] 3xl:text-3xl"
@@ -153,7 +156,7 @@ export default function MemberSection() {
                     }`}
                   >
                     {card.name}
-                  </h4>
+                  </h3>
                   <p className="text-sm sm:text-base md:text-lg lg:text-base xl:text-lg 3xl:text-xl font-light uppercase text-white">
                     {card.position}
                   </p>
