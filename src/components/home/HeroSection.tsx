@@ -173,7 +173,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
               </h1>
             </motion.div>
             <Link
-              href="/story"
+              href="/fomo"
               aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
               className="w-full flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer transition-all blink hover:*:text-primary group"
             >
