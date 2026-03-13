@@ -71,7 +71,7 @@ export default function SoundConsentModal({ isReady }: SoundConsentModalProps) {
           className="fixed inset-0 z-100 flex items-center justify-center bg-[#0a1738]/95 backdrop-blur-sm px-6"
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          transition={{ duration: 1, ease: "easeOut" }}
           role="presentation"
         >
           <motion.div
@@ -84,7 +84,7 @@ export default function SoundConsentModal({ isReady }: SoundConsentModalProps) {
             initial={{ opacity: 0, y: 40, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
           >
             <div className="flex flex-col items-center text-center gap-6">
               <div
