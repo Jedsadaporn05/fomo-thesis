@@ -69,6 +69,8 @@ export default function SoundConsentModal({ isReady }: SoundConsentModalProps) {
           onWheelCapture={stopScrollPropagation}
           onTouchMoveCapture={stopScrollPropagation}
           className="fixed inset-0 z-100 flex items-center justify-center bg-[#0a1738]/95 backdrop-blur-sm px-6"
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           role="presentation"
         >
