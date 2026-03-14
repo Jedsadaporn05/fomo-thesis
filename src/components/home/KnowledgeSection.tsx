@@ -291,10 +291,18 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     const observer = new ResizeObserver(updateCoords);
     if (measureContainerRef.current)
       observer.observe(measureContainerRef.current);
+    if (block2Ref.current) observer.observe(block2Ref.current);
+    if (block3Ref.current) observer.observe(block3Ref.current);
+
+    window.addEventListener("resize", updateCoords);
+    document.addEventListener("fullscreenchange", updateCoords);
+
     updateCoords();
 
     return () => {
       observer.disconnect();
+      window.removeEventListener("resize", updateCoords);
+      document.removeEventListener("fullscreenchange", updateCoords);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, [isDesktop]);

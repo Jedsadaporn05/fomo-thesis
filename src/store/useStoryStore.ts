@@ -1,28 +1,30 @@
 import { create } from "zustand";
-
-export type SceneId =
-  | "intro"
-  | "scene-1"
-  | "capture"
-  | "evaluation"
-  | "good-ending"
-  | "bad-ending"
-  | "to-be-continue";
+import { SceneId } from "../components/story/SceneConfig";
 
 type StoryState = {
   currentSceneId: SceneId;
+  isStoryStarted: boolean;
+  isPaused: boolean;
   score: number;
   history: SceneId[];
 
+  setStoryStarted: (started: boolean) => void;
+  setPaused: (paused: boolean) => void;
   goToScene: (id: SceneId) => void;
   addScore: (amount: number) => void;
   resetStory: () => void;
 };
 
 export const useStoryStore = create<StoryState>((set) => ({
-  currentSceneId: "intro",
+  currentSceneId: "scene-1",
+  isStoryStarted: false,
+  isPaused: false,
   score: 0,
   history: [],
+
+  setStoryStarted: (started) => set({ isStoryStarted: started }),
+
+  setPaused: (paused) => set({ isPaused: paused }),
 
   goToScene: (id) =>
     set((state) => ({
@@ -37,7 +39,9 @@ export const useStoryStore = create<StoryState>((set) => ({
 
   resetStory: () =>
     set({
-      currentSceneId: "intro",
+      currentSceneId: "scene-1",
+      isStoryStarted: false,
+      isPaused: false,
       score: 0,
       history: [],
     }),
