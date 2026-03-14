@@ -201,7 +201,10 @@ export const useAudioStore = create<AudioState>()(
         syncVideoVolume: (video) => {
           if (!video) return;
           const { bgmEnabled, videoVolume } = get();
-          video.volume = bgmEnabled ? videoVolume : 0;
+
+          const targetVolume = bgmEnabled ? videoVolume : 0;
+          video.volume = targetVolume;
+          video.muted = targetVolume === 0;
         },
       };
     },

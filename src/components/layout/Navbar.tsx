@@ -243,7 +243,7 @@ export default function Navbar() {
             type="button"
             aria-label={isFullscreen ? "ขยายเต็มหน้าจอ" : "ย่อหน้าจอ"}
             onClick={toggleFullscreen}
-            className={`cursor-pointer group flex items-center justify-center w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
+            className={`hidden xl:flex items-center justify-center cursor-pointer group w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
           >
             <div className="relative flex items-center justify-center w-full h-full">
               <Maximize
@@ -287,129 +287,114 @@ export default function Navbar() {
                 </div>
               </button>
             </DialogTrigger>
-            <DialogContent className="w-full max-w-80 sm:max-w-90 md:max-w-95 lg:max-w-100 xl:max-w-105 2xl:max-w-110 rounded-2xl bg-[#0a1635]/90 backdrop-blur-xl border border-white/5 text-white shadow-2xl p-5 sm:p-6">
-              <div className="flex flex-row justify-between items-center">
-                <DialogHeader>
-                  <DialogTitle className="text-start text-white font-medium text-base sm:text-lg md:text-xl 3xl:text-2xl tracking-wide">
-                    การตั้งค่าเสียง
-                  </DialogTitle>
-                </DialogHeader>
-                <DialogClose
-                  className="text-white hover:text-[#E51E5A] transition-colors duration-300 cursor-pointer outline-none focus-visible:text-[#E51E5A]"
-                  aria-label="ปิดหน้าต่างตั้งค่า"
-                >
-                  <XIcon
-                    strokeWidth={3}
-                    className="size-4 sm:size-5 md:size-6"
-                    aria-hidden="true"
-                  />
-                </DialogClose>
+            <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-4 overflow-hidden outline-none">
+              <div className="relative px-3 xl:px-2 pt-1">
+                <div className="flex flex-row justify-between items-end border-white/10 mb-1">
+                  <DialogHeader>
+                    <DialogTitle className="text-lg sm:text-xl md:text-2xl xl:text-[26px] font-black tracking-tight text-white">
+                      การตั้งค่าเสียง
+                    </DialogTitle>
+                  </DialogHeader>
+                  <DialogClose className="py-2 transition-all group cursor-pointer">
+                    <XIcon
+                      strokeWidth={2.5}
+                      size={24}
+                      className="text-white group-hover:text-[#FF2D77] group-hover:rotate-90 transition-all duration-300"
+                    />
+                  </DialogClose>
+                </div>
               </div>
-              <div className="flex flex-col gap-8 py-2">
-                <div className="space-y-4 sm:space-y-5 md:space-y-6 lg:space-y-7 px-1">
-                  {/* Master Audio Control */}
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
+              <div className="px-3 xl:px-2 pb-2 space-y-6">
+                {/* BGM */}
+                <div className="relative group">
+                  <div
+                    className={`p-4 sm:p-5 md:p-6 rounded-2xl bg-white/3 border border-white/10 transition-all duration-500 ${!bgmEnabled && "opacity-40 grayscale"}`}
+                  >
+                    <div className="flex justify-between items-center mb-0 xl:mb-6">
                       <button
                         type="button"
                         onClick={toggleBgmMute}
-                        aria-label={
-                          bgmEnabled ? "ปิดเสียงประกอบ" : "เปิดเสียงประกอบ"
-                        }
-                        className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group outline-none"
+                        className="flex items-center gap-5 outline-none cursor-pointer"
                       >
                         <div
-                          className={`p-2 rounded-lg bg-white/5 group-hover:bg-white/10 group-focus-visible:ring-2 group-focus-visible:ring-[#FF2D77] transition-colors ${
-                            !bgmEnabled || bgmVolume === 0
-                              ? "text-gray-500"
-                              : "text-[#E51E5A]"
-                          }`}
+                          className={`relative p-4 rounded-2xl transition-all duration-500 ${bgmEnabled ? "bg-[#FF2D77] shadow-[0_0_20px_rgba(255,45,119,0.4)]" : "bg-white/5"}`}
                         >
-                          {bgmEnabled && bgmVolume > 0 ? (
-                            <Music
-                              size={20}
-                              className="text-[#E51E5A]"
-                              aria-hidden="true"
-                            />
+                          {bgmEnabled ? (
+                            <Music size={24} className="text-white" />
                           ) : (
-                            <VolumeX
-                              size={20}
-                              className="text-gray-500"
-                              aria-hidden="true"
-                            />
+                            <VolumeX size={24} className="text-white/40" />
                           )}
                         </div>
-                        <span className="text-sm sm:text-base md:text-lg 3xl:text-xl font-medium">
-                          เสียงประกอบ
-                        </span>
+                        <div>
+                          <h3 className="text-base sm:text-lg md:text-xl font-black text-white tracking-wide">
+                            เสียงประกอบ
+                          </h3>
+                        </div>
                       </button>
-                      <span
-                        className="text-sm sm:text-base md:text-lg 3xl:text-xl text-[#E51E5A] font-medium"
-                        aria-live="polite"
-                      >
-                        {Math.round(bgmVolume * 100)}%
-                      </span>
+                      <div className="hidden xl:flex flex-col items-end">
+                        <span className="text-2xl font-black text-white">
+                          {Math.round(bgmVolume * 100)}
+                          <span className="text-base opacity-40 ml-1.25">
+                            %
+                          </span>
+                        </span>
+                      </div>
                     </div>
-                    <Slider
-                      value={[bgmVolume]}
-                      max={1}
-                      step={0.01}
-                      onValueChange={(val) => setBgmVolume(val[0])}
-                      aria-label="ปรับระดับเสียงประกอบ"
-                      className="cursor-pointer py-1"
-                    />
+                    <div className="hidden xl:block px-1">
+                      <Slider
+                        value={[bgmVolume]}
+                        max={1}
+                        step={0.01}
+                        onValueChange={(val) => setBgmVolume(val[0])}
+                        className="cursor-pointer"
+                      />
+                    </div>
                   </div>
-                  {/* SFX Control */}
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center text-sm sm:text-base font-medium text-gray-200">
+                </div>
+                {/* SFX */}
+                <div className="relative group">
+                  <div
+                    className={`p-4 sm:p-5 md:p-6 rounded-2xl bg-white/3 border border-white/10 transition-all duration-500 ${!sfxEnabled && "opacity-40 grayscale"}`}
+                  >
+                    <div className="flex justify-between items-center mb-0 xl:mb-6">
                       <button
                         type="button"
                         onClick={toggleSfxMute}
-                        aria-label={
-                          sfxEnabled ? "ปิดเอฟเฟกต์เสียง" : "เปิดเอฟเฟกต์เสียง"
-                        }
-                        className="flex items-center gap-3 cursor-pointer transition-colors duration-300 group outline-none"
+                        className="flex items-center gap-5 outline-none cursor-pointer"
                       >
                         <div
-                          className={`p-2 rounded-lg bg-white/5 group-hover:bg-white/10 group-focus-visible:ring-2 group-focus-visible:ring-blue-400 transition-colors ${
-                            !sfxEnabled || sfxVolume === 0
-                              ? "text-gray-500"
-                              : "text-blue-400"
-                          }`}
+                          className={`relative p-4 rounded-2xl transition-all duration-500 ${sfxEnabled ? "bg-[#FF2D77] shadow-[0_0_20px_rgba(255,45,119,0.4)]" : "bg-white/5"}`}
                         >
-                          {sfxEnabled && sfxVolume > 0 ? (
-                            <Speaker
-                              size={20}
-                              className="text-blue-400"
-                              aria-hidden="true"
-                            />
+                          {sfxEnabled ? (
+                            <Speaker size={24} className="text-white" />
                           ) : (
-                            <VolumeX
-                              size={20}
-                              className="text-gray-500"
-                              aria-hidden="true"
-                            />
+                            <VolumeX size={24} className="text-white/40" />
                           )}
                         </div>
-                        <span className="text-sm sm:text-base md:text-lg 3xl:text-xl font-medium">
-                          เอฟเฟกต์เสียง
-                        </span>
+                        <div>
+                          <h3 className="text-base sm:text-lg md:text-xl font-black text-white tracking-wide">
+                            เอฟเฟกต์เสียง
+                          </h3>
+                        </div>
                       </button>
-                      <span
-                        className="text-sm sm:text-base md:text-lg 3xl:text-xl text-blue-400 font-medium"
-                        aria-live="polite"
-                      >
-                        {Math.round(sfxVolume * 100)}%
-                      </span>
+                      <div className="hidden xl:flex flex-col items-end">
+                        <span className="text-2xl font-black text-white">
+                          {Math.round(sfxVolume * 100)}
+                          <span className="text-base opacity-40 ml-1.25">
+                            %
+                          </span>
+                        </span>
+                      </div>
                     </div>
-                    <Slider
-                      value={[sfxVolume]}
-                      max={1}
-                      step={0.01}
-                      onValueChange={(val) => setSfxVolume(val[0])}
-                      aria-label="ปรับระดับเสียงเอฟเฟกต์"
-                      className="cursor-pointer py-1"
-                    />
+                    <div className="hidden xl:block px-1">
+                      <Slider
+                        value={[sfxVolume]}
+                        max={1}
+                        step={0.01}
+                        onValueChange={(val) => setSfxVolume(val[0])}
+                        className="cursor-pointer"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -436,36 +421,48 @@ export default function Navbar() {
                   </div>
                 </button>
               </DialogTrigger>
-              <DialogContent className="w-full max-w-80 sm:max-w-90 md:max-w-95 lg:max-w-100 xl:max-w-105 2xl:max-w-110 rounded-2xl bg-[#0a1635]/90 backdrop-blur-xl border border-white/5 text-white shadow-2xl p-5 sm:p-6">
-                <DialogHeader>
-                  <DialogTitle className="text-start text-white font-semibold text-base sm:text-lg md:text-xl 3xl:text-2xl tracking-wide">
-                    ยืนยันการออกจากเรื่องราว
-                  </DialogTitle>
-                </DialogHeader>
-                <div className="flex flex-col items-start gap-6">
-                  <p className="text-xs sm:text-sm md:text-base 3xl:text-lg font-normal text-white text-start">
-                    หากคุณออกตอนนี้เรื่องราวทั้งหมด
-                    <br />
-                    <span className="text-xs sm:text-sm md:text-base 3xl:text-lg font-medium text-[#FF2D77]">
-                      จะเริ่มต้นใหม่และไม่มีการบันทึกความคืบหน้า
-                    </span>
-                  </p>
-                  <div className="flex flex-row justify-center gap-3 sm:gap-4 w-full">
+              <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-4 overflow-hidden outline-none">
+                <div className="relative px-1 sm:px-2 xl:px-3 pt-1">
+                  <div className="flex flex-row justify-between items-end border-white/10">
+                    <DialogHeader>
+                      <DialogTitle className="text-lg sm:text-xl md:text-2xl xl:text-[26px] font-black tracking-tight text-white">
+                        ยืนยันการออกจากเรื่องราว
+                      </DialogTitle>
+                    </DialogHeader>
+                    <DialogClose
+                      onClick={onCancelExit}
+                      className="py-2 transition-all group cursor-pointer"
+                    >
+                      <XIcon
+                        strokeWidth={2.5}
+                        size={24}
+                        className="text-white group-hover:text-[#FF2D77] group-hover:rotate-90 transition-all duration-300"
+                      />
+                    </DialogClose>
+                  </div>
+                </div>
+                <div className="px-1 sm:px-2 xl:px-3 pb-2 space-y-6">
+                  <div className="relative group">
+                    <p className="text-base sm:text-lg md:text-xl font-medium text-white/90 leading-relaxed">
+                      หากคุณออกจากเรื่องราวตอนนี้
+                      <span className="font-semibold text-[#FF2D77] tracking-wide">
+                        <br />
+                        จะไม่มีการบันทึกความคืบหน้าการเล่น
+                      </span>
+                    </p>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-4">
                     <button
                       onClick={onCancelExit}
-                      className="flex-1 py-2.5 lg:py-3 rounded-xl bg-white/10 hover:bg-white/20 text-gray-300 transition flex items-center justify-center gap-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1635]"
+                      className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                     >
-                      <span className="text-sm sm:text-base lg:text-lg text-white">
-                        เล่นต่อ
-                      </span>
+                      เล่นต่อ
                     </button>
                     <button
                       onClick={onConfirmExit}
-                      className="flex-1 py-2.5 lg:py-3 rounded-xl bg-[#E51E5A]/85 hover:bg-[#E51E5A]/90 font-semibold transition flex items-center justify-center gap-2 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a1635]"
+                      className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white font-black shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group"
                     >
-                      <span className="text-sm sm:text-base lg:text-lg text-white">
-                        ยืนยันการออก
-                      </span>
+                      ยืนยันการออก
                     </button>
                   </div>
                 </div>
@@ -500,7 +497,7 @@ export default function Navbar() {
               <DropdownMenuContent
                 align="end"
                 sideOffset={12}
-                className="w-full rounded-xl border border-white/10 bg-[#0a1635]/95 backdrop-blur-md px-0 py-1 sm:p-1.25 md:p-1.5 lg:p.1-.75 xl:p-2 text-white shadow-xl"
+                className="w-full rounded-xl border border-white/10 bg-[#0a1635]/75 backdrop-blur-sm px-0 py-1 sm:p-1.25 md:p-1.5 lg:p.1-.75 xl:p-2 text-white shadow-xl"
               >
                 {menuItems.map((item) => (
                   <DropdownMenuItem

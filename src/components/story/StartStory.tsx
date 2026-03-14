@@ -64,10 +64,11 @@ export default function StartStory() {
           alt="Start Story Choice Image Background"
           fill
           className="w-full h-full object-cover pointer-events-none"
+          priority
         />
       </div>
       <div
-        className="relative container mx-auto w-auto flex flex-col justify-center items-center gap-6 sm:gap-8 lg:gap-10 bg-[#06122D]/85 rounded-[36px] pt-6 sm:pt-8 lg:pt-10 pb-8.75 sm:pb-10.75 lg:pb-12.75 z-10"
+        className="relative container mx-auto w-auto flex flex-col justify-center items-center gap-6 sm:gap-8 lg:gap-10 bg-[#06122D]/80 rounded-[36px] pt-6 sm:pt-8 lg:pt-10 pb-8.75 sm:pb-10.75 lg:pb-12.75 z-10"
         aria-label="Start Story warning popup"
       >
         {/* Border layer */}

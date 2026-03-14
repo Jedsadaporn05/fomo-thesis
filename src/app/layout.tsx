@@ -12,6 +12,12 @@ const ibmPlexSansThai = IBM_Plex_Sans_Thai({
 export const metadata: Metadata = {
   title: "Gracie - The Missing Out",
   description: "Interactive 2D Animation Storytelling Website",
+  openGraph: {
+    title: "Gracie - The Missing Out",
+    description: "Interactive 2D Animation Storytelling Website",
+    type: "website",
+    locale: "th_TH",
+  },
 };
 
 export default function RootLayout({
@@ -20,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="th">
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link
@@ -28,6 +34,24 @@ export default function RootLayout({
           as="video"
           href="/logo/LogoGracie.webm"
           type="video/webm"
+        />
+        <link
+          rel="preload"
+          as="video"
+          href="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
+          type="video/mp4"
+          media="(min-width: 1024px)"
+          crossOrigin="anonymous"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="video"
+          href="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video-mobile.mp4"
+          type="video/mp4"
+          media="(max-width: 1023px)"
+          crossOrigin="anonymous"
+          fetchPriority="high"
         />
       </head>
       <body
