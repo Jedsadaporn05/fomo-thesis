@@ -235,6 +235,7 @@ export default function KnowledgeBlock({
       {title && (
         <div
           ref={titleRef}
+          data-cursor-expand
           className={`h-fit absolute top-1 2xl:top-1.25 3xl:top-1 -translate-y-[60%] z-10 left-1/2 -translate-x-1/2 flex justify-center items-center gap-1 sm:gap-2 md:gap-3 xl:gap-3
             ${isFirstSection ? "w-[150px] min-[355px]:w-[170px] min-[395px]:w-[200px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[380px] xl:w-[410px] 2xl:w-[460px] 3xl:w-[620px] ps-1 sm:ps-2" : ""}
             ${isSecondSection ? "w-[150px] min-[355px]:w-[170px] min-[395px]:w-[200px] min-[450px]:w-[240px] min-[590px]:w-[290px] sm:w-[370px] md:w-[380px] xl:w-[410px] 2xl:w-[460px] 3xl:w-[650px]" : ""}

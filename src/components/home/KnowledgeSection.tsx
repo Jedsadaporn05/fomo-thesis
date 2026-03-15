@@ -158,6 +158,7 @@ const Content = React.memo(
       {data.map((block) => (
         <p
           key={block.id}
+          data-cursor-expand
           className={`text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white 
             ${block.id === 1 ? "whitespace-normal md:whitespace-pre-line lg:whitespace-normal 3xl:whitespace-pre-line" : "whitespace-pre-line"}`}
         >
@@ -562,10 +563,16 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                       key={index}
                       className="w-auto lg:w-full xl:w-auto 2xl:w-full 3xl:w-auto flex flex-col justify-start items-start gap-0.5 lg:gap-2"
                     >
-                      <p className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold">
+                      <p
+                        data-cursor-expand
+                        className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-[#FF3079] font-bold"
+                      >
                         {item.title}
                       </p>
-                      <p className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line lg:leading-relaxed">
+                      <p
+                        data-cursor-expand
+                        className="text-xs min-[450px]:text-sm sm:text-base md:text-lg xl:text-xl 2xl:text-[22px] 3xl:text-3xl text-white xl:whitespace-pre-line lg:leading-relaxed"
+                      >
                         {item.description}
                       </p>
                     </div>
