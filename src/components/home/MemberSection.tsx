@@ -117,6 +117,7 @@ export default function MemberSection() {
           {/* Title */}
           <motion.h2
             variants={titleVariants}
+            data-cursor-expand
             className="text-2xl sm:text-3xl md:text-[40px] lg:text-4xl 2xl:text-[40px] 3xl:text-6xl font-bold text-white text-center"
           >
             ทีมงานของเรา
@@ -141,6 +142,7 @@ export default function MemberSection() {
                 </div>
                 {/* Info */}
                 <div
+                  data-cursor-expand
                   className={`w-full h-full lg:h-fit flex flex-col items-start gap-2 min-[475px]:gap-4 md:gap-5 lg:gap-4 xl:gap-5 text-left ${card.id === 1 ? "pt-2 md:pt-4 lg:pt-0" : "pt-1 lg:pt-0"}`}
                 >
                   {card.nickName && (

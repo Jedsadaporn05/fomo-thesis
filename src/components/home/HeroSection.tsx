@@ -150,7 +150,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
       >
         <div className="flex justify-center items-center relative w-full h-dvh overflow-hidden">
           <motion.div
-            style={{ translateX, translateY }}
+            style={{ translateX, translateY, willChange: "transform" }}
             className="absolute inset-0 md:scale-126 lg:scale-100 xl:scale-[1.05] will-change-transform pointer-events-none aspect-auto"
             aria-hidden="true"
           >
@@ -180,6 +180,8 @@ export default function HeroSection({ startAnimation }: HeroProps) {
               {/* Logo Title */}
               <motion.div
                 variants={itemVariants}
+                initial={false}
+                data-cursor-expand
                 className="flex flex-col justify-center items-center"
               >
                 <HeroLogo />
