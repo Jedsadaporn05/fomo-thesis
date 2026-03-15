@@ -50,7 +50,7 @@ export default function SceneManager() {
   const nextScene = nextSceneId ? SceneConfig[nextSceneId] : null;
 
   // Preload Management
-  useVideoPreloader(!isStoryStarted ? currentScene?.video : undefined, 0);
+  useVideoPreloader(!isStoryStarted ? currentScene?.video : undefined, 1500);
   useVideoPreloader(nextScene?.video, 3000);
 
   useEffect(() => {

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import SmoothScrolling from "@/src/components/SmoothScrolling";
+import OrientationGuard from "../components/OrientationGuard";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -58,6 +59,7 @@ export default function RootLayout({
         className={`${ibmPlexSansThai.className} antialiased custom-scrollbar`}
         suppressHydrationWarning
       >
+        <OrientationGuard />
         <SmoothScrolling>
           <main>{children}</main>
         </SmoothScrolling>
