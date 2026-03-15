@@ -1,12 +1,21 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import useIsDesktop from "@/src/hooks/useIsDesktop";
 
 export default function CustomCursor() {
-  const isDesktop = useIsDesktop();
+  const [isXlScreen, setIsXlScreen] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 1280px)");
+    setIsXlScreen(mediaQuery.matches);
+
+    const handler = (e: MediaQueryListEvent) => setIsXlScreen(e.matches);
+    mediaQuery.addEventListener("change", handler);
+    return () => mediaQuery.removeEventListener("change", handler);
+  }, []);
+
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const outerRingRef = useRef<HTMLDivElement>(null);
@@ -15,7 +24,7 @@ export default function CustomCursor() {
 
   useGSAP(
     () => {
-      if (!isDesktop || !window.matchMedia("(pointer: fine)").matches) return;
+      if (!isXlScreen || !window.matchMedia("(pointer: fine)").matches) return;
 
       const dot = dotRef.current;
       const ring = ringRef.current;
@@ -28,6 +37,27 @@ export default function CustomCursor() {
       let mouseX = 0;
       let mouseY = 0;
       let isOnClickable = false;
+
+      const xToDot = gsap.quickTo(dot, "x", { duration: 0.05, ease: "none" });
+      const yToDot = gsap.quickTo(dot, "y", { duration: 0.05, ease: "none" });
+
+      const xToRing = gsap.quickTo(ring, "x", {
+        duration: 0.35,
+        ease: "power3.out",
+      });
+      const yToRing = gsap.quickTo(ring, "y", {
+        duration: 0.35,
+        ease: "power3.out",
+      });
+
+      const xToOuter = gsap.quickTo(outerRing, "x", {
+        duration: 0.55,
+        ease: "power3.out",
+      });
+      const yToOuter = gsap.quickTo(outerRing, "y", {
+        duration: 0.55,
+        ease: "power3.out",
+      });
 
       // Trail
       const spawnTrail = (x: number, y: number) => {
@@ -76,27 +106,12 @@ export default function CustomCursor() {
         mouseX = e.clientX;
         mouseY = e.clientY;
 
-        gsap.to(dot, {
-          x: mouseX,
-          y: mouseY,
-          duration: 0.05,
-          ease: "none",
-          overwrite: "auto",
-        });
-        gsap.to(ring, {
-          x: mouseX,
-          y: mouseY,
-          duration: 0.35,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
-        gsap.to(outerRing, {
-          x: mouseX,
-          y: mouseY,
-          duration: 0.55,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
+        xToDot(mouseX);
+        yToDot(mouseY);
+        xToRing(mouseX);
+        yToRing(mouseY);
+        xToOuter(mouseX);
+        yToOuter(mouseY);
 
         spawnTrail(mouseX, mouseY);
       };
@@ -112,15 +127,17 @@ export default function CustomCursor() {
 
         if (clickable) {
           isOnClickable = true;
-          gsap.killTweensOf([dot, ring, outerRing]);
+          gsap.killTweensOf(
+            [dot, ring, outerRing],
+            "scale,opacity,backgroundColor,borderColor",
+          );
 
           gsap.to(dot, { scale: 0.6, duration: 0.2, ease: "power1.out" });
 
-          // Ring expands
           gsap.to(ring, {
             scale: 2.5,
-            opacity: 0.75,
-            backgroundColor: "#E51E5A",
+            opacity: 0.85,
+            backgroundColor: "#2558D0",
             borderColor: "transparent",
             duration: 0.3,
             ease: "power1.out",
@@ -134,13 +151,17 @@ export default function CustomCursor() {
           });
         } else {
           isOnClickable = false;
-          gsap.killTweensOf([dot, ring, outerRing]);
+          gsap.killTweensOf(
+            [dot, ring, outerRing],
+            "scale,opacity,backgroundColor,borderColor",
+          );
 
           gsap.to(dot, { scale: 1, duration: 0.3, ease: "power1.out" });
           gsap.to(ring, {
             scale: 1,
             opacity: 1,
             backgroundColor: "transparent",
+            borderColor: "#E51E5A",
             duration: 0.3,
             ease: "power1.out",
           });
@@ -207,10 +228,10 @@ export default function CustomCursor() {
         document.removeEventListener("mouseenter", onMouseEnter);
       };
     },
-    { dependencies: [isDesktop] },
+    { dependencies: [isXlScreen] },
   );
 
-  if (!isDesktop) return null;
+  if (!isXlScreen) return null;
 
   return (
     <>
@@ -253,9 +274,7 @@ export default function CustomCursor() {
           opacity: 0,
         }}
       />
-      {/*
-        Ring 
-      */}
+      {/* Ring */}
       <div
         ref={ringRef}
         className="pointer-events-none fixed top-0 left-0 z-9998 will-change-transform"
@@ -267,7 +286,7 @@ export default function CustomCursor() {
           borderRadius: "50%",
           border: "1.5px solid #E51E5A",
           backgroundColor: "transparent",
-          mixBlendMode: "saturation",
+          mixBlendMode: "soft-light",
           // multiply, saturation, soft-light
         }}
       />

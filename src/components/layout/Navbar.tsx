@@ -34,7 +34,8 @@ import {
   DialogTrigger,
 } from "@/src/components/ui/dialog";
 import { Slider } from "@/src/components/ui/slider";
-import NavbarLogo from "../NavbarLogo";
+import Image from "next/image";
+import navLogo from "@/public/logo/LogoGracie.png";
 
 const menuItems = [
   { id: "Enter the story", title: "เข้าสู่เรื่องราว", href: "Hero" },
@@ -220,7 +221,7 @@ export default function Navbar() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-full h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4 lg:pt-5"
+          className="absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4 lg:pt-5"
           onClick={() => setIsManualShow(true)}
         >
           <div className="cursor-pointer group flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]">
@@ -256,7 +257,15 @@ export default function Navbar() {
                 aria-label="กลับไปที่หน้าแรกด้านบนสุด"
                 className="outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] rounded-lg transition-all"
               >
-                <NavbarLogo />
+                <Image
+                  src={navLogo}
+                  alt="FOMO The Missing Out Logo"
+                  width={400}
+                  height={400}
+                  draggable="false"
+                  priority
+                  className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 3xl:w-45 object-contain cursor-pointer"
+                />
               </button>
             )}
           </div>
@@ -446,7 +455,7 @@ export default function Navbar() {
                   </button>
                 </DialogTrigger>
                 <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-4 overflow-hidden outline-none">
-                  <div className="relative px-1 sm:px-2 xl:px-3 pt-1">
+                  <div className="relative px-3 lg:px-2 xl:px-1 pt-1">
                     <div className="flex flex-row justify-between items-end border-white/10">
                       <DialogHeader>
                         <DialogTitle className="text-lg sm:text-xl md:text-2xl xl:text-[26px] font-black text-white">
@@ -465,7 +474,7 @@ export default function Navbar() {
                       </DialogClose>
                     </div>
                   </div>
-                  <div className="px-1 sm:px-2 xl:px-3 pb-2 space-y-6">
+                  <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-6">
                     <div className="relative group">
                       <p className="text-base sm:text-lg md:text-xl font-medium text-white/90 leading-relaxed">
                         หากคุณออกจากเรื่องราวตอนนี้
@@ -478,13 +487,13 @@ export default function Navbar() {
                     <div className="flex flex-col sm:flex-row gap-4">
                       <button
                         onClick={onCancelExit}
-                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-base sm:text-lg font-bold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-base sm:text-lg md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                       >
                         เล่นต่อ
                       </button>
                       <button
                         onClick={onConfirmExit}
-                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-base sm:text-lg font-black shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group"
+                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-base sm:text-lg md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group"
                       >
                         ยืนยันการออก
                       </button>

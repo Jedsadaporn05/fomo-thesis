@@ -13,7 +13,9 @@ import {
 import useIsDesktop from "@/src/hooks/useIsDesktop";
 import { useEffect, useRef, useState } from "react";
 import { useAudioStore } from "@/src/store/useAudioStore";
-import HeroLogo from "../HeroLogo";
+import Image from "next/image";
+import Logo from "@/public/logo/LogoGracie.png";
+import { useStoryStore } from "@/src/store/useStoryStore";
 
 interface HeroProps {
   startAnimation: boolean;
@@ -113,6 +115,13 @@ export default function HeroSection({ startAnimation }: HeroProps) {
     },
   };
 
+  const resetStory = useStoryStore((s) => s.resetStory);
+
+  // Reset story state
+  useEffect(() => {
+    resetStory();
+  }, [resetStory]);
+
   const onStart = (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -184,7 +193,14 @@ export default function HeroSection({ startAnimation }: HeroProps) {
                 data-cursor-expand
                 className="flex flex-col justify-center items-center"
               >
-                <HeroLogo />
+                <Image
+                  src={Logo}
+                  alt="FOMO The Missing Out Logo"
+                  width={500}
+                  height={500}
+                  priority
+                  className="max-w-50 sm:max-w-60 md:max-w-70 lg:max-w-80 xl:max-w-90 2xl:max-w-100 3xl:max-w-125 h-auto object-contain pointer-events-none"
+                />
                 <h1 className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-semibold tracking-wider text-[#FF2D77] text-center">
                   THE MISSING OUT
                 </h1>

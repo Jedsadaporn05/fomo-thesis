@@ -27,12 +27,9 @@ export default function StartStory() {
     setIsExiting(true);
   };
 
-  const resetStory = useStoryStore((s) => s.resetStory);
-
   const onBack = () => {
     if (isExiting) return;
     setIsExiting(true);
-    resetStory();
     timerRef.current = setTimeout(() => router.push("/"), 600);
   };
 
@@ -74,9 +71,10 @@ export default function StartStory() {
         {/* Border layer */}
         <div className="absolute inset-0 rounded-4xl border-3 3xl:border-5 border-[#FF0059] pointer-events-none shadow-[0_0_120px_rgba(255,29,109,0.3)] " />
         {/* Warning Icon */}
-        <div 
-        data-cursor-expand
-        className="w-full h-full flex flex-col items-center gap-4">
+        <div
+          data-cursor-expand
+          className="w-full h-full flex flex-col items-center gap-4"
+        >
           <Image
             src={IconWarning}
             alt="Start Story Icon Warning !"
@@ -96,9 +94,10 @@ export default function StartStory() {
           />
         </div>
         {/* Content */}
-        <div 
-        data-cursor-expand
-        className="w-full flex flex-col justify-center items-center gap-4 sm:gap-6 lg:gap-8 3xl:whitespace-nowrap">
+        <div
+          data-cursor-expand
+          className="w-full flex flex-col justify-center items-center gap-4 sm:gap-6 lg:gap-8 3xl:whitespace-nowrap"
+        >
           <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
             เว็บไซต์เชิงปฏิสัมพันธ์นี้จัดทำขึ้นเพื่อสะท้อนผลกระทบของภาวะความกลัวที่จะพลาด
             <br className="hidden sm:block" />
