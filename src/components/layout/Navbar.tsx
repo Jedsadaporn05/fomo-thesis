@@ -312,7 +312,7 @@ export default function Navbar() {
                 </button>
               </DialogTrigger>
               <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-4 overflow-hidden outline-none">
-                <div className="relative px-3 xl:px-2 pt-1">
+                <div className="relative px-3 lg:px-2 xl:px-1 pt-1">
                   <div className="flex flex-row justify-between items-end border-white/10 mb-1">
                     <DialogHeader>
                       <DialogTitle className="text-lg sm:text-xl md:text-2xl xl:text-[26px] font-black tracking-tight text-white">
@@ -328,7 +328,7 @@ export default function Navbar() {
                     </DialogClose>
                   </div>
                 </div>
-                <div className="px-3 xl:px-2 pb-2 space-y-6">
+                <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-6">
                   {/* BGM */}
                   <div className="relative group">
                     <div
