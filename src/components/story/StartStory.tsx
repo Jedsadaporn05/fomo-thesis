@@ -68,21 +68,20 @@ export default function StartStory() {
         />
       </div>
       <div
-        className="relative container mx-auto w-auto flex flex-col justify-center items-center gap-6 sm:gap-8 lg:gap-10 bg-[#06122D]/80 rounded-[36px] pt-6 sm:pt-8 lg:pt-10 pb-8.75 sm:pb-10.75 lg:pb-12.75 z-10"
+        className="relative container mx-auto w-auto h-fit flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10 bg-[#06122D]/80 rounded-[36px] pt-6 sm:pt-8 lg:pt-10 pb-8.75 sm:pb-10.75 lg:pb-12.75 z-10"
         aria-label="Start Story warning popup"
       >
         {/* Border layer */}
-        <div className="absolute inset-0 rounded-4xl border-3 3xl:border-5 border-[#FF0059] animate-pulse pointer-events-none shadow-[0_0_120px_rgba(255,29,109,0.3)] " />
+        <div className="absolute inset-0 rounded-4xl border-3 3xl:border-5 border-[#FF0059] pointer-events-none shadow-[0_0_120px_rgba(255,29,109,0.3)] " />
         {/* Warning Icon */}
-        <div className="w-full h-full flex flex-col items-center gap-4 animate-pulse">
+        <div className="w-full h-full flex flex-col items-center gap-4">
           <Image
             src={IconWarning}
             alt="Start Story Icon Warning !"
             width={400}
             height={400}
-            draggable="false"
             priority
-            className="w-10 sm:w-13 md:w-15 lg:w-20 3xl:w-25 object-contain"
+            className="w-8 sm:w-13 md:w-15 lg:w-20 3xl:w-25 object-contain pointer-events-none animate-pulse"
           />
 
           <Image
@@ -90,14 +89,13 @@ export default function StartStory() {
             alt="Start Story Warning Word !"
             width={400}
             height={400}
-            draggable="false"
             priority
-            className="w-45 sm:w-55 md:w-65 lg:w-75 xl:w-85 3xl:w-95 object-contain"
+            className="w-35 sm:w-55 md:w-65 lg:w-75 xl:w-85 3xl:w-95 object-contain pointer-events-none"
           />
         </div>
         {/* Content */}
         <div className="w-full flex flex-col justify-center items-center gap-4 sm:gap-6 lg:gap-8 3xl:whitespace-nowrap">
-          <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
+          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
             เว็บไซต์เชิงปฏิสัมพันธ์นี้จัดทำขึ้นเพื่อสะท้อนผลกระทบของภาวะความกลัวที่จะพลาด
             <br className="hidden sm:block" />
             บางอย่าง (FOMO) ผ่านตัวละครสมมุติ{" "}
@@ -105,7 +103,7 @@ export default function StartStory() {
               ไม่ใช่แบบทดสอบทางจิตวิทยาแต่อย่างใด
             </span>
           </p>
-          <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
+          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
             เรื่องราวของ Gracie กำลังจะเริ่มต้นขึ้น
             ระหว่างทางคุณจะได้ตัดสินใจแทนเธอ
             <br className="hidden sm:block" />
@@ -113,7 +111,7 @@ export default function StartStory() {
             ไปเริ่มกันเลย
             <br />
             <span className="text-[#FF1D6D] font-medium">
-              ** ขยายเต็มหน้าจอและเปิดเสียงเพื่อเพิ่มอถรรสในการเล่น **
+              ** เปิดเสียงและขยายเต็มหน้าจอเพื่อเพิ่มอถรรสในการเล่น **
             </span>
           </p>
         </div>
@@ -122,7 +120,7 @@ export default function StartStory() {
           <button
             onClick={onBack}
             aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
-            className="w-full sm:w-[40%] lg:w-[35%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 transition-all duration-200 ease-in-out"
+            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 transition-all duration-200 ease-in-out"
           >
             <div
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
@@ -139,7 +137,7 @@ export default function StartStory() {
           <button
             onClick={onStarted}
             aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
-            className="w-full sm:w-[40%] lg:w-[35%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 transition-all duration-200 ease-in-out"
+            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 transition-all duration-200 ease-in-out"
           >
             <div
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
