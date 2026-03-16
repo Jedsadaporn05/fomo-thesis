@@ -1,7 +1,18 @@
 "use client";
 
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import { useState, useEffect } from "react";
+import {
+  motion,
+  useMotionValue,
+  useTransform,
+  useMotionValueEvent,
+  AnimatePresence,
+} from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import LeftBag from "@/public/story/interactive/Left-Bag.png";
+import RightBag from "@/public/story/interactive/Right-Bag.png";
+import Zippy from "@/public/story/interactive/Zippy.png";
+import Guitar from "@/public/story/interactive/Guitar.png";
 
 interface ZipperInteractionProps {
   onComplete: () => void;
@@ -11,55 +22,221 @@ export default function OpenGuitarZipper({
   onComplete,
 }: ZipperInteractionProps) {
   const [isDone, setIsDone] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
-  const x = useMotionValue(0);
-
-  const trackWidth = 200;
-
-  const opacity = useTransform(x, [0, trackWidth], [0.5, 1]);
+  const y = useMotionValue(0);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [trackHeight, setTrackHeight] = useState(500);
 
   useEffect(() => {
-    const unsubscribe = x.on("change", (latest) => {
-      if (latest >= trackWidth - 10 && !isDone) {
-        setIsDone(true);
-        setTimeout(onComplete, 500);
+    const trackEl = trackRef.current;
+    if (!trackEl) return;
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const height = entry.contentRect.height;
+        const dynamicZippyHeight = height * 0.15;
+
+        setTrackHeight(height - dynamicZippyHeight);
       }
     });
-    return () => unsubscribe();
-  }, [x, isDone, onComplete]);
+
+    resizeObserver.observe(trackEl);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  useMotionValueEvent(y, "change", (latest) => {
+    if (!hasInteracted && latest > 10) {
+      setHasInteracted(true);
+    }
+
+    if (!isDone && trackHeight > 0 && latest >= trackHeight - 15) {
+      setIsDone(true);
+    }
+  });
+
+  const MAX_SKEW = 25;
+
+  const leftSkew = useTransform(
+    y,
+    (latest) => (latest / Math.max(trackHeight, 1)) * MAX_SKEW,
+  );
+  const rightSkew = useTransform(
+    y,
+    (latest) => -(latest / Math.max(trackHeight, 1)) * MAX_SKEW,
+  );
+
+  const leftOrigin = useTransform(y, (latest) => `100% ${latest}px`);
+  const rightOrigin = useTransform(y, (latest) => `0% ${latest}px`);
+
+  const topClip = useTransform(
+    y,
+    (latest) => `polygon(0% 0%, 100% 0%, 100% ${latest}px, 0% ${latest}px)`,
+  );
+  const bottomClip = useTransform(
+    y,
+    (latest) =>
+      `polygon(0% ${latest - 1}px, 100% ${latest - 1}px, 100% 100%, 0% 100%)`,
+  );
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="text-white text-sm font-medium animate-pulse">
-        รูดซิปเพื่อเปิดกระเป๋า
+    <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+      {/* Guitar */}
+      <div className="absolute inset-0 right-[5%] z-0 flex justify-center items-center">
+        <Image
+          src={Guitar}
+          alt="Inside Guitar"
+          fill
+          priority
+          className="object-cover object-[10%_80%]"
+        />
+        {isDone && (
+          <div className="absolute top-[34%] sm:top-[36.75%] left-1/2 -translate-x-[31.75%] min-[390px]:-translate-x-[26.75%] sm:-translate-x-[29%] md:-translate-x-[26.5%] lg:-translate-x-[23.75%] xl:-translate-x-[27.5%] 2xl:-translate-x-[18.5%] flex items-center justify-center pointer-events-auto">
+            <motion.button
+              initial={{ scale: 0.75, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.35, ease: "easeOut" }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={onComplete}
+              className="relative flex items-center justify-center cursor-pointer group"
+            >
+              <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border border-white/40 animate-ping animation-duration-[3s]" />
+              <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border border-white/20 animate-ping animation-duration-[5s]" />
+              <div className="relative size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border-2 border-white/80 bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors duration-300">
+                <div className="absolute inset-2 border border-white/20 rounded-full" />
+                <div className="size-6 min-[450px]:size-8 sm:size-10 md:size-12 lg:size-18 xl:size-22 2xl:size-26 rounded-full bg-white/10 flex items-center justify-center">
+                  <div className="size-1 min-[450px]:size-2 sm:size-3 md:size-4 lg:size-5 xl:size-6 2xl:size-7 3xl:size-8 rounded-full bg-black/20 shadow-[0_0_15px_white] animate-pulse" />
+                </div>
+              </div>
+            </motion.button>
+          </div>
+        )}
       </div>
-      <div
-        className="relative h-12 bg-white/10 backdrop-blur-md rounded-full border border-white/20 p-1"
-        style={{ width: trackWidth + 48 }}
+      {/* Bag Left */}
+      <motion.div
+        className="absolute top-0 w-1/2 h-full z-10 pointer-events-none will-change-[clip-path]"
+        style={{ clipPath: bottomClip }}
       >
-        <div className="absolute inset-y-0 left-6 right-6 flex items-center">
-          <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-            <motion.div
-              style={{ width: x }}
-              className="h-full bg-white shadow-[0_0_10px_white]"
-            />
-          </div>
-        </div>
+        <Image
+          src={LeftBag}
+          alt="Left"
+          fill
+          priority
+          className="object-cover object-right"
+        />
+      </motion.div>
+      <motion.div
+        className="absolute top-0 w-1/2 h-full z-10 pointer-events-none will-change-[transform,clip-path]"
+        style={{
+          clipPath: topClip,
+          skewX: leftSkew,
+          transformOrigin: leftOrigin,
+        }}
+      >
+        <Image
+          src={LeftBag}
+          alt="Left Flap"
+          fill
+          priority
+          className="object-cover object-right"
+        />
+      </motion.div>
+      {/* Bag Right */}
+      <motion.div
+        className="absolute top-0 left-1/2 w-1/2 h-full z-10 pointer-events-none will-change-[clip-path]"
+        style={{ clipPath: bottomClip }}
+      >
+        <Image
+          src={RightBag}
+          alt="Right"
+          fill
+          priority
+          className="object-cover object-left"
+        />
+      </motion.div>
+      <motion.div
+        className="absolute top-0 left-1/2 w-1/2 h-full z-10 pointer-events-none will-change-[transform,clip-path]"
+        style={{
+          clipPath: topClip,
+          skewX: rightSkew,
+          transformOrigin: rightOrigin,
+        }}
+      >
+        <Image
+          src={RightBag}
+          alt="Right Flap"
+          fill
+          priority
+          className="object-cover object-left"
+        />
+      </motion.div>
+      {/* Zippy */}
+      <div
+        data-cursor-expand
+        ref={trackRef}
+        className="absolute -top-7 min-[475px]:-top-5 sm:top-0 xl:top-5 bottom-10 left-1/2 -translate-x-[72%] w-10 min-[390px]:w-12 sm:w-14 md:w-16 lg:w-18 xl:w-20 2xl:w-26 z-999 pointer-events-none flex justify-center"
+      >
         <motion.div
-          drag="x"
-          dragConstraints={{ left: 0, right: trackWidth }}
-          dragElastic={0.1}
+          // animate={{ opacity: isDone ? 0 : 1, scale: isDone ? 0.5 : 1 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          whileHover={!isDone ? { scale: 1.05 } : {}}
+          whileTap={!isDone ? { scale: 0.95 } : {}}
+          drag={isDone ? false : "y"}
+          dragConstraints={{ top: 0, bottom: trackHeight }}
+          dragElastic={0}
           dragMomentum={false}
-          style={{ x, opacity }}
-          className="relative z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing shadow-lg border-2 border-[#FF1D6D]"
+          style={{ y }}
+          className="relative size-30 flex items-center justify-center cursor-grab active:cursor-grabbing pointer-events-auto will-change-transform"
         >
-          <div className="w-4 h-6 bg-[#FF1D6D] rounded-sm relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-6 h-3 bg-[#FF1D6D] rounded-full border border-white/50" />
-          </div>
+          {/* Effect */}
+          <AnimatePresence>
+            {!hasInteracted && !isDone && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
+                className="absolute inset-0 left-[35%] flex items-center justify-center -z-10 pointer-events-none"
+              >
+                <span className="absolute size-12 sm:size-14 md:size-20 rounded-full border-2 xl:border-3 border-[#E51E5A] animate-ping animation-duration-[2s]" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <Image
+            src={Zippy}
+            alt="Zipper Head"
+            fill
+            className="object-contain pointer-events-none drop-shadow-lg"
+          />
+          {/* Slide Down */}
+          <AnimatePresence>
+            {!hasInteracted && !isDone && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="absolute top-[80%] sm:top-[90%] md:top-[110%] right-[8.25%] md:right-[11.25%] lg:right-[8.25%] xl:right-[14.25%] flex flex-col items-center pointer-events-none"
+              >
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.5,
+                    ease: "easeInOut",
+                  }}
+                  className="flex flex-col items-center"
+                >
+                  <div className="size-3 sm:size-4 md:size-5 lg:size-6 xl:size-7 border-b-2 sm:border-b-3 lg:border-b-4 xl:border-b-5 border-r-2 sm:border-r-3 lg:border-r-4 xl:border-r-5 border-[#E51E5A]/80 rotate-45" />
+                  <div className="size-3 sm:size-4 md:size-5 lg:size-6 xl:size-7 border-b-2 sm:border-b-3 lg:border-b-4 xl:border-b-5 border-r-2 sm:border-r-3 lg:border-r-4 xl:border-r-5 border-[#E51E5A]/60 rotate-45 -mt-1 sm:-mt-1.5" />
+                </motion.div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
-        <div className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full border-2 border-dashed border-white/30 flex items-center justify-center text-[10px] text-white/50">
-          GO
-        </div>
       </div>
     </div>
   );

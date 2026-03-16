@@ -229,7 +229,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
             className="absolute bottom-[5dvh] lg:bottom-[5.25dvh] left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30 pointer-events-none"
             aria-hidden="true"
           >
-            <div className="w-5.25 sm:w-5.5 md:w-6 3xl:w-6.5 h-8.5 sm:h-9 md:h-9.5 3xl:h-10 border-2 border-white/30 rounded-full flex justify-center p-0.5 sm:p-1 relative bg-white/5 backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.05)]">
+            <div className="w-5.25 sm:w-5.5 md:w-6 3xl:w-6.5 h-8.5 sm:h-9 md:h-9.5 3xl:h-10 border sm:border-2 border-white/30 rounded-full flex justify-center p-0.5 sm:p-1 relative bg-white/5 backdrop-blur-xl shadow-[0_0_20px_rgba(255,255,255,0.05)]">
               <motion.div
                 animate={{
                   y: [0, 15, 0],
@@ -243,8 +243,8 @@ export default function HeroSection({ startAnimation }: HeroProps) {
                 className="w-1.25 sm:1.5 md:w-1.75 3xl:w-2 h-1.25 sm:h-1.5 md:h-1.75 3xl:h-2 bg-[#FF2D77] rounded-full drop-shadow-[0_0_3px_rgba(255,45,119,0.8)]"
               />
             </div>
-            <span className="text-[8px] sm:text-[9px] 3xl:text-[10px] text-white/50 tracking-[0.2em] font-medium uppercase mt-0.75 drop-shadow-md">
-              Scroll
+            <span className="text-[10px] sm:text-[11px] 3xl:text-[12px] text-white/50 font-medium mt-0.75 drop-shadow-md">
+              เลื่อนลง
             </span>
           </motion.div>
           <div

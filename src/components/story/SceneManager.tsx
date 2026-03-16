@@ -211,7 +211,7 @@ export default function SceneManager() {
                   >
                     <div
                       data-cursor-expand
-                      className="flex flex-col items-center justify-center gap-6 p-6 lg:p-12 rounded-2xl"
+                      className="flex flex-col items-center justify-center gap-5 p-6 lg:p-12 rounded-2xl"
                     >
                       <h3 className="text-white text-xl lg:text-2xl font-light tracking-widest uppercase">
                         เรื่องราวถูกหยุดชั่วคราว

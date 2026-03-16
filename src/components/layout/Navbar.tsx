@@ -224,10 +224,10 @@ export default function Navbar() {
           className="absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4 lg:pt-5"
           onClick={() => setIsManualShow(true)}
         >
-          <div className="cursor-pointer group flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]">
+          <div className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]">
             <Settings
               strokeWidth={2}
-              className="size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 text-white"
+              className="size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 text-white"
             />
           </div>
         </motion.div>
@@ -276,19 +276,19 @@ export default function Navbar() {
               type="button"
               aria-label={isFullscreen ? "ขยายเต็มหน้าจอ" : "ย่อหน้าจอ"}
               onClick={toggleFullscreen}
-              className={`hidden xl:flex items-center justify-center cursor-pointer group w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
+              className={`hidden xl:flex items-center justify-center cursor-pointer group w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
             >
               <div className="relative flex items-center justify-center w-full h-full">
                 <Maximize
                   strokeWidth={2.25}
                   aria-hidden="true"
-                  className={`absolute size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                  className={`absolute size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
                   ${isFullscreen ? "opacity-0 scale-50 rotate-90" : "opacity-100 scale-100 rotate-0 group-hover:text-white"}`}
                 />
                 <Minimize
                   strokeWidth={2.5}
                   aria-hidden="true"
-                  className={`absolute size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                  className={`absolute size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
                   ${isFullscreen ? "opacity-100 scale-100 rotate-0 text-[#E51E5A]" : "opacity-0 scale-50 -rotate-90"}`}
                 />
               </div>
@@ -299,13 +299,13 @@ export default function Navbar() {
                 <button
                   type="button"
                   aria-label="ตั้งค่าเสียงประกอบ"
-                  className="cursor-pointer group flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                  className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                 >
                   <div className="relative flex items-center justify-center">
                     <Music2
                       strokeWidth={2.5}
                       aria-hidden="true"
-                      className={`size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ${
+                      className={`size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ${
                         bgmEnabled
                           ? "text-[#E51E5A] scale-100"
                           : "text-white/70 scale-90"
@@ -443,13 +443,13 @@ export default function Navbar() {
                   <button
                     type="button"
                     aria-label={"ออกจากเรื่องราว"}
-                    className={`cursor-pointer group flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
+                    className={`cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
                   >
                     <div className="relative flex items-center justify-center w-full h-full">
                       <LogOut
                         strokeWidth={2.25}
                         aria-hidden="true"
-                        className={`absolute size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] opacity-100 scale-100 rotate-0 group-hover:text-white`}
+                        className={`absolute size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] opacity-100 scale-100 rotate-0 group-hover:text-white`}
                       />
                     </div>
                   </button>
@@ -509,19 +509,19 @@ export default function Navbar() {
                   <button
                     type="button"
                     aria-label={open ? "ปิดเมนู" : "เปิดเมนูนำทาง"}
-                    className="cursor-pointer group flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                    className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                   >
                     <div className="relative flex items-center justify-center w-full h-full">
                       <Menu
                         strokeWidth={2.5}
                         aria-hidden="true"
-                        className={`absolute size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                        className={`absolute size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
                         ${open ? "opacity-0 rotate-90 scale-50" : "opacity-100 rotate-0 scale-100 group-hover:text-white"}`}
                       />
                       <X
                         strokeWidth={2.5}
                         aria-hidden="true"
-                        className={`absolute size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
+                        className={`absolute size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] 
                         ${open ? "opacity-100 rotate-0 scale-100 text-[#E51E5A]" : "opacity-0 -rotate-90 scale-50"}`}
                       />
                     </div>
@@ -579,11 +579,11 @@ export default function Navbar() {
                 type="button"
                 aria-label="ซ่อนแถบนำทาง"
                 onClick={() => setIsManualShow(false)}
-                className="cursor-pointer group flex items-center justify-center w-6 h-6 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
               >
                 <XIcon
                   strokeWidth={2.5}
-                  className="size-3 sm:size-4 md:size-5 lg:size-6 3xl:size-7 text-[#FF2D77]"
+                  className="size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 text-[#FF2D77]"
                 />
               </button>
             )}

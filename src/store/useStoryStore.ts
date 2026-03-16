@@ -64,7 +64,7 @@ export const useStoryStore = create<StoryState>()(
       setHasHydrated: (state) => set({ _hasHydrated: state }),
     }),
     {
-      name: "fomo-scene-history",
+      name: "scene-history",
       storage: createJSONStorage(() => sessionStorage),
 
       onRehydrateStorage: () => (state) => {
