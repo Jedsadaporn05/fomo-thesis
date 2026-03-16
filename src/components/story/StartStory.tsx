@@ -123,7 +123,7 @@ export default function StartStory() {
           <button
             onClick={onBack}
             aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
-            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 transition-all duration-200 ease-in-out"
+            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 hover:animate-pulse transition-all duration-200 ease-in-out"
           >
             <div
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
@@ -140,14 +140,14 @@ export default function StartStory() {
           <button
             onClick={onStarted}
             aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
-            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 transition-all duration-200 ease-in-out"
+            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 hover:animate-pulse transition-all duration-200 ease-in-out"
           >
             <div
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
               aria-hidden="true"
             />
             <span className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-bold text-white/90">
-              เริ่มเกม
+              เข้าสู่เรื่องราว
             </span>
             <div
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"

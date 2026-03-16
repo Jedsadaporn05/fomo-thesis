@@ -5,6 +5,7 @@ import { Scene, Interaction, SceneId } from "../SceneConfig";
 import { useStoryStore } from "@/src/store/useStoryStore";
 import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import OpenGuitarZipper from "./OpenGuitarZipper";
+import { useRouter } from "next/navigation";
 
 interface InteractiveManagerProps {
   scene: Scene;
@@ -19,8 +20,10 @@ export default function InteractiveManager({
   onComplete,
   onInteractionTriggered,
 }: InteractiveManagerProps) {
+  const router = useRouter();
   const goToScene = useStoryStore((state) => state.goToScene);
   const addScore = useStoryStore((state) => state.addScore);
+  const resetStory = useStoryStore((state) => state.resetStory);
 
   const [completedIndices, setCompletedIndices] = useState<number[]>([]);
   const [triggeredIndices, setTriggeredIndices] = useState<number[]>([]);
@@ -67,12 +70,6 @@ export default function InteractiveManager({
     };
   }, [scene.interactions, videoRef]);
 
-  useEffect(() => {
-    setCompletedIndices([]);
-    setTriggeredIndices([]);
-    triggeredSetRef.current.clear();
-  }, [scene.id]);
-
   const activeIndex = useMemo(() => {
     const active = triggeredIndices
       .filter((idx) => !completedIndices.includes(idx))
@@ -108,7 +105,12 @@ export default function InteractiveManager({
   const handleOptionClick = useCallback(
     (
       index: number,
-      option: { label: string; targetScene: SceneId; score?: number },
+      option: {
+        label: string;
+        targetScene?: SceneId;
+        score?: number;
+        action?: "restart" | "home";
+      },
     ) => {
       setCompletedIndices((prev) => [...prev, index]);
 
@@ -118,9 +120,17 @@ export default function InteractiveManager({
       }
 
       if (option.score) addScore(option.score);
-      goToScene(option.targetScene);
+
+      if (option.action === "restart") {
+        resetStory();
+        goToScene("scene-1");
+      } else if (option.action === "home") {
+        router.push("/");
+      } else if (option.targetScene) {
+        goToScene(option.targetScene);
+      }
     },
-    [onComplete, addScore, goToScene, scene.interactions],
+    [onComplete, addScore, goToScene, scene.interactions, resetStory, router],
   );
 
   // Reset after Scene Change
@@ -134,7 +144,7 @@ export default function InteractiveManager({
 
   return (
     <div className="absolute inset-0 z-20 pointer-events-none">
-      <AnimatePresence>
+      <AnimatePresence mode="wait">
         {activeInteraction && activeIndex !== null && (
           <>
             {isDragDrop && (
@@ -180,9 +190,9 @@ export default function InteractiveManager({
                       }
                       className="relative flex items-center justify-center cursor-pointer group"
                     >
-                      <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border border-white/40 animate-ping animation-duration-[3s]" />
-                      <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border border-white/20 animate-ping animation-duration-[5s]" />
-                      <div className="relative size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border-2 border-white/80 bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors duration-300">
+                      <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border lg:border-2 border-white/40 animate-ping animation-duration-[3s]" />
+                      <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border lg:border-2 border-white/20 animate-ping animation-duration-[5s]" />
+                      <div className="relative size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border-2 lg:border-3 border-white/80 bg-white/5 flex items-center justify-center group-hover:bg-white/10 transition-colors duration-300">
                         <div className="absolute inset-2 border border-white/20 rounded-full" />
                         <div className="size-6 min-[450px]:size-8 sm:size-10 md:size-12 lg:size-18 xl:size-22 2xl:size-26 rounded-full bg-white/10 flex items-center justify-center">
                           <div className="size-1 min-[450px]:size-2 sm:size-3 md:size-4 rounded-full bg-white shadow-[0_0_15px_white] animate-pulse" />
@@ -211,37 +221,108 @@ export default function InteractiveManager({
               {/* Choice */}
               {activeInteraction.type === "choice" &&
                 activeInteraction.options && (
-                  <div className="container mx-auto max-w-full w-full h-full flex flex-row justify-between items-end gap-8 sm:gap-12 md:gap-16 lg:gap-20 py-[5dvh] sm:py-[6dvh] md:py-[7dvh] lg:py-[8dvh] xl:py-[9dvh] 2xl:py-[10dvh] 3xl:py-[13.25dvh]">
+                  <div className="container relative mx-auto max-w-full w-full h-full flex flex-col justify-end items-center gap-8">
                     <div
-                      className="absolute inset-x-0 bottom-0 h-[7dvh] sm:h-[7dvh] md:h-[10dvh] lg:h-[15dvh] 2xl:h-[20dvh] 3xl:h-[30dvh] pointer-events-none bg-linear-to-t from-black/60 via-black/40 to-transparent -z-10"
+                      className="absolute inset-x-0 top-0 h-[25%] pointer-events-none bg-linear-to-b from-black/40 via-black/20 to-transparent -z-10"
                       aria-hidden="true"
                     />
-                    {activeInteraction.options.map((option, idx) => (
-                      <motion.button
-                        key={`${activeIndex}-${idx}`}
-                        initial={{ y: 30, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
-                        whileHover={{
-                          borderColor: "rgba(255, 255, 255, 0.8)",
-                        }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => handleOptionClick(activeIndex, option)}
-                        className="w-full flex flex-col justify-center items-center gap-1.75 sm:gap-2 md:gap-3 lg:gap-4 2xl:gap-5 3xl:gap-6 cursor-pointer hover:*:text-[#FF2D77] group bg-transparent border-none outline-none"
-                      >
-                        <div
-                          className="w-2/3 sm:w-1/2 h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
-                          aria-hidden="true"
-                        />
-                        <span className="text-[11px] sm:text-sm md:text-base lg:text-[21px] 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90">
-                          {option.label}
-                        </span>
-                        <div
-                          className="w-2/3 sm:w-1/2 h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
-                          aria-hidden="true"
-                        />
-                      </motion.button>
-                    ))}
+                    <div className="w-full h-full flex flex-col justify-around gap-[40%]">
+                      {activeInteraction.question && (
+                        <div className="inset-0 flex items-center justify-center">
+                          <motion.h2
+                            initial={{ y: 50, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{
+                              duration: 0.75,
+                              ease: "easeOut",
+                            }}
+                            data-cursor-expand
+                            className="text-xs min-[450px]:text-sm min-[520px]:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl 3xl:text-5xl font-semibold text-white text-center drop-shadow-[0_0_15px_rgba(255,45,119,0.3)] select-none px-6"
+                          >
+                            {activeInteraction.question}
+                          </motion.h2>
+                        </div>
+                      )}
+                      <div className="w-full flex flex-row justify-between items-end gap-8 sm:gap-12 md:gap-16 lg:gap-20">
+                        {activeInteraction.options.map((option, idx) => (
+                          <motion.button
+                            key={`${activeIndex}-${idx}`}
+                            initial={{ y: 30, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            transition={{
+                              duration: 1,
+                              ease: "easeOut",
+                              delay: 1,
+                            }}
+                            whileHover={{
+                              borderColor: "rgba(255, 255, 255, 0.8)",
+                            }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() =>
+                              handleOptionClick(activeIndex, option)
+                            }
+                            className="w-full flex flex-col justify-center items-center gap-1.5 min-[450px]:gap-1.75 sm:gap-2 md:gap-3 lg:gap-4 2xl:gap-5 3xl:gap-6 cursor-pointer hover:animate-pulse hover:*:text-[#FF2D77] group bg-transparent border-none outline-none"
+                          >
+                            <div
+                              className="w-2/3 lg:w-1/2 h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              aria-hidden="true"
+                            />
+                            <span className="text-[10px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90">
+                              {option.label}
+                            </span>
+                            <div
+                              className="w-2/3 lg:w-1/2 h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              aria-hidden="true"
+                            />
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
+                    <div
+                      className="absolute inset-x-0 bottom-0 h-[25%] pointer-events-none bg-linear-to-t from-black/40 via-black/20 to-transparent -z-10"
+                      aria-hidden="true"
+                    />
+                  </div>
+                )}
+              {/* Ending Buttons */}
+              {activeInteraction.type === "ending" &&
+                activeInteraction.options && (
+                  <div className="container relative mx-auto max-w-full w-full h-full flex flex-col justify-end items-start gap-8">
+                    <div className="w-full h-full flex flex-col justify-around gap-[40%]">
+                      <div className="inset-0 flex items-center justify-center" />
+                      <div className="w-2/3 flex flex-row justify-between items-end gap-8 sm:gap-12 md:gap-16 lg:gap-20">
+                        {activeInteraction.options.map((option, idx) => (
+                          <motion.button
+                            key={`end-${idx}`}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{
+                              duration: 0.5,
+                              delay: 0.6 + idx * 0.2,
+                              ease: "easeOut",
+                            }}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() =>
+                              handleOptionClick(activeIndex, option)
+                            }
+                            className="w-full flex flex-col justify-center items-center gap-1.5 min-[450px]:gap-1.75 sm:gap-2 md:gap-3 lg:gap-4 2xl:gap-5 3xl:gap-6 cursor-pointer hover:animate-pulse hover:*:text-[#FF2D77] group bg-transparent border-none outline-none"
+                          >
+                            <div
+                              className="w-2/3 lg:w-full h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              aria-hidden="true"
+                            />
+                            <span className="text-[10px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90">
+                              {option.label}
+                            </span>
+                            <div
+                              className="w-2/3 lg:w-full h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              aria-hidden="true"
+                            />
+                          </motion.button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
             </motion.div>

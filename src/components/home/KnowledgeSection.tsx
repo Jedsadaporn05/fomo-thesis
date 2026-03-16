@@ -402,8 +402,8 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 }}
                 src={
                   isDesktop
-                    ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1.mp4"
-                    : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-1-mobile.mp4"
+                    ? "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-1.mp4"
+                    : "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-1-mobile.mp4"
                 }
                 muted
                 loop
@@ -468,8 +468,8 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 }}
                 src={
                   isDesktop
-                    ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2.mp4"
-                    : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-2-mobile.mp4"
+                    ? "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-2.mp4"
+                    : "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-2-mobile.mp4"
                 }
                 muted
                 loop
@@ -532,8 +532,8 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
                 }}
                 src={
                   isDesktop
-                    ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3.mp4"
-                    : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/knowledge/knowledge-video-3-mobile.mp4"
+                    ? "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-3.mp4"
+                    : "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-3-mobile.mp4"
                 }
                 muted
                 loop

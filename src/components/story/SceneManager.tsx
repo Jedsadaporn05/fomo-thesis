@@ -2,7 +2,7 @@
 
 import { useStoryStore } from "@/src/store/useStoryStore";
 import { useAudioStore } from "@/src/store/useAudioStore";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Interaction, SceneConfig } from "./SceneConfig";
 import Navbar from "../layout/Navbar";
@@ -26,6 +26,7 @@ export default function SceneManager() {
   const setInteractionPaused = useStoryStore(
     (state) => state.setInteractionPaused,
   );
+  const score = useStoryStore((state) => state.score);
 
   const videoVolume = useAudioStore((state) => state.videoVolume);
   const bgmEnabled = useAudioStore((state) => state.bgmEnabled);
@@ -47,6 +48,15 @@ export default function SceneManager() {
   const nextSceneId = currentScene?.next;
   const nextScene = nextSceneId ? SceneConfig[nextSceneId] : null;
   const { autoNext } = currentScene;
+
+  const getNextSceneByScore = useCallback(() => {
+    if (currentScene.scoreBranch) {
+      return score >= currentScene.scoreBranch.threshold
+        ? currentScene.scoreBranch.pass
+        : currentScene.scoreBranch.fail;
+    }
+    return nextSceneId;
+  }, [currentScene.scoreBranch, nextSceneId, score]);
 
   useEffect(() => {
     if (!activeVideoNode) return;
@@ -109,26 +119,70 @@ export default function SceneManager() {
     canProceedRef.current = true;
     setCanProceed(true);
 
-    if (currentVideoRef.current?.ended && nextSceneId) {
-      goToScene(nextSceneId);
+    if (currentVideoRef.current?.ended) {
+      const target = getNextSceneByScore();
+      if (target) goToScene(target);
     }
-  }, [setInteractionPaused, nextSceneId, goToScene]);
+  }, [setInteractionPaused, getNextSceneByScore, goToScene]);
 
-  // Preload Video
-  useVideoPreloader(!isStoryStarted ? currentScene?.video : undefined, 1500);
-  useVideoPreloader(nextScene?.video, 3000);
+  // Preload Management
+  const preloadUrls = useMemo(() => {
+    if (!currentScene) return [];
+
+    const urls = new Set<string>();
+
+    if (!isStoryStarted) {
+      urls.add(currentScene.video);
+    }
+
+    if (currentScene.scoreBranch) {
+      const passScene = SceneConfig[currentScene.scoreBranch.pass];
+      const failScene = SceneConfig[currentScene.scoreBranch.fail];
+
+      if (score >= currentScene.scoreBranch.threshold) {
+        if (passScene) urls.add(passScene.video);
+        if (failScene) urls.add(failScene.video);
+      } else {
+        if (failScene) urls.add(failScene.video);
+        if (passScene) urls.add(passScene.video);
+      }
+    }
+
+    if (nextScene) {
+      urls.add(nextScene.video);
+    }
+
+    currentScene.interactions?.forEach((interaction) => {
+      if (
+        (interaction.type === "choice" || interaction.type === "ending") &&
+        interaction.options
+      ) {
+        interaction.options.forEach((option) => {
+          if (option.targetScene && SceneConfig[option.targetScene]) {
+            urls.add(SceneConfig[option.targetScene].video);
+          }
+        });
+      }
+    });
+
+    return Array.from(urls);
+  }, [currentScene, isStoryStarted, nextScene, score]);
+
+  useVideoPreloader(preloadUrls, 2000);
 
   useEffect(() => {
     syncVideoVolume(currentVideoRef.current);
   }, [videoVolume, bgmEnabled, currentSceneId, syncVideoVolume]);
 
   const handleVideoEnded = useCallback(() => {
-    if ((autoNext || canProceedRef.current) && nextSceneId) {
-      goToScene(nextSceneId);
+    if (autoNext || canProceedRef.current) {
+      const target = getNextSceneByScore();
+      if (target) goToScene(target);
     }
-  }, [autoNext, nextSceneId, goToScene]);
+  }, [autoNext, getNextSceneByScore, goToScene]);
 
   if (!currentScene) return null;
+
   if (isSmallScreen) return <SmallScreenOverlay />;
 
   if (!hasHydrated) {
