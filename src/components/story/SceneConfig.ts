@@ -1,4 +1,4 @@
-export type SceneId = "scene-1" | "scene-2" | "scene-3" | "scene-4";
+export type SceneId = "scene-1" | "scene-2" | "scene-3" | "scene-4" | "scene-5";
 
 export type InteractionType = "click" | "drag-drop" | "choice";
 
@@ -6,6 +6,7 @@ export interface Interaction {
   type: InteractionType;
   atTime: number;
   pause?: boolean;
+  resumeVideo?: boolean; // set false if want to use > 1 interaction/scene
   position?: { x: number; y: number }; // click position
   targetScene?: SceneId; // force change to target scene
   score?: number;
@@ -58,14 +59,42 @@ export const SceneConfig: Record<SceneId, Scene> = {
         atTime: 1,
         pause: false,
         options: [
-          { label: "ลองทักไปดูหน่อย", targetScene: "scene-4", score: 0 },
-          { label: "รอดูก่อนดีกว่า", targetScene: "scene-4", score: 10 },
+          {
+            label: "มันคือความผิดพลาดของฉันเอง",
+            targetScene: "scene-4",
+            score: 10,
+          },
+          {
+            label: "มันก็แค่โชคร้ายเท่านั้น",
+            targetScene: "scene-4",
+            score: 0,
+          },
         ],
       },
     ],
   },
   "scene-4": {
     id: "scene-4",
+    video: "/videos/scene-3.mp4",
+    next: "scene-5",
+    interactions: [
+      {
+        type: "click",
+        atTime: 1,
+        pause: true,
+        resumeVideo: false,
+        position: { x: 8, y: 13 },
+      },
+      {
+        type: "drag-drop",
+        atTime: 1,
+        pause: true,
+        targetScene: "scene-5",
+      },
+    ],
+  },
+  "scene-5": {
+    id: "scene-5",
     video: "/videos/scene-1.mp4",
     next: "scene-1",
   },
