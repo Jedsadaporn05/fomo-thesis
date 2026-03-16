@@ -73,6 +73,9 @@ export default function HeroSection({ startAnimation }: HeroProps) {
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDesktop || !startAnimation) return;
+
+    if (window.matchMedia("(hover: none)").matches) return;
+
     if (rafRef.current) return;
 
     const target = e.currentTarget;
@@ -184,7 +187,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
               variants={containerVariants}
               initial="hidden"
               animate={startAnimation ? "visible" : "hidden"}
-              className="flex flex-col justify-center items-center gap-6 md:gap-10 lg:gap-8 2xl:gap-10 3xl:gap-12 lg:px-24 xl:px-32 2xl:px-50 3xl:px-64"
+              className="flex flex-col justify-center items-center gap-6 md:gap-10 lg:gap-8 2xl:gap-10 3xl:gap-12 lg:px-24 xl:px-32 2xl:px-44 3xl:px-64"
             >
               {/* Logo Title */}
               <motion.div

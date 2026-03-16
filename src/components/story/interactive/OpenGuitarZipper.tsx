@@ -94,7 +94,7 @@ export default function OpenGuitarZipper({
           className="object-cover object-[10%_80%]"
         />
         {isDone && (
-          <div className="absolute top-[34%] sm:top-[36.75%] left-1/2 -translate-x-[31.75%] min-[390px]:-translate-x-[26.75%] sm:-translate-x-[29%] md:-translate-x-[26.5%] lg:-translate-x-[23.75%] xl:-translate-x-[27.5%] 2xl:-translate-x-[18.5%] flex items-center justify-center pointer-events-auto">
+          <div className="absolute top-[34%] sm:top-[36.75%] left-1/2 -translate-x-[31.75%] min-[390px]:-translate-x-[26.75%] sm:-translate-x-[29%] md:-translate-x-[26.5%] lg:-translate-x-[23.75%] xl:-translate-x-[27.5%] 2xl:-translate-x-[17.25%] flex items-center justify-center pointer-events-auto">
             <motion.button
               initial={{ scale: 0.75, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
