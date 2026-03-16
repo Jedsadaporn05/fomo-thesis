@@ -170,8 +170,8 @@ export default function HeroSection({ startAnimation }: HeroProps) {
               ref={videoRef}
               src={
                 isDesktop
-                  ? "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
-                  : "https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video-mobile.mp4"
+                  ? "https://cdn.fomo-gracie.com/video/hero/hero-video.mp4"
+                  : "https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4"
               }
               muted
               loop

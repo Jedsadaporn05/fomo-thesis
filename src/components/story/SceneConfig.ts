@@ -1,6 +1,13 @@
-export type SceneId = "scene-1" | "scene-2" | "scene-3" | "scene-4" | "scene-5";
+export type SceneId =
+  | "scene-1"
+  | "scene-2"
+  | "scene-3"
+  | "scene-4"
+  | "scene-5"
+  | "good-ending"
+  | "bad-ending";
 
-export type InteractionType = "click" | "drag-drop" | "choice";
+export type InteractionType = "click" | "drag-drop" | "choice" | "ending";
 
 export interface Interaction {
   type: InteractionType;
@@ -11,9 +18,11 @@ export interface Interaction {
   targetScene?: SceneId; // force change to target scene
   score?: number;
   // options for type choice
+  question?: string; // question use with type choice
   options?: {
     label: string;
-    targetScene: SceneId;
+    targetScene?: SceneId;
+    action?: "restart" | "home";
     score?: number;
   }[];
 }
@@ -22,6 +31,11 @@ export interface Scene {
   id: SceneId;
   video: string;
   next?: SceneId;
+  scoreBranch?: {
+    threshold: number;
+    pass: SceneId;
+    fail: SceneId;
+  };
   loop?: boolean;
   autoNext?: boolean;
   interactions?: Interaction[];
@@ -58,6 +72,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
         type: "choice",
         atTime: 1,
         pause: false,
+        question: "ฉันผิดเองหรือเปล่านะ?",
         options: [
           {
             label: "มันคือความผิดพลาดของฉันเอง",
@@ -96,6 +111,43 @@ export const SceneConfig: Record<SceneId, Scene> = {
   "scene-5": {
     id: "scene-5",
     video: "/videos/scene-1.mp4",
+    autoNext: true,
+    scoreBranch: {
+      threshold: 10,
+      pass: "good-ending",
+      fail: "bad-ending",
+    },
+  },
+  "good-ending": {
+    id: "good-ending",
+    video: "/videos/scene-2.mp4",
     next: "scene-1",
+    interactions: [
+      {
+        type: "ending",
+        atTime: 5,
+        pause: true,
+        options: [
+          { label: "เล่นอีกครั้ง", action: "restart" },
+          { label: "กลับหน้าหลัก", action: "home" },
+        ],
+      },
+    ],
+  },
+  "bad-ending": {
+    id: "bad-ending",
+    video: "/videos/scene-3.mp4",
+    next: "scene-1",
+    interactions: [
+      {
+        type: "ending",
+        atTime: 5,
+        pause: true,
+        options: [
+          { label: "ลองใหม่อีกครั้ง", action: "restart" },
+          { label: "กลับหน้าหลัก", action: "home" },
+        ],
+      },
+    ],
   },
 };

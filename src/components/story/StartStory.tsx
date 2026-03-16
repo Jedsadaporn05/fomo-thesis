@@ -147,7 +147,7 @@ export default function StartStory() {
               aria-hidden="true"
             />
             <span className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-bold text-white/90">
-              เริ่มเกม
+              เข้าสู่เรื่องราว
             </span>
             <div
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
