@@ -2,9 +2,20 @@ export type SceneId =
   | "scene-1"
   | "scene-2"
   | "scene-3"
+  | "scene-3-choice"
+  | "scene-3-choice-1"
+  | "scene-3-choice-2"
   | "scene-4"
+  | "scene-4-choice"
+  | "scene-4-choice-1"
+  | "scene-4-choice-2"
   | "scene-5"
+  | "scene-5-interactive"
+  | "scene-6"
+  | "scene-6-choice"
+  | "good-scene-1"
   | "good-ending"
+  | "bad-scene-1"
   | "bad-ending";
 
 export type InteractionType = "click" | "drag-drop" | "choice" | "ending";
@@ -44,7 +55,7 @@ export interface Scene {
 export const SceneConfig: Record<SceneId, Scene> = {
   "scene-1": {
     id: "scene-1",
-    video: "/videos/scene-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-1.mp4",
     next: "scene-2",
     interactions: [
       {
@@ -58,47 +69,108 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-2": {
     id: "scene-2",
-    video: "/videos/scene-2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-2.mp4",
     next: "scene-3",
     autoNext: true,
   },
   "scene-3": {
     id: "scene-3",
-    video: "/videos/scene-3.mp4",
-    next: "scene-4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-fix.mp4",
+    next: "scene-3-choice",
+    autoNext: true,
+  },
+  "scene-3-choice": {
+    id: "scene-3-choice",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice.mp4",
     loop: true,
     interactions: [
       {
         type: "choice",
         atTime: 1,
         pause: false,
-        question: "ฉันผิดเองหรือเปล่านะ?",
+        question: "ในตอนนี้ฉันควรทำอย่างไร?",
         options: [
           {
-            label: "มันคือความผิดพลาดของฉันเอง",
-            targetScene: "scene-4",
-            score: 10,
+            label: "อ่านคอมเม้นต์ต่อสิ",
+            targetScene: "scene-3-choice-1",
+            score: 0,
           },
           {
-            label: "มันก็แค่โชคร้ายเท่านั้น",
-            targetScene: "scene-4",
-            score: 0,
+            label: "ปิดโทรศัพท์ลงก่อน",
+            targetScene: "scene-3-choice-2",
+            score: 10,
           },
         ],
       },
     ],
   },
+  "scene-3-choice-1": {
+    id: "scene-3-choice-1",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice-1.mp4",
+    next: "scene-4",
+    autoNext: true,
+  },
+  "scene-3-choice-2": {
+    id: "scene-3-choice-2",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice-2.mp4",
+    next: "scene-4",
+    autoNext: true,
+  },
   "scene-4": {
     id: "scene-4",
-    video: "/videos/scene-3.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4.mp4",
+    next: "scene-4-choice",
+    autoNext: true,
+  },
+  "scene-4-choice": {
+    id: "scene-4-choice",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice.mp4",
+    loop: true,
+    interactions: [
+      {
+        type: "choice",
+        atTime: 1,
+        pause: false,
+        question: "ฉันควรซื้อดีไหม?",
+        options: [
+          {
+            label: "ซื้อตอนนี้เลย",
+            targetScene: "scene-4-choice-1",
+            score: 0,
+          },
+          {
+            label: "อาจจะยัง",
+            targetScene: "scene-4-choice-2",
+            score: 10,
+          },
+        ],
+      },
+    ],
+  },
+  "scene-4-choice-1": {
+    id: "scene-4-choice-1",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-1.mp4",
+    next: "scene-5-interactive",
+    autoNext: true,
+  },
+  "scene-4-choice-2": {
+    id: "scene-4-choice-2",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-2.mp4",
+    next: "scene-5-interactive",
+    autoNext: true,
+  },
+  "scene-5-interactive": {
+    id: "scene-5-interactive",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-5-interactive.mp4",
     next: "scene-5",
+    loop: true,
     interactions: [
       {
         type: "click",
-        atTime: 1,
-        pause: true,
+        atTime: 0.5,
+        pause: false,
         resumeVideo: false,
-        position: { x: 8, y: 13 },
+        position: { x: 55, y: 57 },
       },
       {
         type: "drag-drop",
@@ -110,42 +182,102 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-5": {
     id: "scene-5",
-    video: "/videos/scene-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-5.mp4",
+    next: "scene-6",
     autoNext: true,
+  },
+  "scene-6": {
+    id: "scene-6",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-6.mp4",
+    next: "scene-6-choice",
+    autoNext: true,
+  },
+  "scene-6-choice": {
+    id: "scene-6-choice",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-6-choice.mp4",
+    loop: true,
+    autoNext: true,
+    interactions: [
+      {
+        type: "choice",
+        atTime: 1,
+        pause: false,
+        question:
+          "ฉันเลือกที่จะวิ่งตามสิ่งที่ไม่มีวันพอหรือจริง ๆ หรือมันก็เป็นแค่โชคร้ายที่เกิดขึ้นกับฉัน…”",
+        options: [
+          {
+            label: "มันคือความผิดพลาดของฉันเอง",
+            score: 10,
+          },
+          {
+            label: "มันก็แค่โชคร้ายเท่านั้น",
+            score: 0,
+          },
+        ],
+      },
+    ],
     scoreBranch: {
-      threshold: 10,
-      pass: "good-ending",
-      fail: "bad-ending",
+      threshold: 20,
+      pass: "good-scene-1",
+      fail: "bad-scene-1",
     },
+  },
+
+  // Good Way
+  "good-scene-1": {
+    id: "good-scene-1",
+    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1.mp4",
+    next: "good-ending",
+    autoNext: true,
   },
   "good-ending": {
     id: "good-ending",
-    video: "/videos/scene-2.mp4",
-    next: "scene-1",
+    video: "https://cdn.fomo-gracie.com/video/story/good-ending.mp4",
+    loop: true,
     interactions: [
       {
         type: "ending",
-        atTime: 5,
-        pause: true,
+        atTime: 1,
+        pause: false,
         options: [
-          { label: "เล่นอีกครั้ง", action: "restart" },
-          { label: "กลับหน้าหลัก", action: "home" },
+          {
+            label: "เล่นอีกครั้ง",
+            action: "restart",
+          },
+          {
+            label: "กลับสู่หน้าหลัก",
+            action: "home",
+          },
         ],
       },
     ],
   },
+
+  // Bad Way
+  "bad-scene-1": {
+    id: "bad-scene-1",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1.mp4",
+    next: "bad-ending",
+    autoNext: true,
+  },
   "bad-ending": {
     id: "bad-ending",
-    video: "/videos/scene-3.mp4",
-    next: "scene-1",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-ending.mp4",
+    loop: true,
     interactions: [
       {
         type: "ending",
-        atTime: 5,
-        pause: true,
+        atTime: 1,
+        pause: false,
         options: [
-          { label: "ลองใหม่อีกครั้ง", action: "restart" },
-          { label: "กลับหน้าหลัก", action: "home" },
+          {
+            label: "เล่นอีกครั้ง",
+            action: "restart",
+          },
+          {
+            label: "กลับสู่หน้าหลัก",
+            action: "home",
+          },
         ],
       },
     ],

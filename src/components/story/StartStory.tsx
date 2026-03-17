@@ -9,9 +9,11 @@ import StartStoryBg from "@/public/story/StartStoryBg.png";
 import IconWarning from "@/public/story/IconWarning.png";
 import Warning from "@/public/story/Warning.png";
 import Navbar from "../layout/Navbar";
+import { useClickSound } from "@/src/hooks/useClickSound";
 
 export default function StartStory() {
   const router = useRouter();
+  const playClickSound = useClickSound();
   const setStoryStarted = useStoryStore((s) => s.setStoryStarted);
   const [isExiting, setIsExiting] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -23,11 +25,13 @@ export default function StartStory() {
   }, []);
 
   const onStarted = () => {
+    playClickSound();
     if (isExiting) return;
     setIsExiting(true);
   };
 
   const onBack = () => {
+    playClickSound();
     if (isExiting) return;
     setIsExiting(true);
     timerRef.current = setTimeout(() => router.push("/"), 600);

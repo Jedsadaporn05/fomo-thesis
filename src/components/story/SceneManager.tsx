@@ -61,6 +61,17 @@ export default function SceneManager() {
   useEffect(() => {
     if (!activeVideoNode) return;
 
+    if (activeVideoNode.getAttribute("src") !== currentScene.video) {
+      gsap.killTweensOf(activeVideoNode);
+      gsap.to(activeVideoNode, {
+        volume: 0,
+        duration: 1.2,
+        ease: "power2.out",
+        onComplete: () => activeVideoNode.pause(),
+      });
+      return;
+    }
+
     const targetVolume = bgmEnabled ? videoVolume : 0;
 
     gsap.killTweensOf(activeVideoNode);
@@ -98,7 +109,13 @@ export default function SceneManager() {
     return () => {
       gsap.killTweensOf(activeVideoNode);
     };
-  }, [isVideoPaused, bgmEnabled, videoVolume, activeVideoNode]);
+  }, [
+    isVideoPaused,
+    bgmEnabled,
+    videoVolume,
+    activeVideoNode,
+    currentScene.video,
+  ]);
 
   useEffect(() => {
     canProceedRef.current = false;
@@ -267,7 +284,7 @@ export default function SceneManager() {
                       data-cursor-expand
                       className="flex flex-col items-center justify-center gap-5 p-6 lg:p-12 rounded-2xl"
                     >
-                      <h3 className="text-white text-xl lg:text-2xl font-light tracking-widest uppercase">
+                      <h3 className="text-white text-xs sm:text-sm md:text-base lg:text-xl font-normal tracking-widest uppercase">
                         เรื่องราวถูกหยุดชั่วคราว
                       </h3>
                       <motion.button
@@ -285,9 +302,9 @@ export default function SceneManager() {
                           setIsAutoplayBlocked(false);
                         }}
                         aria-label="ดำเนินเรื่องราวต่อ"
-                        className="cursor-pointer relative group px-10 py-4 overflow-hidden rounded-full border border-white/30 bg-white/5 hover:bg-white/8 transition-colors duration-300 shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                        className="cursor-pointer relative group px-4 sm:px-6 md:px-8 lg:px-10 py-1.5 sm:py-2 md:py-3 lg:py-4 overflow-hidden rounded-full border border-white/30 bg-white/5 hover:bg-white/8 transition-colors duration-300 shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white"
                       >
-                        <span className="text-white text-sm lg:text-base font-normal tracking-wider relative z-10">
+                        <span className="text-white text-[10px] sm:text-xs md:text-sm lg:text-base font-normal tracking-wider relative z-10">
                           คลิกเพื่อดำเนินการต่อ
                         </span>
                       </motion.button>

@@ -40,7 +40,7 @@ export default function RootLayout({
         <link
           rel="preload"
           as="video"
-          href="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video.mp4"
+          href="https://cdn.fomo-gracie.com/video/hero/hero-video.mp4"
           type="video/mp4"
           media="(min-width: 1024px)"
           crossOrigin="anonymous"
@@ -49,7 +49,7 @@ export default function RootLayout({
         <link
           rel="preload"
           as="video"
-          href="https://pub-7c229057268a442f826c5224d51faddb.r2.dev/video/hero/hero-video-mobile.mp4"
+          href="https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4"
           type="video/mp4"
           media="(max-width: 1023px)"
           crossOrigin="anonymous"
