@@ -14,12 +14,22 @@ export function useHomeAudio() {
     if (!_hasHydrated || isStoryStarted) return;
 
     if (permission === "granted") {
-      playBGM("home", "/sounds/music/homepage-bgm.mp3", { fade: 1500 });
+      playBGM(
+        "home",
+        "https://cdn.fomo-gracie.com/audio/music/FOMO-BGM-FIX.mp3",
+        {
+          fade: 1500,
+        },
+      );
 
       const cancel = waitForGestureAndPlay(() => {
         const state = useAudioStore.getState();
         if (state.bgmKey !== "home" || !state.bgm?.playing()) {
-          playBGM("home", "/sounds/music/homepage-bgm.mp3", { fade: 1500 });
+          playBGM(
+            "home",
+            "https://cdn.fomo-gracie.com/audio/music/FOMO-BGM-FIX.mp3",
+            { fade: 1500 },
+          );
         }
       });
       setCancelGestureLock(cancel);

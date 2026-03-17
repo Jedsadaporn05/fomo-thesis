@@ -13,6 +13,7 @@ import LeftBag from "@/public/story/interactive/Left-Bag.png";
 import RightBag from "@/public/story/interactive/Right-Bag.png";
 import Zippy from "@/public/story/interactive/Zippy.png";
 import Guitar from "@/public/story/interactive/Guitar.png";
+import { useClickSound } from "@/src/hooks/useClickSound";
 
 interface ZipperInteractionProps {
   onComplete: () => void;
@@ -23,6 +24,7 @@ export default function OpenGuitarZipper({
 }: ZipperInteractionProps) {
   const [isDone, setIsDone] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const playClickSound = useClickSound();
 
   const y = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -117,7 +119,10 @@ export default function OpenGuitarZipper({
               transition={{ duration: 0.35, ease: "easeOut" }}
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={onComplete}
+              onClick={() => {
+                onComplete();
+                playClickSound();
+              }}
               className="relative flex items-center justify-center cursor-pointer group"
             >
               <span className="absolute size-10 min-[450px]:size-12 sm:size-16 md:size-18 lg:size-24 xl:size-32 2xl:size-36 3xl:size-38 rounded-full border lg:border-2 border-[#0a1738]/30 animate-ping animation-duration-[3s]" />

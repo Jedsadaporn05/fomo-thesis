@@ -16,6 +16,7 @@ import { useAudioStore } from "@/src/store/useAudioStore";
 import Image from "next/image";
 import Logo from "@/public/logo/LogoGracie.png";
 import { useStoryStore } from "@/src/store/useStoryStore";
+import { useClickSound } from "@/src/hooks/useClickSound";
 
 interface HeroProps {
   startAnimation: boolean;
@@ -26,6 +27,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
   const router = useRouter();
   const [isExiting, setIsExiting] = useState(false);
   const fadeOutBGM = useAudioStore((s) => s.fadeOutBGM);
+  const playClickSound = useClickSound();
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -131,6 +133,8 @@ export default function HeroSection({ startAnimation }: HeroProps) {
     cancelGestureLock?.();
     setCancelGestureLock(undefined);
 
+    playClickSound();
+    
     fadeOutBGM(1250);
 
     setIsExiting(true);

@@ -36,6 +36,7 @@ import {
 import { Slider } from "@/src/components/ui/slider";
 import Image from "next/image";
 import navLogo from "@/public/logo/LogoGracie.png";
+import { useClickSound } from "@/src/hooks/useClickSound";
 
 const menuItems = [
   { id: "Enter the story", title: "เข้าสู่เรื่องราว", href: "Hero" },
@@ -60,6 +61,7 @@ export default function Navbar() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExitStory, setIsExitStory] = useState(false);
   const [isManualShow, setIsManualShow] = useState(false);
+  const playClickSound = useClickSound();
 
   const isStoryStarted = useStoryStore((state) => state.isStoryStarted);
   const setPaused = useStoryStore((state) => state.setPaused);
@@ -222,7 +224,10 @@ export default function Navbar() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4 lg:pt-5"
-          onClick={() => setIsManualShow(true)}
+          onClick={() => {
+            setIsManualShow(true);
+            playClickSound();
+          }}
         >
           <div className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]">
             <Settings
@@ -253,7 +258,10 @@ export default function Navbar() {
             {!isStoryPage && (
               <button
                 type="button"
-                onClick={() => scrollToSection("Hero")}
+                onClick={() => {
+                  scrollToSection("Hero");
+                  playClickSound();
+                }}
                 aria-label="กลับไปที่หน้าแรกด้านบนสุด"
                 className="outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] rounded-lg transition-all"
               >
@@ -275,7 +283,10 @@ export default function Navbar() {
             <button
               type="button"
               aria-label={isFullscreen ? "ขยายเต็มหน้าจอ" : "ย่อหน้าจอ"}
-              onClick={toggleFullscreen}
+              onClick={() => {
+                playClickSound();
+                toggleFullscreen();
+              }}
               className={`hidden xl:flex items-center justify-center cursor-pointer group w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
             >
               <div className="relative flex items-center justify-center w-full h-full">
@@ -299,6 +310,7 @@ export default function Navbar() {
                 <button
                   type="button"
                   aria-label="ตั้งค่าเสียงประกอบ"
+                  onClick={playClickSound}
                   className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                 >
                   <div className="relative flex items-center justify-center">
@@ -328,7 +340,10 @@ export default function Navbar() {
                         การตั้งค่าเสียง
                       </DialogTitle>
                     </DialogHeader>
-                    <DialogClose className="py-2 transition-all group cursor-pointer">
+                    <DialogClose
+                      onClick={playClickSound}
+                      className="py-2 transition-all group cursor-pointer"
+                    >
                       <XIcon
                         strokeWidth={2.5}
                         size={24}
@@ -346,7 +361,10 @@ export default function Navbar() {
                       <div className="flex justify-between items-center mb-0 xl:mb-6">
                         <button
                           type="button"
-                          onClick={toggleBgmMute}
+                          onClick={() => {
+                            playClickSound();
+                            toggleBgmMute();
+                          }}
                           className="w-full flex items-center gap-5 outline-none cursor-pointer"
                         >
                           <div
@@ -360,7 +378,7 @@ export default function Navbar() {
                           </div>
                           <div>
                             <h3 className="text-base sm:text-lg md:text-xl font-bold text-white tracking-wide">
-                              เสียงประกอบ
+                              เสียงหลัก
                             </h3>
                           </div>
                         </button>
@@ -392,7 +410,10 @@ export default function Navbar() {
                       <div className="flex justify-between items-center mb-0 xl:mb-6">
                         <button
                           type="button"
-                          onClick={toggleSfxMute}
+                          onClick={() => {
+                            toggleSfxMute();
+                            playClickSound();
+                          }}
                           className="w-full flex items-center gap-5 outline-none cursor-pointer"
                         >
                           <div
@@ -443,6 +464,7 @@ export default function Navbar() {
                   <button
                     type="button"
                     aria-label={"ออกจากเรื่องราว"}
+                    onClick={playClickSound}
                     className={`cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
                   >
                     <div className="relative flex items-center justify-center w-full h-full">
@@ -463,7 +485,10 @@ export default function Navbar() {
                         </DialogTitle>
                       </DialogHeader>
                       <DialogClose
-                        onClick={onCancelExit}
+                        onClick={() => {
+                          onCancelExit();
+                          playClickSound();
+                        }}
                         className="py-2 transition-all group cursor-pointer"
                       >
                         <XIcon
@@ -486,13 +511,19 @@ export default function Navbar() {
                     </div>
                     <div className="flex flex-col sm:flex-row gap-4">
                       <button
-                        onClick={onCancelExit}
+                        onClick={() => {
+                          onCancelExit();
+                          playClickSound();
+                        }}
                         className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-base sm:text-lg md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20"
                       >
                         เล่นต่อ
                       </button>
                       <button
-                        onClick={onConfirmExit}
+                        onClick={() => {
+                          onConfirmExit();
+                          playClickSound();
+                        }}
                         className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-base sm:text-lg md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group"
                       >
                         ยืนยันการออก
@@ -508,6 +539,7 @@ export default function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <button
                     type="button"
+                    onClick={playClickSound}
                     aria-label={open ? "ปิดเมนู" : "เปิดเมนูนำทาง"}
                     className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                   >
@@ -538,6 +570,7 @@ export default function Navbar() {
                       onClick={() => {
                         scrollToSection(item.href);
                         setOpen(false);
+                        playClickSound();
                       }}
                       className={`group relative flex items-center justify-between gap-1.5 sm:gap-2.5 lg:gap-3.5 text-xs sm:text-sm md:text-base lg:text-lg 3xl:text-xl cursor-pointer rounded-lg px-3.5 py-2.5 3xl:py-3 font-medium transition-all duration-300 ease-out outline-none overflow-hidden focus:bg-transparent focus:text-[#FF2D77]
                     ${activeSection === item.href ? "text-[#FF2D77]" : "text-white hover:text-[#FF2D77]"}
@@ -578,7 +611,10 @@ export default function Navbar() {
               <button
                 type="button"
                 aria-label="ซ่อนแถบนำทาง"
-                onClick={() => setIsManualShow(false)}
+                onClick={() => {
+                  setIsManualShow(false);
+                  playClickSound();
+                }}
                 className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
               >
                 <XIcon
