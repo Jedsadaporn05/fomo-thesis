@@ -133,14 +133,21 @@ export default function SceneManager() {
   const handleInteractionComplete = useCallback(() => {
     setInteractionPaused(false);
 
-    canProceedRef.current = true;
-    setCanProceed(true);
-
     if (currentVideoRef.current?.ended) {
       const target = getNextSceneByScore();
       if (target) goToScene(target);
     }
   }, [setInteractionPaused, getNextSceneByScore, goToScene]);
+
+  const handleAllInteractionsComplete = useCallback(() => {
+    canProceedRef.current = true;
+    setCanProceed(true);
+
+    if (currentScene.scoreBranch) {
+      const target = getNextSceneByScore();
+      if (target) goToScene(target);
+    }
+  }, [currentScene.scoreBranch, getNextSceneByScore, goToScene]);
 
   // Preload Management
   const preloadUrls = useMemo(() => {
@@ -263,6 +270,7 @@ export default function SceneManager() {
                         videoRef={currentVideoRef}
                         onInteractionTriggered={handleInteractionTriggered}
                         onComplete={handleInteractionComplete}
+                        onAllComplete={handleAllInteractionsComplete}
                       />
                     )}
                 </motion.div>

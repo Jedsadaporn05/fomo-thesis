@@ -5,9 +5,6 @@ import { motion } from "framer-motion";
 import { useStoryStore } from "@/src/store/useStoryStore";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import StartStoryBg from "@/public/story/StartStoryBg.png";
-import IconWarning from "@/public/story/IconWarning.png";
-import Warning from "@/public/story/Warning.png";
 import Navbar from "../layout/Navbar";
 import { useClickSound } from "@/src/hooks/useClickSound";
 
@@ -16,6 +13,7 @@ export default function StartStory() {
   const playClickSound = useClickSound();
   const setStoryStarted = useStoryStore((s) => s.setStoryStarted);
   const [isExiting, setIsExiting] = useState(false);
+  const [isBgLoaded, setIsBgLoaded] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -41,8 +39,8 @@ export default function StartStory() {
     <motion.div
       className="fixed inset-0 z-50 bg-black flex flex-col justify-center items-center px-6"
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
+      animate={{ opacity: isBgLoaded ? 1 : 0 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
     >
       <motion.div
         className="fixed inset-0 z-9999 bg-black pointer-events-none"
@@ -61,11 +59,12 @@ export default function StartStory() {
         aria-hidden="true"
       >
         <Image
-          src={StartStoryBg}
+          src="https://cdn.fomo-gracie.com/image/story/StartStoryBg.png"
           alt="Start Story Choice Image Background"
           fill
           className="w-full h-full object-cover pointer-events-none"
           priority
+          onLoad={() => setIsBgLoaded(true)}
         />
       </div>
       <div
@@ -80,7 +79,7 @@ export default function StartStory() {
           className="w-full h-full flex flex-col items-center gap-4"
         >
           <Image
-            src={IconWarning}
+            src="https://cdn.fomo-gracie.com/image/story/IconWarning.png"
             alt="Start Story Icon Warning !"
             width={400}
             height={400}
@@ -89,7 +88,7 @@ export default function StartStory() {
           />
 
           <Image
-            src={Warning}
+            src="https://cdn.fomo-gracie.com/image/story/Warning.png"
             alt="Start Story Warning Word !"
             width={400}
             height={400}

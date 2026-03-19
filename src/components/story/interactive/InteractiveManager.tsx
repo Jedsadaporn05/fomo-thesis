@@ -12,6 +12,7 @@ interface InteractiveManagerProps {
   scene: Scene;
   videoRef: React.RefObject<HTMLVideoElement | null>;
   onComplete?: () => void;
+  onAllComplete?: () => void;
   onInteractionTriggered?: (interaction: Interaction) => void;
 }
 
@@ -19,6 +20,7 @@ export default function InteractiveManager({
   scene,
   videoRef,
   onComplete,
+  onAllComplete,
   onInteractionTriggered,
 }: InteractiveManagerProps) {
   const router = useRouter();
@@ -90,18 +92,33 @@ export default function InteractiveManager({
     }
   }, [activeInteraction, onInteractionTriggered]);
 
+  const checkAllCompleted = useCallback(
+    (newCompletedIndices: number[]) => {
+      if (!scene.interactions) return;
+      if (newCompletedIndices.length >= scene.interactions.length) {
+        if (onAllComplete) onAllComplete();
+      }
+    },
+    [scene.interactions, onAllComplete],
+  );
+
   const handleInteractionSuccess = useCallback(
     (index: number, interaction: Interaction) => {
-      setCompletedIndices((prev) => [...prev, index]);
+      const newCompleted = [...completedIndices, index];
+      setCompletedIndices(newCompleted);
 
       if (interaction.resumeVideo !== false) {
         if (onComplete) onComplete();
       }
 
       if (interaction.score) addScore(interaction.score);
-      if (interaction.targetScene) goToScene(interaction.targetScene);
+      if (interaction.targetScene) {
+        goToScene(interaction.targetScene);
+      } else {
+        checkAllCompleted(newCompleted);
+      }
     },
-    [onComplete, addScore, goToScene],
+    [onComplete, addScore, goToScene, completedIndices, checkAllCompleted],
   );
 
   const handleOptionClick = useCallback(
@@ -114,7 +131,8 @@ export default function InteractiveManager({
         action?: "restart" | "home";
       },
     ) => {
-      setCompletedIndices((prev) => [...prev, index]);
+      const newCompleted = [...completedIndices, index];
+      setCompletedIndices(newCompleted);
 
       const currentInteraction = scene.interactions?.[index];
       if (currentInteraction?.resumeVideo !== false) {
@@ -130,9 +148,20 @@ export default function InteractiveManager({
         router.push("/");
       } else if (option.targetScene) {
         goToScene(option.targetScene);
+      } else {
+        checkAllCompleted(newCompleted);
       }
     },
-    [onComplete, addScore, goToScene, scene.interactions, resetStory, router],
+    [
+      onComplete,
+      addScore,
+      goToScene,
+      scene.interactions,
+      resetStory,
+      router,
+      completedIndices,
+      checkAllCompleted,
+    ],
   );
 
   // Reset after Scene Change
