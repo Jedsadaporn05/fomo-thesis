@@ -246,7 +246,7 @@ export default function KnowledgeBlock({
             alt="FOMO"
             width={400}
             height={400}
-            className="w-auto h-[27px] min-[355px]:h-[30px] min-[395px]:h-[35px] min-[450px]:h-[40px] min-[590px]:h-[50px] sm:h-[60px] lg:h-[65px] 2xl:h-[70px] 3xl:h-[100px] object-contain shrink-0 pointer-events-none"
+            className="w-auto h-6.75 min-[355px]:h-7.5 min-[395px]:h-8.75 min-[450px]:h-10 min-[590px]:h-12.5 sm:h-15 lg:h-16.25 2xl:h-17.5 3xl:h-25 object-contain shrink-0 pointer-events-none"
           />
           <div className="text-base min-[355px]:text-lg min-[395px]:text-xl min-[450px]:text-2xl min-[590px]:text-3xl sm:text-4xl md:text-[42px] 2xl:text-[52px] 3xl:text-7xl font-bold text-white whitespace-nowrap text-center">
             {title.text}
@@ -257,7 +257,7 @@ export default function KnowledgeBlock({
               alt="Question Mark"
               width={400}
               height={400}
-              className="w-auto h-[23px] min-[355px]:h-[25px] min-[395px]:h-[30px] min-[450px]:h-[35px] min-[590px]:h-[45px] sm:h-[60px] md:h-[65px] xl:h-[80px] 3xl:h-[90px] object-contain shrink-0 pointer-events-none"
+              className="w-auto h-5.75 min-[355px]:h-6.25 min-[395px]:h-7.5 min-[450px]:h-8.75 min-[590px]:h-11.25 sm:h-15 md:h-16.25 xl:h-20 3xl:h-22.5 object-contain shrink-0 pointer-events-none"
             />
           )}
         </div>

@@ -9,10 +9,6 @@ import {
 } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import LeftBag from "@/public/story/interactive/Left-Bag.png";
-import RightBag from "@/public/story/interactive/Right-Bag.png";
-import Zippy from "@/public/story/interactive/Zippy.png";
-import Guitar from "@/public/story/interactive/Guitar.png";
 import { useClickSound } from "@/src/hooks/useClickSound";
 
 interface ZipperInteractionProps {
@@ -24,7 +20,16 @@ export default function OpenGuitarZipper({
 }: ZipperInteractionProps) {
   const [isDone, setIsDone] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const loadedImagesRef = useRef<Set<string>>(new Set());
+  const [isReady, setIsReady] = useState(false);
   const playClickSound = useClickSound();
+
+  const handleImageLoad = (id: string) => {
+    loadedImagesRef.current.add(id);
+    if (loadedImagesRef.current.size >= 4) {
+      setIsReady(true);
+    }
+  };
 
   const y = useMotionValue(0);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -52,6 +57,11 @@ export default function OpenGuitarZipper({
   }, []);
 
   useEffect(() => {
+    if (!isReady || hasInteracted) {
+      setShowHint(false);
+      return;
+    }
+
     const showTimer = setTimeout(() => {
       setShowHint(true);
     }, 1000);
@@ -64,7 +74,7 @@ export default function OpenGuitarZipper({
       clearTimeout(showTimer);
       clearTimeout(hideTimer);
     };
-  }, []);
+  }, [isReady, hasInteracted]);
 
   useMotionValueEvent(y, "change", (latest) => {
     if (!hasInteracted && latest > 10) {
@@ -101,15 +111,21 @@ export default function OpenGuitarZipper({
   );
 
   return (
-    <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isReady ? 1 : 0 }}
+      transition={{ duration: 0.5 }}
+      className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
+    >
       {/* Guitar */}
       <div className="absolute inset-0 right-[5%] z-0 flex justify-center items-center">
         <Image
-          src={Guitar}
+          src="https://cdn.fomo-gracie.com/image/story/interactive/Guitar.png"
           alt="Inside Guitar"
           fill
           priority
           className="object-cover object-[10%_80%]"
+          onLoad={() => handleImageLoad("guitar")}
         />
         {isDone && (
           <div className="absolute top-[34%] sm:top-[36.75%] left-1/2 -translate-x-[31.75%] min-[390px]:-translate-x-[26.75%] sm:-translate-x-[29%] md:-translate-x-[26.5%] lg:-translate-x-[23.75%] xl:-translate-x-[27.5%] 2xl:-translate-x-[17.25%] flex items-center justify-center pointer-events-auto">
@@ -143,11 +159,12 @@ export default function OpenGuitarZipper({
         style={{ clipPath: bottomClip }}
       >
         <Image
-          src={LeftBag}
+          src="https://cdn.fomo-gracie.com/image/story/interactive/Left-Bag.png"
           alt="Left"
           fill
           priority
           className="object-cover object-right"
+          onLoad={() => handleImageLoad("left")}
         />
       </motion.div>
       <motion.div
@@ -159,7 +176,7 @@ export default function OpenGuitarZipper({
         }}
       >
         <Image
-          src={LeftBag}
+          src="https://cdn.fomo-gracie.com/image/story/interactive/Left-Bag.png"
           alt="Left Flap"
           fill
           priority
@@ -172,11 +189,12 @@ export default function OpenGuitarZipper({
         style={{ clipPath: bottomClip }}
       >
         <Image
-          src={RightBag}
+          src="https://cdn.fomo-gracie.com/image/story/interactive/Right-Bag.png"
           alt="Right"
           fill
           priority
           className="object-cover object-left"
+          onLoad={() => handleImageLoad("right")}
         />
       </motion.div>
       <motion.div
@@ -188,7 +206,7 @@ export default function OpenGuitarZipper({
         }}
       >
         <Image
-          src={RightBag}
+          src="https://cdn.fomo-gracie.com/image/story/interactive/Right-Bag.png"
           alt="Right Flap"
           fill
           priority
@@ -227,10 +245,11 @@ export default function OpenGuitarZipper({
             )}
           </AnimatePresence>
           <Image
-            src={Zippy}
+            src="https://cdn.fomo-gracie.com/image/story/interactive/Zippy.png"
             alt="Zipper Head"
             fill
             className="object-contain pointer-events-none drop-shadow-lg"
+            onLoad={() => handleImageLoad("zippy")}
           />
           {/* Slide Down */}
           <AnimatePresence>
@@ -302,6 +321,6 @@ export default function OpenGuitarZipper({
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   );
 }
