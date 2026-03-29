@@ -217,7 +217,7 @@ export default function OpenGuitarZipper({
       <div
         data-cursor-expand
         ref={trackRef}
-        className="absolute -top-7 min-[475px]:-top-5 sm:top-0 xl:top-5 bottom-10 left-1/2 -translate-x-[72%] w-10 min-[390px]:w-12 sm:w-14 md:w-16 lg:w-18 xl:w-20 2xl:w-26 z-999 pointer-events-none flex justify-center"
+        className="absolute -top-7 min-[475px]:-top-5 sm:top-0 xl:top-5 bottom-10 left-1/2 -translate-x-[72%] w-10 min-[390px]:w-12 sm:w-14 md:w-16 lg:w-18 xl:w-20 2xl:w-26 z-50 pointer-events-none flex justify-center"
       >
         <motion.div
           animate={{ opacity: 1, scale: 1 }}

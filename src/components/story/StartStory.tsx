@@ -134,7 +134,7 @@ export default function StartStory() {
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
               aria-hidden="true"
             />
-            <span className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-bold text-white/90">
+            <span className="text-xs sm:text-sm md:text-base lg:text-lg 2xl:text-xl 3xl:text-2xl font-bold text-white/90">
               ย้อนกลับ
             </span>
             <div
@@ -151,7 +151,7 @@ export default function StartStory() {
               className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
               aria-hidden="true"
             />
-            <span className="text-sm sm:text-base md:text-lg lg:text-xl 2xl:text-[21px] 3xl:text-2xl font-bold text-white/90">
+            <span className="text-xs sm:text-sm md:text-base lg:text-lg 2xl:text-xl 3xl:text-2xl font-bold text-white/90">
               เข้าสู่เรื่องราว
             </span>
             <div

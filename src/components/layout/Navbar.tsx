@@ -226,7 +226,7 @@ export default function Navbar() {
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.8, rotate: -90 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4 lg:pt-5"
+            className="pointer-events-auto absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4"
             onClick={() => {
               setIsManualShow(true);
               playClickSound();
@@ -243,7 +243,7 @@ export default function Navbar() {
       </AnimatePresence>
 
       <header
-        className={`${isStoryPage ? "absolute" : "fixed"} top-0 left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6 2xl:left-7 right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6 2xl:right-7 z-50 pt-2 sm:pt-3 md:pt-4 lg:pt-5 transition-all duration-500 ease-in-out
+        className={`pointer-events-none ${isStoryPage ? "absolute" : "fixed"} top-0 left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6 2xl:left-7 right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6 2xl:right-7 z-50 pt-2 sm:pt-3 md:pt-4 transition-all duration-500 ease-in-out
         ${!isActuallyShowing ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
        `}
       >
@@ -267,7 +267,7 @@ export default function Navbar() {
                   playClickSound();
                 }}
                 aria-label="กลับไปที่หน้าแรกด้านบนสุด"
-                className="outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] rounded-lg transition-all"
+                className="pointer-events-auto outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] rounded-lg transition-all"
               >
                 <Image
                   src={navLogo}
@@ -291,7 +291,7 @@ export default function Navbar() {
                 playClickSound();
                 toggleFullscreen();
               }}
-              className={`hidden xl:flex items-center justify-center cursor-pointer group w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
+              className={`pointer-events-auto hidden xl:flex items-center justify-center cursor-pointer group w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isFullscreen ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
             >
               <div className="relative flex items-center justify-center w-full h-full">
                 <Maximize
@@ -315,7 +315,7 @@ export default function Navbar() {
                   type="button"
                   aria-label="ตั้งค่าเสียงประกอบ"
                   onClick={playClickSound}
-                  className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                  className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                 >
                   <div className="relative flex items-center justify-center">
                     <Music2
@@ -469,7 +469,7 @@ export default function Navbar() {
                     type="button"
                     aria-label={"ออกจากเรื่องราว"}
                     onClick={playClickSound}
-                    className={`cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
+                    className={`pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
                   >
                     <div className="relative flex items-center justify-center w-full h-full">
                       <LogOut
@@ -545,7 +545,7 @@ export default function Navbar() {
                     type="button"
                     onClick={playClickSound}
                     aria-label={open ? "ปิดเมนู" : "เปิดเมนูนำทาง"}
-                    className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                    className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                   >
                     <div className="relative flex items-center justify-center w-full h-full">
                       <Menu
@@ -619,7 +619,7 @@ export default function Navbar() {
                   setIsManualShow(false);
                   playClickSound();
                 }}
-                className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
               >
                 <XIcon
                   strokeWidth={2.5}

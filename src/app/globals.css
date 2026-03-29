@@ -235,3 +235,13 @@ html.lenis body {
   height: 100vh !important;
   touch-action: none !important;
 }
+
+/* Hide default video controls on iOS/Safari */
+video::-webkit-media-controls {
+  display: none !important;
+}
+
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}

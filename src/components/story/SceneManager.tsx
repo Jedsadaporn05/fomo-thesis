@@ -12,8 +12,10 @@ import SmallScreenOverlay from "../SmallScreenOverlay";
 import { useScreenDetection } from "@/src/hooks/useScreenDetection";
 import InteractiveManager from "./interactive/InteractiveManager";
 import gsap from "gsap";
+import { useClickSound } from "@/src/hooks/useClickSound";
 
 export default function SceneManager() {
+  const playClickSound = useClickSound();
   const { isSmallScreen } = useScreenDetection();
   const hasHydrated = useStoryStore((state) => state._hasHydrated);
   const currentSceneId = useStoryStore((state) => state.currentSceneId);
@@ -49,6 +51,10 @@ export default function SceneManager() {
   const nextScene = nextSceneId ? SceneConfig[nextSceneId] : null;
   const { autoNext } = currentScene;
 
+  const [videoSrc, setVideoSrc] = useState<string | undefined>(
+    currentScene?.video,
+  );
+
   const getNextSceneByScore = useCallback(() => {
     const currentScore = useStoryStore.getState().score;
     if (currentScene.scoreBranch) {
@@ -60,21 +66,24 @@ export default function SceneManager() {
   }, [currentScene.scoreBranch, nextSceneId]);
 
   useEffect(() => {
-    if (!activeVideoNode) return;
+    if (!activeVideoNode || !currentScene) return;
 
-    if (activeVideoNode.getAttribute("src") !== currentScene.video) {
+    if (currentScene.video !== videoSrc) {
       gsap.killTweensOf(activeVideoNode);
       gsap.to(activeVideoNode, {
+        opacity: 0,
         volume: 0,
-        duration: 1.2,
+        duration: 0.5,
         ease: "power2.out",
-        onComplete: () => activeVideoNode.pause(),
+        onComplete: () => {
+          activeVideoNode.pause();
+          setVideoSrc(currentScene.video);
+        },
       });
       return;
     }
 
     const targetVolume = bgmEnabled ? videoVolume : 0;
-
     gsap.killTweensOf(activeVideoNode);
 
     if (isVideoPaused) {
@@ -85,6 +94,7 @@ export default function SceneManager() {
         onComplete: () => activeVideoNode.pause(),
       });
     } else {
+      activeVideoNode.muted = !bgmEnabled;
       const playPromise = activeVideoNode.play();
 
       if (playPromise !== undefined) {
@@ -92,17 +102,21 @@ export default function SceneManager() {
           .then(() => {
             setIsAutoplayBlocked(false);
             gsap.to(activeVideoNode, {
+              opacity: 1,
               volume: targetVolume,
               duration: 0.8,
               ease: "power2.inOut",
             });
           })
           .catch((error) => {
-            console.warn("Autoplay was prevented by the browser.");
-            console.log(error);
-            setIsAutoplayBlocked(true);
-
-            activeVideoNode.volume = 0;
+            if (error.name === "NotAllowedError") {
+              console.warn("Autoplay was prevented by the browser.");
+              setIsAutoplayBlocked(true);
+              activeVideoNode.volume = 0;
+            } else {
+              // Ignore AbortError caused by slow internet buffering or fast scene transitions
+              console.log("Play interrupted or pending:", error.name);
+            }
           });
       }
     }
@@ -115,7 +129,8 @@ export default function SceneManager() {
     bgmEnabled,
     videoVolume,
     activeVideoNode,
-    currentScene.video,
+    currentScene,
+    videoSrc,
   ]);
 
   useEffect(() => {
@@ -238,32 +253,43 @@ export default function SceneManager() {
             <div className="relative w-full aspect-video max-w-[calc(100dvh*(16/9))] max-h-[calc(100vw*(9/16))] bg-black shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
               <Navbar />
 
+              <motion.div
+                key={currentSceneId}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{
+                  duration: 1.2,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="absolute inset-0 w-full h-full"
+              >
+                <video
+                  ref={(el) => {
+                    currentVideoRef.current = el;
+                    setActiveVideoNode(el);
+                  }}
+                  src={videoSrc}
+                  style={{ opacity: 0 }}
+                  autoPlay={!isVideoPaused}
+                  playsInline
+                  muted={!bgmEnabled}
+                  loop={currentScene.loop && !canProceed}
+                  onEnded={handleVideoEnded}
+                  className="absolute inset-0 w-full h-full object-contain object-center"
+                  onPlay={(e) => syncVideoVolume(e.currentTarget)}
+                />
+              </motion.div>
+
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSceneId}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{
-                    duration: 1.2,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="absolute inset-0 w-full h-full"
+                  transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0 w-full h-full pointer-events-none"
                 >
-                  <video
-                    ref={(el) => {
-                      currentVideoRef.current = el;
-                      setActiveVideoNode(el);
-                    }}
-                    src={currentScene.video}
-                    autoPlay={!isVideoPaused}
-                    playsInline
-                    loop={currentScene.loop && !canProceed}
-                    onEnded={handleVideoEnded}
-                    className="absolute inset-0 w-full h-full object-contain object-center"
-                    onPlay={(e) => syncVideoVolume(e.currentTarget)}
-                  />
-
                   {currentScene.interactions &&
                     currentScene.interactions.length > 0 && (
                       <InteractiveManager
@@ -308,6 +334,7 @@ export default function SceneManager() {
                               ease: "power2.inOut",
                             });
                           }
+                          playClickSound();
                           setIsAutoplayBlocked(false);
                         }}
                         aria-label="ดำเนินเรื่องราวต่อ"
