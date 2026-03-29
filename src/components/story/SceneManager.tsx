@@ -50,13 +50,14 @@ export default function SceneManager() {
   const { autoNext } = currentScene;
 
   const getNextSceneByScore = useCallback(() => {
+    const currentScore = useStoryStore.getState().score;
     if (currentScene.scoreBranch) {
-      return score >= currentScene.scoreBranch.threshold
+      return currentScore >= currentScene.scoreBranch.threshold
         ? currentScene.scoreBranch.pass
         : currentScene.scoreBranch.fail;
     }
     return nextSceneId;
-  }, [currentScene.scoreBranch, nextSceneId, score]);
+  }, [currentScene.scoreBranch, nextSceneId]);
 
   useEffect(() => {
     if (!activeVideoNode) return;

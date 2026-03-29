@@ -228,3 +228,10 @@ html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
+
+/* Lock scroll */
+.lock-scroll {
+  overflow: hidden !important;
+  height: 100vh !important;
+  touch-action: none !important;
+}

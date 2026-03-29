@@ -28,8 +28,7 @@ export interface Interaction {
   position?: { x: number; y: number }; // click position
   targetScene?: SceneId; // force change to target scene
   score?: number;
-  // options for type choice
-  question?: string; // question use with type choice
+  question?: string; // question and option{} use with type choice
   options?: {
     label: string;
     targetScene?: SceneId;
@@ -93,12 +92,10 @@ export const SceneConfig: Record<SceneId, Scene> = {
           {
             label: "อ่านคอมเม้นต์ต่อสิ",
             targetScene: "scene-3-choice-1",
-            score: 0,
           },
           {
             label: "ปิดโทรศัพท์ลงก่อน",
             targetScene: "scene-3-choice-2",
-            score: 10,
           },
         ],
       },
@@ -136,12 +133,10 @@ export const SceneConfig: Record<SceneId, Scene> = {
           {
             label: "ซื้อตอนนี้เลย",
             targetScene: "scene-4-choice-1",
-            score: 0,
           },
           {
             label: "อาจจะยัง",
             targetScene: "scene-4-choice-2",
-            score: 10,
           },
         ],
       },
@@ -203,15 +198,48 @@ export const SceneConfig: Record<SceneId, Scene> = {
         atTime: 1,
         pause: false,
         question:
-          "ฉันเลือกที่จะวิ่งตามสิ่งที่ไม่มีวันพอหรือจริง ๆ หรือมันก็เป็นแค่โชคร้ายที่เกิดขึ้นกับฉัน…”",
+          "“ฉันพลาดสอบที่สำคัญที่สุด… เพราะมัววิ่งตามสิ่งที่ไม่เคยพอ หรือมันแค่โชคร้ายกันแน่?”",
         options: [
+          {
+            label: "มันก็แค่โชคร้ายเท่านั้น",
+            score: 0,
+          },
           {
             label: "มันคือความผิดพลาดของฉันเอง",
             score: 10,
           },
+        ],
+      },
+      {
+        type: "choice",
+        atTime: 3,
+        pause: false,
+        question: "“จะลองหาทางแก้ไขดีมั้ย…หรือแค่ปัดมันออกไป”",
+        options: [
           {
-            label: "มันก็แค่โชคร้ายเท่านั้น",
+            label: "ฉันต้องทำอะไรสักอย่าง",
+            score: 10,
+          },
+          {
+            label: "ช่างมันเถอะ…",
             score: 0,
+          },
+        ],
+      },
+      {
+        type: "choice",
+        atTime: 5,
+        pause: false,
+        question:
+          "“สิ่งที่สำคัญที่สุดสำหรับฉันกันแน่…โลกจริงหรือภาพลวงตาที่คนอื่นกดไลก์ให้ฉัน?”",
+        options: [
+          {
+            label: "ฉันยังไม่พร้อมจะหายไปจากสายตาคนอื่น",
+            score: 0,
+          },
+          {
+            label: "ฉันขอเลือกที่จะกลับไปหาความจริง",
+            score: 10,
           },
         ],
       },

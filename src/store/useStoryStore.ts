@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { SceneId } from "../components/story/SceneConfig";
+import { clearVideoPreloadCache } from "../hooks/useVideoPreloader";
 
 type StoryState = {
   currentSceneId: SceneId;
@@ -52,6 +53,7 @@ export const useStoryStore = create<StoryState>()(
         })),
 
       resetStory: () => {
+        clearVideoPreloadCache();
         set({
           currentSceneId: "scene-1",
           isStoryStarted: false,

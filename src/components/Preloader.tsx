@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLenis } from "lenis/react";
 import Image from "next/image";
 import Logo from "@/public/logo/LogoGracie.png";
+import useIsDesktop from "@/src/hooks/useIsDesktop";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,143 +16,240 @@ interface PreloaderProps {
 
 const PRELOADED_KEY = "isPreloaded";
 
+const ASSETS_TO_LOAD = {
+  images: [
+    "/home/knowledge-section/Title-FOMO.png",
+    "/home/knowledge-section/Title-QuestionMark.png",
+    "/home/member-section/MembersBg-Mockup.png",
+    "/home/member-section/MembersBg-Mobile-Mockup.png",
+    "/home/member-section/Advisor.png",
+    "/home/member-section/Q.png",
+    "/home/member-section/Ohm.png",
+    "/home/member-section/New.png",
+  ],
+  interface: ["/logo/LogoGracie.png", "/logo/LogoGracie.webm"],
+  audio: ["https://cdn.fomo-gracie.com/audio/music/FOMO-BGM-FIX.mp3"],
+  heroVideo: {
+    desktop: "https://cdn.fomo-gracie.com/video/hero/hero-video.mp4",
+    mobile: "https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4",
+  },
+  knowledgeVideos: [
+    {
+      desktop:
+        "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-1.mp4",
+      mobile:
+        "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-1-mobile.mp4",
+    },
+    {
+      desktop:
+        "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-2.mp4",
+      mobile:
+        "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-2-mobile.mp4",
+    },
+    {
+      desktop:
+        "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-3.mp4",
+      mobile:
+        "https://cdn.fomo-gracie.com/video/knowledge/knowledge-video-3-mobile.mp4",
+    },
+  ],
+};
+
 export default function Preloader({ onComplete }: PreloaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
-  const [isResourcesReady, setIsResourcesReady] = useState(false);
+  const [statusText, setStatusText] = useState("Initializing...");
+  const [isReadyToExit, setIsReadyToExit] = useState(false);
   const lenis = useLenis();
+  const isDesktop = useIsDesktop();
+
+  const initialIsDesktopRef = useRef(isDesktop);
+  const loadedCountRef = useRef(0);
+  const hasStartedPreloading = useRef(false);
+
+  const totalAssets =
+    ASSETS_TO_LOAD.images.length +
+    ASSETS_TO_LOAD.interface.length +
+    ASSETS_TO_LOAD.audio.length +
+    1 +
+    ASSETS_TO_LOAD.knowledgeVideos.length;
+
+  const finishLoading = useCallback(() => {
+    setStatusText("Ready to Start");
+    setIsReadyToExit(true);
+  }, []);
 
   useEffect(() => {
-    const handleLoad = () => setIsResourcesReady(true);
-
-    if (document.readyState === "complete") {
-      setIsResourcesReady(true);
-    } else {
-      window.addEventListener("load", handleLoad);
-    }
-
-    // If loading takes more than 12 seconds, force finish
-    const safetyTimeout = setTimeout(() => {
-      if (!isResourcesReady) {
-        setIsResourcesReady(true);
-      }
-    }, 12000);
-
-    return () => {
-      window.removeEventListener("load", handleLoad);
-      clearTimeout(safetyTimeout);
-    };
-  }, [isResourcesReady]);
-
-  // Main Animation Logic
-  useEffect(() => {
-    if (!containerRef.current) return;
-
-    document.body.style.overflow = "hidden";
-    lenis?.stop();
-
-    let isMounted = true;
     const isCached = sessionStorage.getItem(PRELOADED_KEY);
 
-    const exitPreloader = () => {
-      if (!isMounted) return;
-      gsap.to(containerRef.current, {
-        opacity: 0,
-        y: -30,
-        duration: 0.8,
-        ease: "power3.inOut",
-        onComplete: () => {
-          document.body.style.overflow = "";
-          lenis?.start();
-          ScrollTrigger.refresh(true);
-          sessionStorage.setItem(PRELOADED_KEY, "true");
-          onComplete();
-        },
-      });
-    };
-
-    // Fast track for cached users
     if (isCached) {
-      gsap.to(
-        { val: 0 },
-        {
-          val: 100,
-          duration: 0.6,
-          ease: "power2.out",
-          onUpdate: function () {
-            const p = Math.round(this.targets()[0].val);
-            setProgress(p);
-            if (progressBarRef.current)
-              progressBarRef.current.style.width = `${p}%`;
-          },
-          onComplete: exitPreloader,
-        },
-      );
+      setProgress(100);
+      finishLoading();
       return;
     }
 
-    // Timeline for non-cached users
-    const masterTl = gsap.timeline();
+    if (hasStartedPreloading.current) return;
+    hasStartedPreloading.current = true;
 
-    masterTl.to(
-      { val: 0 },
-      {
-        val: 70,
-        duration: 1.5,
-        ease: "power1.inOut",
-        onUpdate: function () {
-          const p = Math.round(this.targets()[0].val);
-          setProgress(p);
-          if (progressBarRef.current)
-            progressBarRef.current.style.width = `${p}%`;
-        },
-      },
-    );
+    const isDesktopMode = initialIsDesktopRef.current;
 
-    masterTl.to(
-      { val: 70 },
-      {
-        val: 90,
-        duration: 10,
-        ease: "none",
-        onUpdate: function () {
-          const p = Math.round(this.targets()[0].val);
-          setProgress(p);
-          if (progressBarRef.current)
-            progressBarRef.current.style.width = `${p}%`;
-        },
-      },
-    );
+    let hasFinished = false;
 
-    // Handle sudden resource readiness
-    if (isResourcesReady) {
-      masterTl.kill();
-      gsap.to(
-        { val: progress },
-        {
-          val: 100,
-          duration: 0.5,
-          ease: "power2.out",
-          onUpdate: function () {
-            const p = Math.round(this.targets()[0].val);
-            setProgress(p);
-            if (progressBarRef.current)
-              progressBarRef.current.style.width = `${p}%`;
-          },
-          onComplete: exitPreloader,
-        },
+    const safetyTimeout = setTimeout(() => {
+      if (!hasFinished) {
+        hasFinished = true;
+        setProgress(100);
+        finishLoading();
+      }
+    }, 18000);
+
+    const updateProgress = () => {
+      if (hasFinished) return;
+      loadedCountRef.current += 1;
+
+      const currentPercent = Math.min(
+        Math.round((loadedCountRef.current / totalAssets) * 90),
+        90,
       );
-    }
+
+      setProgress(currentPercent);
+
+      if (loadedCountRef.current < ASSETS_TO_LOAD.images.length) {
+        setStatusText("Loading Assets...");
+      } else if (loadedCountRef.current < totalAssets - 2) {
+        setStatusText("Loading Media...");
+      } else {
+        setStatusText("Finalizing Setup...");
+      }
+
+      if (loadedCountRef.current >= totalAssets) {
+        if (document.readyState === "complete") {
+          hasFinished = true;
+          setProgress(100);
+          finishLoading();
+          clearTimeout(safetyTimeout);
+        } else {
+          window.addEventListener(
+            "load",
+            () => {
+              if (hasFinished) return;
+              hasFinished = true;
+              setProgress(100);
+              finishLoading();
+              clearTimeout(safetyTimeout);
+            },
+            { once: true },
+          );
+        }
+      }
+    };
+
+    // Preload Images
+    ASSETS_TO_LOAD.images.forEach((src) => {
+      const img = new window.Image();
+      img.onload = updateProgress;
+      img.onerror = updateProgress;
+      img.src = src;
+    });
+
+    // Preload Interface
+    ASSETS_TO_LOAD.interface.forEach((src) => {
+      if (src.endsWith(".webm")) {
+        const video = document.createElement("video");
+        video.onloadedmetadata = updateProgress;
+        video.onerror = updateProgress;
+        video.src = src;
+        video.load();
+      } else {
+        const img = new window.Image();
+        img.onload = updateProgress;
+        img.onerror = updateProgress;
+        img.src = src;
+      }
+    });
+
+    // Preload Audio (BGM)
+    ASSETS_TO_LOAD.audio.forEach((src) => {
+      const audio = new window.Audio();
+      audio.onloadedmetadata = updateProgress;
+      audio.onerror = updateProgress;
+      audio.src = src;
+      audio.load();
+    });
+
+    // Preload Hero Video
+    const heroVideoUrl = isDesktopMode
+      ? ASSETS_TO_LOAD.heroVideo.desktop
+      : ASSETS_TO_LOAD.heroVideo.mobile;
+    const heroVid = document.createElement("video");
+    heroVid.onloadedmetadata = updateProgress;
+    heroVid.onerror = updateProgress;
+    heroVid.src = heroVideoUrl;
+    heroVid.load();
+
+    // Preload Knowledge Section Videos
+    ASSETS_TO_LOAD.knowledgeVideos.forEach((vidSource) => {
+      const vidUrl = isDesktopMode ? vidSource.desktop : vidSource.mobile;
+      const vid = document.createElement("video");
+      vid.onloadedmetadata = updateProgress;
+      vid.onerror = updateProgress;
+      vid.src = vidUrl;
+      vid.load();
+    });
 
     return () => {
-      isMounted = false;
-      masterTl.kill();
-      document.body.style.overflow = "";
-      lenis?.start();
+      clearTimeout(safetyTimeout);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [lenis, onComplete, isResourcesReady]);
+  }, [finishLoading, totalAssets]);
+
+  useEffect(() => {
+    if (!progressBarRef.current || !containerRef.current) return;
+
+    gsap.to(progressBarRef.current, {
+      width: `${progress}%`,
+      duration: 0.5,
+      ease: "power2.out",
+      onComplete: () => {
+        if (progress === 100 && isReadyToExit) {
+          gsap.to(containerRef.current, {
+            opacity: 0,
+            y: -30,
+            duration: 0.8,
+            delay: 0.5,
+            ease: "power3.inOut",
+            onComplete: () => {
+              document.body.style.overflow = "";
+              lenis?.start();
+              ScrollTrigger.refresh(true);
+              sessionStorage.setItem(PRELOADED_KEY, "true");
+              onComplete();
+            },
+          });
+        }
+      },
+    });
+  }, [progress, isReadyToExit, lenis, onComplete]);
+
+  // Initial scroll lock
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (lenis) {
+      lenis.stop();
+    }
+    document.documentElement.classList.add("lock-scroll");
+    document.body.classList.add("lock-scroll");
+
+    return () => {
+      document.documentElement.classList.remove("lock-scroll");
+      document.body.classList.remove("lock-scroll");
+
+      if (lenis) {
+        lenis.start();
+      }
+    };
+  }, [lenis]);
+
   return (
     <div
       ref={containerRef}
@@ -190,11 +288,11 @@ export default function Preloader({ onComplete }: PreloaderProps) {
               className="h-full w-0 bg-[#FF2D77] shadow-[0_0_12px_#FF2D77] will-change-[width]"
             />
           </div>
-          <div className="flex justify-between items-end text-gray-300">
+          <div className="flex justify-between items-start text-gray-300">
             <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base font-medium tracking-widest uppercase">
-              Loading
+              {statusText}
             </span>
-            <span className="text-sm min-[400px]:text-base sm:text-lg md:text-xl font-bold text-white leading-none tabular-nums">
+            <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base lg:text-lg font-bold text-white leading-none tabular-nums mt-1">
               {progress}%
             </span>
           </div>
