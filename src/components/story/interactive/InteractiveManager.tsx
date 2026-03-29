@@ -111,7 +111,7 @@ export default function InteractiveManager({
         if (onComplete) onComplete();
       }
 
-      if (interaction.score) addScore(interaction.score);
+      if (interaction.score !== undefined) addScore(interaction.score);
       if (interaction.targetScene) {
         goToScene(interaction.targetScene);
       } else {
@@ -139,7 +139,7 @@ export default function InteractiveManager({
         if (onComplete) onComplete();
       }
 
-      if (option.score) addScore(option.score);
+      if (option.score !== undefined) addScore(option.score);
 
       if (option.action === "restart") {
         resetStory();

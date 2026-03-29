@@ -49,7 +49,9 @@ export default function StartStory() {
         transition={{ duration: 0.6, ease: "easeInOut" }}
         onAnimationComplete={() => {
           if (isExiting && !timerRef.current) {
-            setStoryStarted(true);
+            setTimeout(() => {
+              setStoryStarted(true);
+            }, 100);
           }
         }}
       />

@@ -286,8 +286,7 @@ export default function CustomCursor() {
           borderRadius: "50%",
           border: "1.5px solid #E51E5A",
           backgroundColor: "transparent",
-          mixBlendMode: "soft-light",
-          // multiply, saturation, soft-light
+          mixBlendMode: "soft-light", // multiply, saturation, soft-light
         }}
       />
       {/* Dot */}
