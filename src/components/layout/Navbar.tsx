@@ -61,6 +61,10 @@ export default function Navbar() {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isExitStory, setIsExitStory] = useState(false);
   const [isManualShow, setIsManualShow] = useState(false);
+
+  const [isAudioSettingsOpen, setIsAudioSettingsOpen] = useState(false);
+  const [isHoveringNavbar, setIsHoveringNavbar] = useState(false);
+
   const playClickSound = useClickSound();
 
   const isStoryStarted = useStoryStore((state) => state.isStoryStarted);
@@ -91,6 +95,53 @@ export default function Navbar() {
     setIsExitStory(open);
     setPaused(open);
   };
+
+  // Auto Hide Navbar Logic for Story Page
+  const inactivityTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const resetInactivityTimer = useCallback(() => {
+    if (inactivityTimeoutRef.current)
+      clearTimeout(inactivityTimeoutRef.current);
+
+    if (
+      isManualShow &&
+      !open &&
+      !isExitStory &&
+      !isAudioSettingsOpen &&
+      !isHoveringNavbar
+    ) {
+      inactivityTimeoutRef.current = setTimeout(() => {
+        setIsManualShow(false);
+      }, 3000);
+    }
+  }, [isManualShow, open, isExitStory, isAudioSettingsOpen, isHoveringNavbar]);
+
+  useEffect(() => {
+    if (isStoryPage && isStoryStarted && isManualShow) {
+      const events = ["mousemove", "mousedown", "touchstart", "keydown"];
+
+      events.forEach((e) => window.addEventListener(e, resetInactivityTimer));
+      resetInactivityTimer();
+
+      return () => {
+        events.forEach((e) =>
+          window.removeEventListener(e, resetInactivityTimer),
+        );
+        if (inactivityTimeoutRef.current)
+          clearTimeout(inactivityTimeoutRef.current);
+      };
+    }
+  }, [isStoryPage, isStoryStarted, isManualShow, resetInactivityTimer]);
+
+  useEffect(() => {
+    if (!isHoveringNavbar && isManualShow) {
+      resetInactivityTimer();
+    } else {
+      if (inactivityTimeoutRef.current) {
+        clearTimeout(inactivityTimeoutRef.current);
+      }
+    }
+  }, [isHoveringNavbar, isManualShow, resetInactivityTimer]);
 
   // Full Screen Logic
   const toggleFullscreen = useCallback(async () => {
@@ -242,10 +293,19 @@ export default function Navbar() {
         )}
       </AnimatePresence>
 
-      <header
-        className={`pointer-events-none ${isStoryPage ? "absolute" : "fixed"} top-0 left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6 2xl:left-7 right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6 2xl:right-7 z-50 pt-2 sm:pt-3 md:pt-4 transition-all duration-500 ease-in-out
-        ${!isActuallyShowing ? "-translate-y-full opacity-0" : "translate-y-0 opacity-100"}
-       `}
+      <motion.header
+        initial={false}
+        animate={{
+          y: isActuallyShowing ? "0%" : "-100%",
+          opacity: isActuallyShowing ? 1 : 0,
+        }}
+        transition={{
+          duration: 0.6,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        onMouseEnter={() => setIsHoveringNavbar(true)}
+        onMouseLeave={() => setIsHoveringNavbar(false)}
+        className={`pointer-events-none ${isStoryPage ? "absolute" : "fixed"} top-0 left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6 2xl:left-7 right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6 2xl:right-7 z-50 pt-2 sm:pt-3 md:pt-4`}
       >
         {!isStoryPage && (
           <div
@@ -309,7 +369,10 @@ export default function Navbar() {
               </div>
             </button>
             {/* Audio Settings Dialog */}
-            <Dialog>
+            <Dialog
+              open={isAudioSettingsOpen}
+              onOpenChange={setIsAudioSettingsOpen}
+            >
               <DialogTrigger asChild>
                 <button
                   type="button"
@@ -629,7 +692,7 @@ export default function Navbar() {
             )}
           </div>
         </nav>
-      </header>
+      </motion.header>
     </>
   );
 }

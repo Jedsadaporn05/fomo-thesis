@@ -28,7 +28,10 @@ const ASSETS_TO_LOAD = {
     "/home/member-section/New.png",
   ],
   interface: ["/logo/LogoGracie.png", "/logo/LogoGracie.webm"],
-  audio: ["https://cdn.fomo-gracie.com/audio/music/FOMO-BGM-FIX.mp3"],
+  audio: [
+    "https://cdn.fomo-gracie.com/audio/music/FOMO-BGM-FIX.mp3",
+    "https://cdn.fomo-gracie.com/audio/interactive/Click.mp3",
+  ],
   heroVideo: {
     desktop: "https://cdn.fomo-gracie.com/video/hero/hero-video.mp4",
     mobile: "https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4",
