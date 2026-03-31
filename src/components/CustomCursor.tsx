@@ -235,13 +235,6 @@ export default function CustomCursor() {
 
   return (
     <>
-      <style>{`
-        @keyframes fomo-glow {
-          0%, 100% { box-shadow: 0 0 6px 2px #E51E5A; }
-          50% { box-shadow: 0 0 14px 5px #E51E5A; }
-        }
-      `}</style>
-
       <div
         ref={trailContainerRef}
         className="pointer-events-none fixed inset-0 z-9996"
@@ -292,7 +285,7 @@ export default function CustomCursor() {
       {/* Dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-9999 will-change-transform"
+        className="pointer-events-none fixed top-0 left-0 z-9999 will-change-transform animate-custom-cursor-dot-glow"
         style={{
           width: 10,
           height: 10,
@@ -300,7 +293,6 @@ export default function CustomCursor() {
           marginTop: -5,
           borderRadius: "50%",
           backgroundColor: "#E51E5A",
-          animation: "fomo-glow 1.8s ease-in-out infinite",
         }}
       />
     </>

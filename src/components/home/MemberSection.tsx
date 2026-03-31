@@ -9,6 +9,8 @@ import Ohm from "@/public/home/member-section/Ohm.png";
 import New from "@/public/home/member-section/New.png";
 import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
 import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
+import { Github, Instagram, Linkedin } from "lucide-react";
+import Link from "next/link";
 
 const cards = [
   {
@@ -24,6 +26,10 @@ const cards = [
     name: "Danuphon\nChaiyakham",
     position: "Graphic Designer",
     image: Q,
+    contacts: [
+      { icon: Instagram, link: "/", label: "Instagram" },
+      { icon: Linkedin, link: "/", label: "LinkedIn" },
+    ],
   },
   {
     id: 3,
@@ -31,6 +37,10 @@ const cards = [
     name: "Teerapob\nProngrastme",
     position: "Graphic Designer",
     image: Ohm,
+    contacts: [
+      { icon: Instagram, link: "/", label: "Instagram" },
+      { icon: Linkedin, link: "/", label: "LinkedIn" },
+    ],
   },
   {
     id: 4,
@@ -38,6 +48,11 @@ const cards = [
     name: "Jedsadaporn\nJirakunkitti",
     position: "Developer",
     image: New,
+    contacts: [
+      { icon: Instagram, link: "/", label: "Instagram" },
+      { icon: Linkedin, link: "/", label: "LinkedIn" },
+      { icon: Github, link: "/", label: "GitHub" },
+    ],
   },
 ];
 
@@ -131,7 +146,10 @@ export default function MemberSection() {
                 className="w-full h-full flex flex-row lg:flex-col items-start gap-6 min-[475px]:gap-16 sm:gap-20 md:gap-24 lg:gap-10 xl:gap-12 max-w-100 sm:max-w-110 md:max-w-140 lg:max-w-45 xl:max-w-50 2xl:max-w-60 3xl:max-w-80"
               >
                 {/* Photo */}
-                <div className="relative max-[475px]:w-[40%] max-[475px]:shrink-0 w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 cursor-pointer overflow-hidden aspect-square">
+                <div
+                  data-cursor-expand
+                  className="relative max-[475px]:w-[40%] max-[475px]:shrink-0 w-full shadow-md transition-all duration-300 ease-in-out hover:scale-103 overflow-hidden aspect-square"
+                >
                   <Image
                     src={card.image}
                     alt={card.nickName || card.name}
@@ -159,9 +177,32 @@ export default function MemberSection() {
                   >
                     {card.name}
                   </h3>
-                  <p className="text-sm sm:text-base md:text-lg lg:text-base xl:text-lg 3xl:text-xl font-light uppercase text-white">
-                    {card.position}
-                  </p>
+                  <div className="flex flex-col items-start gap-2 min-[475px]:gap-4 md:gap-5 lg:gap-4 xl:gap-5">
+                    <p className="text-sm sm:text-base md:text-lg lg:text-base xl:text-lg 3xl:text-xl font-light uppercase text-white">
+                      {card.position}
+                    </p>
+                    {/* Social Links */}
+                    <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
+                      {card.contacts?.map((contact, index) => {
+                        const Icon = contact.icon;
+
+                        return (
+                          <Link
+                            key={index}
+                            href={contact.link}
+                            target="_blank"
+                            aria-label={contact.label}
+                            className="text-white/85 hover:text-[#FF3279] transition-colors duration-300 ease-in-out"
+                          >
+                            <Icon
+                              strokeWidth={1.5}
+                              className="size-4 sm:size-4.5 md:size-6 lg:size-5.5 xl:size-6 2xl:size-6.5 3xl:size-7"
+                            />
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
                 </div>
               </motion.article>
             ))}

@@ -229,6 +229,20 @@ html.lenis body {
   pointer-events: none;
 }
 
+/* Custom Cursor */
+@keyframes custom-cursor-dot-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 6px 2px #e51e5a;
+  }
+  50% {
+    box-shadow: 0 0 14px 5px #e51e5a;
+  }
+}
+.animate-custom-cursor-dot-glow {
+  animation: custom-cursor-dot-glow 1.8s ease-in-out infinite;
+}
+
 /* Lock scroll */
 .lock-scroll {
   overflow: hidden !important;

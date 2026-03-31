@@ -12,13 +12,65 @@ const ibmPlexSansThai = IBM_Plex_Sans_Thai({
 });
 
 export const metadata: Metadata = {
-  title: "Gracie - The Missing Out",
-  description: "Interactive 2D Animation Storytelling Website",
+  metadataBase: new URL("https://www.fomo-gracie.com"),
+  alternates: {
+    canonical: "/",
+  },
+  title: {
+    default: "Gracie - The Missing Out",
+    template: "%s | Gracie - The Missing Out",
+  },
+  description:
+    "เว็บไซต์เชิงปฏิสัมพันธ์เพื่อสะท้อนผลกระทบของภาวะ FOMO ผ่านตัวละคร Gracie ทุกการตัดสินใจของคุณจะกำหนดตอนจบของเรื่องราวนี้ หากพร้อมแล้ว... ไปเริ่มกันเลย!",
+  keywords: [
+    "FOMO",
+    "Gracie",
+    "Interactive Story",
+    "2D Animation",
+    "The Missing Out",
+    "เว็บไซต์เชิงปฏิสัมพันธ์",
+    "ผลกระทบของ FOMO",
+    "การตัดสินใจ",
+    "เกมเล่าเรื่อง",
+  ],
+  authors: [{ name: "ทีมผู้จัดทำ Gracie - The Missing Out" }],
+  robots: "index, follow",
   openGraph: {
-    title: "Gracie - The Missing Out",
-    description: "Interactive 2D Animation Storytelling Website",
+    title: {
+      default: "Gracie - The Missing Out",
+      template: "%s | Gracie - The Missing Out",
+    },
+    description:
+      "เว็บไซต์เชิงปฏิสัมพันธ์เพื่อสะท้อนผลกระทบของภาวะ FOMO ผ่านตัวละคร Gracie ทุกการตัดสินใจของคุณจะกำหนดตอนจบของเรื่องราวนี้ หากพร้อมแล้ว... ไปเริ่มกันเลย!",
+    url: "https://www.fomo-gracie.com",
+    siteName: "Gracie - The Missing Out",
+    // images: [
+    //   {
+    //     url: "",
+    //     secureUrl: "",
+    //     alt: "Gracie - The Missing Out Open Graph Image",
+    //     width: 1200,
+    //     height: 630,
+    //   },
+    // ],
     type: "website",
     locale: "th_TH",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: {
+      default: "Gracie - The Missing Out",
+      template: "%s | Gracie - The Missing Out",
+    },
+    description:
+      "เว็บไซต์เชิงปฏิสัมพันธ์เพื่อสะท้อนผลกระทบของภาวะ FOMO ผ่านตัวละคร Gracie ทุกการตัดสินใจของคุณจะกำหนดตอนจบของเรื่องราวนี้ หากพร้อมแล้ว... ไปเริ่มกันเลย!",
+    // images: [
+    //   {
+    //     url: "",
+    //     secureUrl: "",
+    //     alt: "Gracie - The Missing Out Open Graph Image",
+    //   },
+    // ],
   },
 };
 
@@ -30,7 +82,6 @@ export default function RootLayout({
   return (
     <html lang="th">
       <head>
-        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link
           rel="preload"
           as="video"
@@ -43,7 +94,6 @@ export default function RootLayout({
           href="https://cdn.fomo-gracie.com/video/hero/hero-video.mp4"
           type="video/mp4"
           media="(min-width: 1024px)"
-          crossOrigin="anonymous"
           fetchPriority="high"
         />
         <link
@@ -52,7 +102,6 @@ export default function RootLayout({
           href="https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4"
           type="video/mp4"
           media="(max-width: 1023px)"
-          crossOrigin="anonymous"
           fetchPriority="high"
         />
       </head>

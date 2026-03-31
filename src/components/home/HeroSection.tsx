@@ -134,7 +134,7 @@ export default function HeroSection({ startAnimation }: HeroProps) {
     setCancelGestureLock(undefined);
 
     playClickSound();
-    
+
     fadeOutBGM(1250);
 
     setIsExiting(true);
