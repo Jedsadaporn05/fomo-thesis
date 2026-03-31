@@ -44,15 +44,15 @@ export const metadata: Metadata = {
       "เว็บไซต์เชิงปฏิสัมพันธ์เพื่อสะท้อนผลกระทบของภาวะ FOMO ผ่านตัวละคร Gracie ทุกการตัดสินใจของคุณจะกำหนดตอนจบของเรื่องราวนี้ หากพร้อมแล้ว... ไปเริ่มกันเลย!",
     url: "https://www.fomo-gracie.com",
     siteName: "Gracie - The Missing Out",
-    // images: [
-    //   {
-    //     url: "",
-    //     secureUrl: "",
-    //     alt: "Gracie - The Missing Out Open Graph Image",
-    //     width: 1200,
-    //     height: 630,
-    //   },
-    // ],
+    images: [
+      {
+        url: "https://cdn.fomo-gracie.com/image/og-image.png",
+        secureUrl: "https://cdn.fomo-gracie.com/image/og-image.png",
+        alt: "Gracie - The Missing Out Open Graph Image",
+        width: 1200,
+        height: 630,
+      },
+    ],
     type: "website",
     locale: "th_TH",
   },
@@ -64,13 +64,13 @@ export const metadata: Metadata = {
     },
     description:
       "เว็บไซต์เชิงปฏิสัมพันธ์เพื่อสะท้อนผลกระทบของภาวะ FOMO ผ่านตัวละคร Gracie ทุกการตัดสินใจของคุณจะกำหนดตอนจบของเรื่องราวนี้ หากพร้อมแล้ว... ไปเริ่มกันเลย!",
-    // images: [
-    //   {
-    //     url: "",
-    //     secureUrl: "",
-    //     alt: "Gracie - The Missing Out Open Graph Image",
-    //   },
-    // ],
+    images: [
+      {
+        url: "https://cdn.fomo-gracie.com/image/og-image.png",
+        secureUrl: "https://cdn.fomo-gracie.com/image/og-image.png",
+        alt: "Gracie - The Missing Out Open Graph Image",
+      },
+    ],
   },
 };
 

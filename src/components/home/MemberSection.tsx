@@ -9,7 +9,7 @@ import Ohm from "@/public/home/member-section/Ohm.png";
 import New from "@/public/home/member-section/New.png";
 import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
 import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
-import { Github, Instagram, Linkedin } from "lucide-react";
+import { Github, Instagram } from "lucide-react";
 import Link from "next/link";
 
 const cards = [
@@ -26,10 +26,7 @@ const cards = [
     name: "Danuphon\nChaiyakham",
     position: "Graphic Designer",
     image: Q,
-    contacts: [
-      { icon: Instagram, link: "/", label: "Instagram" },
-      { icon: Linkedin, link: "/", label: "LinkedIn" },
-    ],
+    contacts: [{ icon: Instagram, link: "/", label: "Instagram" }],
   },
   {
     id: 3,
@@ -37,10 +34,7 @@ const cards = [
     name: "Teerapob\nProngrastme",
     position: "Graphic Designer",
     image: Ohm,
-    contacts: [
-      { icon: Instagram, link: "/", label: "Instagram" },
-      { icon: Linkedin, link: "/", label: "LinkedIn" },
-    ],
+    contacts: [{ icon: Instagram, link: "/", label: "Instagram" }],
   },
   {
     id: 4,
@@ -50,7 +44,6 @@ const cards = [
     image: New,
     contacts: [
       { icon: Instagram, link: "/", label: "Instagram" },
-      { icon: Linkedin, link: "/", label: "LinkedIn" },
       { icon: Github, link: "/", label: "GitHub" },
     ],
   },

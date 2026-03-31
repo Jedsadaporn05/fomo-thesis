@@ -329,6 +329,7 @@ export default function SceneManager() {
                           if (activeVideoNode) {
                             activeVideoNode.play();
                             gsap.to(activeVideoNode, {
+                              opacity: 1,
                               volume: bgmEnabled ? videoVolume : 0,
                               duration: 0.8,
                               ease: "power2.inOut",
