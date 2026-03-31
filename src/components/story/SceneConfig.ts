@@ -68,13 +68,13 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-2": {
     id: "scene-2",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-2-v2.mp4",
     next: "scene-3",
     autoNext: true,
   },
   "scene-3": {
     id: "scene-3",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-3-fix.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-v2.mp4",
     next: "scene-3-choice",
     autoNext: true,
   },
@@ -103,25 +103,25 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-3-choice-1": {
     id: "scene-3-choice-1",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice-1-v2.mp4",
     next: "scene-4",
     autoNext: true,
   },
   "scene-3-choice-2": {
     id: "scene-3-choice-2",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice-2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-3-choice-2-v2.mp4",
     next: "scene-4",
     autoNext: true,
   },
   "scene-4": {
     id: "scene-4",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-v2.mp4",
     next: "scene-4-choice",
     autoNext: true,
   },
   "scene-4-choice": {
     id: "scene-4-choice",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-v2.mp4",
     loop: true,
     interactions: [
       {
@@ -144,19 +144,19 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-4-choice-1": {
     id: "scene-4-choice-1",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-1-v2.mp4",
     next: "scene-5-interactive",
     autoNext: true,
   },
   "scene-4-choice-2": {
     id: "scene-4-choice-2",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-2-v2.mp4",
     next: "scene-5-interactive",
     autoNext: true,
   },
   "scene-5-interactive": {
     id: "scene-5-interactive",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-5-interactive.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-5-interactive-v2.mp4",
     next: "scene-5",
     loop: true,
     interactions: [
@@ -177,19 +177,19 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-5": {
     id: "scene-5",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-5.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-5-v2.mp4",
     next: "scene-6",
     autoNext: true,
   },
   "scene-6": {
     id: "scene-6",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-6.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-6-v2.mp4",
     next: "scene-6-choice",
     autoNext: true,
   },
   "scene-6-choice": {
     id: "scene-6-choice",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-6-choice.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-6-choice-v2.mp4",
     loop: true,
     autoNext: true,
     interactions: [
@@ -231,7 +231,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
         atTime: 5,
         pause: false,
         question:
-          "“สิ่งที่สำคัญที่สุดสำหรับฉันกันแน่…โลกจริงหรือภาพลวงตาที่คนอื่นกดไลก์ให้ฉัน?”",
+          "“อะไรคือสิ่งที่สำคัญที่สุดสำหรับฉันกันแน่…โลกจริงหรือภาพลวงตาที่คนอื่นกดไลก์ให้ฉัน?”",
         options: [
           {
             label: "ฉันยังไม่พร้อมจะหายไปจากสายตาคนอื่น",
@@ -254,13 +254,13 @@ export const SceneConfig: Record<SceneId, Scene> = {
   // Good Way
   "good-scene-1": {
     id: "good-scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1-v2.mp4",
     next: "good-ending",
     autoNext: true,
   },
   "good-ending": {
     id: "good-ending",
-    video: "https://cdn.fomo-gracie.com/video/story/good-ending.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/good-ending-v2.mp4",
     loop: true,
     interactions: [
       {
@@ -284,13 +284,13 @@ export const SceneConfig: Record<SceneId, Scene> = {
   // Bad Way
   "bad-scene-1": {
     id: "bad-scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1-v2.mp4",
     next: "bad-ending",
     autoNext: true,
   },
   "bad-ending": {
     id: "bad-ending",
-    video: "https://cdn.fomo-gracie.com/video/story/bad-ending.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-ending-v2.mp4",
     loop: true,
     interactions: [
       {
