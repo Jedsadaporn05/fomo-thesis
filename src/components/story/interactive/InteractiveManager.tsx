@@ -35,6 +35,8 @@ export default function InteractiveManager({
 
   const triggeredSetRef = useRef<Set<number>>(new Set());
 
+  const processingRef = useRef<number | null>(null);
+
   useEffect(() => {
     if (!scene.interactions || scene.interactions.length === 0) return;
 
@@ -104,6 +106,9 @@ export default function InteractiveManager({
 
   const handleInteractionSuccess = useCallback(
     (index: number, interaction: Interaction) => {
+      if (processingRef.current === index) return;
+      processingRef.current = index;
+
       const newCompleted = [...completedIndices, index];
       setCompletedIndices(newCompleted);
 
@@ -131,6 +136,9 @@ export default function InteractiveManager({
         action?: "restart" | "home";
       },
     ) => {
+      if (processingRef.current === index) return;
+      processingRef.current = index;
+
       const newCompleted = [...completedIndices, index];
       setCompletedIndices(newCompleted);
 
@@ -169,6 +177,7 @@ export default function InteractiveManager({
     setCompletedIndices([]);
     setTriggeredIndices([]);
     triggeredSetRef.current.clear();
+    processingRef.current = null;
   }, [scene.id]);
 
   const isDragDrop = activeInteraction?.type === "drag-drop";
@@ -216,6 +225,7 @@ export default function InteractiveManager({
                       transition={{ duration: 0.35, ease: "easeOut" }}
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
+                      disabled={processingRef.current === activeIndex}
                       onClick={() => {
                         handleInteractionSuccess(
                           activeIndex,
@@ -293,6 +303,7 @@ export default function InteractiveManager({
                               borderColor: "rgba(255, 255, 255, 0.8)",
                             }}
                             whileTap={{ scale: 0.95 }}
+                            disabled={processingRef.current === activeIndex}
                             onClick={() => {
                               handleOptionClick(activeIndex, option);
                               playClickSound();
@@ -324,7 +335,7 @@ export default function InteractiveManager({
               {activeInteraction.type === "ending" &&
                 activeInteraction.options && (
                   <div className="container relative mx-auto max-w-full w-full h-full flex flex-col justify-end items-start gap-8">
-                    <div className="w-full h-full flex flex-col justify-around gap-[65%] min-[395px]:gap-[55%] lg:gap-[50%]">
+                    <div className="w-full h-full flex flex-col justify-around gap-[60%] min-[395px]:gap-[55%] lg:gap-[50%]">
                       <div className="inset-0 flex items-center justify-center" />
                       <div className="w-[50%] flex flex-row justify-between items-end gap-8 sm:gap-12 md:gap-16 lg:gap-20 ms-0 sm:ms-2 lg:ms-6 xl:ms-10">
                         {activeInteraction.options.map((option, idx) => (
@@ -339,6 +350,7 @@ export default function InteractiveManager({
                             }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
+                            disabled={processingRef.current === activeIndex}
                             onClick={() => {
                               handleOptionClick(activeIndex, option);
                               playClickSound();

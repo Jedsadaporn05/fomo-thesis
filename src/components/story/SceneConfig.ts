@@ -254,7 +254,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   // Good Way
   "good-scene-1": {
     id: "good-scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1-v3.mp4",
     next: "good-ending",
     autoNext: true,
   },
