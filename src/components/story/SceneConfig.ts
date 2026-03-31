@@ -54,7 +54,7 @@ export interface Scene {
 export const SceneConfig: Record<SceneId, Scene> = {
   "scene-1": {
     id: "scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-1.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-1-v3.mp4",
     next: "scene-2",
     interactions: [
       {
@@ -183,7 +183,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-6": {
     id: "scene-6",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-6-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-6-v4.mp4",
     next: "scene-6-choice",
     autoNext: true,
   },
