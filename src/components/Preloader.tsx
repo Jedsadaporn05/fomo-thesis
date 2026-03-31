@@ -28,10 +28,6 @@ const ASSETS_TO_LOAD = {
     "/home/member-section/New.png",
   ],
   interface: ["/logo/LogoGracie.png", "/logo/LogoGracie.webm"],
-  audio: [
-    "https://cdn.fomo-gracie.com/audio/music/FOMO-BGM-FIX.mp3",
-    "https://cdn.fomo-gracie.com/audio/interactive/Click.mp3",
-  ],
   heroVideo: {
     desktop: "https://cdn.fomo-gracie.com/video/hero/hero-video.mp4",
     mobile: "https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4",
@@ -74,7 +70,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   const totalAssets =
     ASSETS_TO_LOAD.images.length +
     ASSETS_TO_LOAD.interface.length +
-    ASSETS_TO_LOAD.audio.length +
     1 +
     ASSETS_TO_LOAD.knowledgeVideos.length;
 
@@ -170,15 +165,6 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         img.onerror = updateProgress;
         img.src = src;
       }
-    });
-
-    // Preload Audio (BGM)
-    ASSETS_TO_LOAD.audio.forEach((src) => {
-      const audio = new window.Audio();
-      audio.onloadedmetadata = updateProgress;
-      audio.onerror = updateProgress;
-      audio.src = src;
-      audio.load();
     });
 
     // Preload Hero Video
