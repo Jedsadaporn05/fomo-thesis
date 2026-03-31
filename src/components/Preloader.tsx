@@ -105,7 +105,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         setProgress(100);
         finishLoading();
       }
-    }, 18000);
+    }, 15000);
 
     const updateProgress = () => {
       if (hasFinished) return;
