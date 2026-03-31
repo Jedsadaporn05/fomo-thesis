@@ -5,10 +5,10 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import dynamic from "next/dynamic";
 import Preloader from "@/src/components/Preloader";
-import Navbar from "./layout/Navbar";
+import Navbar from "../layout/Navbar";
 import HeroSection from "@/src/components/home/HeroSection";
-import SmallScreenOverlay from "./SmallScreenOverlay";
-import SoundConsentModal from "./SoundConsentModal";
+import SmallScreenOverlay from "../SmallScreenOverlay";
+import SoundConsentModal from "../SoundConsentModal";
 import { useScreenDetection } from "@/src/hooks/useScreenDetection";
 import { useHomeAudio } from "@/src/hooks/useHomeAudio";
 
