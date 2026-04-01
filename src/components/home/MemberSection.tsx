@@ -175,7 +175,7 @@ export default function MemberSection() {
                       {card.position}
                     </p>
                     {/* Social Links */}
-                    <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
+                    {/* <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
                       {card.contacts?.map((contact, index) => {
                         const Icon = contact.icon;
 
@@ -194,7 +194,7 @@ export default function MemberSection() {
                           </Link>
                         );
                       })}
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </motion.article>
