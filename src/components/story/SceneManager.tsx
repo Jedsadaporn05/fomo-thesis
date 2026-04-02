@@ -37,7 +37,9 @@ export default function SceneManager() {
   const [canProceed, setCanProceed] = useState(false);
   const canProceedRef = useRef(false);
 
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
   const [isAutoplayBlocked, setIsAutoplayBlocked] = useState(false);
+  const [showLoadingSpinner, setShowLoadingSpinner] = useState(false);
 
   const [activeVideoNode, setActiveVideoNode] =
     useState<HTMLVideoElement | null>(null);
@@ -66,22 +68,32 @@ export default function SceneManager() {
   }, [currentScene.scoreBranch, nextSceneId]);
 
   useEffect(() => {
-    if (!activeVideoNode || !currentScene) return;
+    let spinnerTimer: NodeJS.Timeout;
 
-    if (currentScene.video !== videoSrc) {
-      gsap.killTweensOf(activeVideoNode);
-      gsap.to(activeVideoNode, {
-        opacity: 0,
-        volume: 0,
-        duration: 0.5,
-        ease: "power2.out",
-        onComplete: () => {
-          activeVideoNode.pause();
-          setVideoSrc(currentScene.video);
-        },
-      });
-      return;
+    if (!isVideoLoaded && !isAutoplayBlocked) {
+      spinnerTimer = setTimeout(() => {
+        setShowLoadingSpinner(true);
+      }, 1500);
+    } else {
+      setShowLoadingSpinner(false);
     }
+
+    return () => {
+      if (spinnerTimer) clearTimeout(spinnerTimer);
+    };
+  }, [isVideoLoaded, isAutoplayBlocked]);
+
+  // Sync video source with current scene
+  useEffect(() => {
+    if (currentScene?.video !== videoSrc) {
+      setIsVideoLoaded(false);
+      setVideoSrc(currentScene?.video);
+    }
+  }, [currentScene?.video, videoSrc]);
+
+  // Handle Playback and Volume
+  useEffect(() => {
+    if (!activeVideoNode) return;
 
     const targetVolume = bgmEnabled ? videoVolume : 0;
     gsap.killTweensOf(activeVideoNode);
@@ -102,7 +114,6 @@ export default function SceneManager() {
           .then(() => {
             setIsAutoplayBlocked(false);
             gsap.to(activeVideoNode, {
-              opacity: 1,
               volume: targetVolume,
               duration: 0.8,
               ease: "power2.inOut",
@@ -114,7 +125,6 @@ export default function SceneManager() {
               setIsAutoplayBlocked(true);
               activeVideoNode.volume = 0;
             } else {
-              // Ignore AbortError caused by slow internet buffering or fast scene transitions
               console.log("Play interrupted or pending:", error.name);
             }
           });
@@ -124,14 +134,7 @@ export default function SceneManager() {
     return () => {
       gsap.killTweensOf(activeVideoNode);
     };
-  }, [
-    isVideoPaused,
-    bgmEnabled,
-    videoVolume,
-    activeVideoNode,
-    currentScene,
-    videoSrc,
-  ]);
+  }, [isVideoPaused, bgmEnabled, videoVolume, activeVideoNode]);
 
   useEffect(() => {
     canProceedRef.current = false;
@@ -252,7 +255,6 @@ export default function SceneManager() {
           >
             <div className="relative w-full aspect-video max-w-[calc(100dvh*(16/9))] max-h-[calc(100vw*(9/16))] bg-black shrink-0 shadow-[0_0_50px_rgba(0,0,0,0.8)]">
               <Navbar />
-
               <motion.div
                 key={currentSceneId}
                 initial={{ opacity: 0 }}
@@ -264,23 +266,41 @@ export default function SceneManager() {
                 }}
                 className="absolute inset-0 w-full h-full"
               >
+                {showLoadingSpinner && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
+                  >
+                    <div className="size-3 sm:size-5 md:size-6 lg:size-8 xl:size-10 2xl:size-12 border-2 lg:border-3 2xl:border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                  </motion.div>
+                )}
                 <video
                   ref={(el) => {
                     currentVideoRef.current = el;
                     setActiveVideoNode(el);
                   }}
                   src={videoSrc}
-                  style={{ opacity: 0 }}
+                  style={{ opacity: isAutoplayBlocked ? 0.3 : 0 }}
                   autoPlay={!isVideoPaused}
                   playsInline
                   muted={!bgmEnabled}
                   loop={currentScene.loop && !canProceed}
                   onEnded={handleVideoEnded}
-                  className="absolute inset-0 w-full h-full object-contain object-center"
-                  onPlay={(e) => syncVideoVolume(e.currentTarget)}
+                  onCanPlay={() => setIsVideoLoaded(true)}
+                  onPlaying={(e) => {
+                    setIsVideoLoaded(true);
+                    syncVideoVolume(e.currentTarget);
+                    gsap.to(e.currentTarget, {
+                      opacity: 1,
+                      duration: 0.8,
+                      ease: "power2.out",
+                    });
+                  }}
+                  className="absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-500"
                 />
               </motion.div>
-
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentSceneId}

@@ -311,14 +311,14 @@ export default function InteractiveManager({
                             className="w-full flex flex-col justify-center items-center gap-1.5 min-[450px]:gap-1.75 sm:gap-2 md:gap-3 lg:gap-4 2xl:gap-5 3xl:gap-6 cursor-pointer hover:animate-pulse hover:*:text-[#FF2D77] group bg-transparent border-none outline-none"
                           >
                             <div
-                              className="w-2/3 lg:w-1/2 h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              className="w-2/3 lg:w-1/2 h-0.5 min-[450px]:h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
                               aria-hidden="true"
                             />
                             <span className="text-[10px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90">
                               {option.label}
                             </span>
                             <div
-                              className="w-2/3 lg:w-1/2 h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              className="w-2/3 lg:w-1/2 h-0.5 min-[450px]:h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
                               aria-hidden="true"
                             />
                           </motion.button>
@@ -337,7 +337,7 @@ export default function InteractiveManager({
                   <div className="container relative mx-auto max-w-full w-full h-full flex flex-col justify-end items-start gap-8">
                     <div className="w-full h-full flex flex-col justify-around gap-[60%] min-[395px]:gap-[55%] lg:gap-[50%]">
                       <div className="inset-0 flex items-center justify-center" />
-                      <div className="w-[50%] flex flex-row justify-between items-end gap-8 sm:gap-12 md:gap-16 lg:gap-20 ms-0 sm:ms-2 lg:ms-6 xl:ms-10">
+                      <div className="w-[55%] sm:w-[50%] flex flex-row justify-between items-end gap-4 min-[450px]:gap-8 sm:gap-12 md:gap-16 lg:gap-20 -ms-2 min-[450px]:ms-0 sm:ms-2 lg:ms-6 xl:ms-10">
                         {activeInteraction.options.map((option, idx) => (
                           <motion.button
                             key={`end-${idx}`}
@@ -358,14 +358,14 @@ export default function InteractiveManager({
                             className="w-full flex flex-col justify-center items-center gap-1 min-[395px]:gap-1.5 min-[450px]:gap-1.75 sm:gap-2 md:gap-3 lg:gap-4 2xl:gap-5 3xl:gap-6 cursor-pointer animate-pulse hover:*:text-[#FF2D77] group bg-transparent border-none outline-none"
                           >
                             <div
-                              className="w-full h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              className="w-full h-0.5 min-[450px]:h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
                               aria-hidden="true"
                             />
                             <span className="text-[8px] min-[450px]:text-[10px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90">
                               {option.label}
                             </span>
                             <div
-                              className="w-full h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
+                              className="w-full h-0.5 min-[450px]:h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent"
                               aria-hidden="true"
                             />
                           </motion.button>
