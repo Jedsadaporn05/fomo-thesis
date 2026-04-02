@@ -6,10 +6,14 @@ import {
   useTransform,
   useMotionValueEvent,
   AnimatePresence,
+  useAnimationFrame,
+  useVelocity,
 } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useClickSound } from "@/src/hooks/useClickSound";
+import { useAudioStore } from "@/src/store/useAudioStore";
+import { Howl } from "howler";
 
 interface ZipperInteractionProps {
   onComplete: () => void;
@@ -24,6 +28,30 @@ export default function OpenGuitarZipper({
   const [isReady, setIsReady] = useState(false);
   const playClickSound = useClickSound();
 
+  const sfxEnabled = useAudioStore((state) => state.sfxEnabled);
+  const sfxVolume = useAudioStore((state) => state.sfxVolume);
+  const permission = useAudioStore((state) => state.permission);
+
+  const zipperSoundRef = useRef<Howl | null>(null);
+  const isDraggingRef = useRef(false);
+
+  const lastRateRef = useRef(1);
+  const lastVolRef = useRef(0);
+
+  useEffect(() => {
+    zipperSoundRef.current = new Howl({
+      src: ["https://cdn.fomo-gracie.com/audio/interactive/zippy-slide.mp3"],
+      loop: false,
+      volume: 0,
+      preload: true,
+    });
+
+    return () => {
+      zipperSoundRef.current?.stop();
+      zipperSoundRef.current?.unload();
+    };
+  }, []);
+
   const handleImageLoad = (id: string) => {
     loadedImagesRef.current.add(id);
     if (loadedImagesRef.current.size >= 4) {
@@ -32,6 +60,7 @@ export default function OpenGuitarZipper({
   };
 
   const y = useMotionValue(0);
+  const velocity = useVelocity(y);
   const trackRef = useRef<HTMLDivElement>(null);
   const [trackHeight, setTrackHeight] = useState(500);
   const [showHint, setShowHint] = useState(false);
@@ -68,7 +97,7 @@ export default function OpenGuitarZipper({
 
     const hideTimer = setTimeout(() => {
       setShowHint(false);
-    }, 7000);
+    }, 8000);
 
     return () => {
       clearTimeout(showTimer);
@@ -86,30 +115,100 @@ export default function OpenGuitarZipper({
     }
   });
 
-  const MAX_SKEW = 25;
+  useAnimationFrame(() => {
+    const zipper = zipperSoundRef.current;
 
+    if (
+      !isDraggingRef.current ||
+      !zipper ||
+      !sfxEnabled ||
+      isDone ||
+      permission !== "granted"
+    )
+      return;
+
+    if (zipper.state() !== "loaded") return;
+
+    const duration = zipper.duration();
+    if (duration === 0) return;
+
+    const currentY = y.get();
+    const absVelocity = Math.abs(velocity.get());
+
+    const progress = Math.max(
+      0,
+      Math.min(currentY / Math.max(trackHeight, 1), 1),
+    );
+    const targetTime = progress * duration;
+    const currentTime = zipper.seek() as number;
+
+    if (Math.abs(currentTime - targetTime) > 0.15) {
+      zipper.seek(targetTime);
+    }
+
+    if (absVelocity > 10) {
+      if (!zipper.playing()) zipper.play();
+
+      const expectedFullSpeedVelocity = trackHeight / duration;
+      const targetRate = Math.max(
+        0.6,
+        Math.min(absVelocity / expectedFullSpeedVelocity, 2.5),
+      );
+
+      if (Math.abs(targetRate - lastRateRef.current) > 0.05) {
+        zipper.rate(targetRate);
+        lastRateRef.current = targetRate;
+      }
+
+      const targetVol =
+        Math.max(0.05, Math.min(absVelocity / 1500, 1)) * sfxVolume;
+      if (Math.abs(targetVol - lastVolRef.current) > 0.02) {
+        zipper.volume(targetVol);
+        lastVolRef.current = targetVol;
+      }
+    } else {
+      const currentVol = (zipper.volume() as number) || 0;
+      if (currentVol > 0.05) {
+        const decayedVol = Math.max(0, currentVol - 0.15);
+        zipper.volume(decayedVol);
+        lastVolRef.current = decayedVol;
+      } else if (zipper.playing()) {
+        zipper.pause();
+        lastVolRef.current = 0;
+      }
+    }
+  });
+
+  useEffect(() => {
+    if (isDone && zipperSoundRef.current) {
+      zipperSoundRef.current.fade(
+        zipperSoundRef.current.volume() as number,
+        0,
+        150,
+      );
+      setTimeout(() => zipperSoundRef.current?.stop(), 150);
+    }
+  }, [isDone]);
+
+  const MAX_SKEW = 25;
   const leftSkew = useTransform(
     y,
-    (latest) => (latest / Math.max(trackHeight, 1)) * MAX_SKEW,
+    (v) => (v / Math.max(trackHeight, 1)) * MAX_SKEW,
   );
   const rightSkew = useTransform(
     y,
-    (latest) => -(latest / Math.max(trackHeight, 1)) * MAX_SKEW,
+    (v) => -(v / Math.max(trackHeight, 1)) * MAX_SKEW,
   );
-
-  const leftOrigin = useTransform(y, (latest) => `100% ${latest}px`);
-  const rightOrigin = useTransform(y, (latest) => `0% ${latest}px`);
-
+  const leftOrigin = useTransform(y, (v) => `100% ${v}px`);
+  const rightOrigin = useTransform(y, (v) => `0% ${v}px`);
   const topClip = useTransform(
     y,
-    (latest) => `polygon(0% 0%, 100% 0%, 100% ${latest}px, 0% ${latest}px)`,
+    (v) => `polygon(0% 0%, 100% 0%, 100% ${v}px, 0% ${v}px)`,
   );
   const bottomClip = useTransform(
     y,
-    (latest) =>
-      `polygon(0% ${latest - 1}px, 100% ${latest - 1}px, 100% 100%, 0% 100%)`,
+    (v) => `polygon(0% ${v - 1}px, 100% ${v - 1}px, 100% 100%, 0% 100%)`,
   );
-
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -228,6 +327,22 @@ export default function OpenGuitarZipper({
           dragConstraints={{ top: 0, bottom: trackHeight }}
           dragElastic={0}
           dragMomentum={false}
+          onDragStart={() => {
+            isDraggingRef.current = true;
+          }}
+          onDragEnd={() => {
+            isDraggingRef.current = false;
+            if (zipperSoundRef.current && zipperSoundRef.current.playing()) {
+              zipperSoundRef.current.fade(
+                zipperSoundRef.current.volume() as number,
+                0,
+                100,
+              );
+              setTimeout(() => {
+                zipperSoundRef.current?.pause();
+              }, 100);
+            }
+          }}
           style={{ y }}
           className="relative size-30 flex items-center justify-center cursor-grab active:cursor-grabbing pointer-events-auto will-change-transform"
         >

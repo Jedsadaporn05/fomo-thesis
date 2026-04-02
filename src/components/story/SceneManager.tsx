@@ -53,10 +53,6 @@ export default function SceneManager() {
   const nextScene = nextSceneId ? SceneConfig[nextSceneId] : null;
   const { autoNext } = currentScene;
 
-  const [videoSrc, setVideoSrc] = useState<string | undefined>(
-    currentScene?.video,
-  );
-
   const getNextSceneByScore = useCallback(() => {
     const currentScore = useStoryStore.getState().score;
     if (currentScene.scoreBranch) {
@@ -68,7 +64,7 @@ export default function SceneManager() {
   }, [currentScene.scoreBranch, nextSceneId]);
 
   useEffect(() => {
-    let spinnerTimer: NodeJS.Timeout;
+    let spinnerTimer: ReturnType<typeof setTimeout>;
 
     if (!isVideoLoaded && !isAutoplayBlocked) {
       spinnerTimer = setTimeout(() => {
@@ -82,14 +78,6 @@ export default function SceneManager() {
       if (spinnerTimer) clearTimeout(spinnerTimer);
     };
   }, [isVideoLoaded, isAutoplayBlocked]);
-
-  // Sync video source with current scene
-  useEffect(() => {
-    if (currentScene?.video !== videoSrc) {
-      setIsVideoLoaded(false);
-      setVideoSrc(currentScene?.video);
-    }
-  }, [currentScene?.video, videoSrc]);
 
   // Handle Playback and Volume
   useEffect(() => {
@@ -140,6 +128,7 @@ export default function SceneManager() {
     canProceedRef.current = false;
     setCanProceed(false);
     setInteractionPaused(false);
+    setIsVideoLoaded(false);
   }, [currentSceneId, setInteractionPaused]);
 
   const handleInteractionTriggered = useCallback(
@@ -281,7 +270,7 @@ export default function SceneManager() {
                     currentVideoRef.current = el;
                     setActiveVideoNode(el);
                   }}
-                  src={videoSrc}
+                  src={currentScene.video}
                   style={{ opacity: isAutoplayBlocked ? 0.3 : 0 }}
                   autoPlay={!isVideoPaused}
                   playsInline
