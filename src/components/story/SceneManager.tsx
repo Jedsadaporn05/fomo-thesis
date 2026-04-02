@@ -129,6 +129,7 @@ export default function SceneManager() {
     setCanProceed(false);
     setInteractionPaused(false);
     setIsVideoLoaded(false);
+    setIsAutoplayBlocked(false);
   }, [currentSceneId, setInteractionPaused]);
 
   const handleInteractionTriggered = useCallback(

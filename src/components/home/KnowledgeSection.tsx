@@ -304,7 +304,9 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
       observer.disconnect();
       window.removeEventListener("resize", updateCoords);
       document.removeEventListener("fullscreenchange", updateCoords);
-      if (rafId) cancelAnimationFrame(rafId);
+      if (rafId !== null) {
+        cancelAnimationFrame(rafId);
+      }
     };
   }, [isDesktop]);
 
