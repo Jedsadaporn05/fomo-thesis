@@ -337,7 +337,7 @@ export default function InteractiveManager({
                   <div className="container relative mx-auto max-w-full w-full h-full flex flex-col justify-end items-start gap-8">
                     <div className="w-full h-full flex flex-col justify-around gap-[60%] min-[395px]:gap-[55%] lg:gap-[50%]">
                       <div className="inset-0 flex items-center justify-center" />
-                      <div className="w-[55%] sm:w-[50%] flex flex-row justify-between items-end gap-4 min-[450px]:gap-8 sm:gap-12 md:gap-16 lg:gap-20 -ms-2 min-[450px]:ms-0 sm:ms-2 lg:ms-6 xl:ms-10">
+                      <div className="w-[55%] sm:w-[50%] flex flex-row justify-between items-end gap-4 min-[450px]:gap-8 sm:gap-12 md:gap-16 lg:gap-20 max-[449px]:-ms-2 min-[450px]:ms-0 sm:ms-2 lg:ms-6 xl:ms-10">
                         {activeInteraction.options.map((option, idx) => (
                           <motion.button
                             key={`end-${idx}`}
