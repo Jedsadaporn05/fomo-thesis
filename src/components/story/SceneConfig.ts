@@ -115,7 +115,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-4": {
     id: "scene-4",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-v3.mp4",
     next: "scene-4-choice",
     autoNext: true,
   },
@@ -144,13 +144,13 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-4-choice-1": {
     id: "scene-4-choice-1",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-1-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-1-v3.mp4",
     next: "scene-5-interactive",
     autoNext: true,
   },
   "scene-4-choice-2": {
     id: "scene-4-choice-2",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-2-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-4-choice-2-v3.mp4",
     next: "scene-5-interactive",
     autoNext: true,
   },
@@ -177,7 +177,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-5": {
     id: "scene-5",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-5-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-5-v3.mp4",
     next: "scene-6",
     autoNext: true,
   },
@@ -284,7 +284,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   // Bad Way
   "bad-scene-1": {
     id: "bad-scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1-v3.mp4",
     next: "bad-ending",
     autoNext: true,
   },
