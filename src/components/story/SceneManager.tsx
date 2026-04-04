@@ -13,6 +13,7 @@ import { useScreenDetection } from "@/src/hooks/useScreenDetection";
 import InteractiveManager from "./interactive/InteractiveManager";
 import gsap from "gsap";
 import { useClickSound } from "@/src/hooks/useClickSound";
+import LandscapeSuggestion from "../LandscapeSuggestion";
 
 export default function SceneManager() {
   const playClickSound = useClickSound();
@@ -233,6 +234,7 @@ export default function SceneManager() {
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="absolute inset-0 z-50"
           >
+            <LandscapeSuggestion />
             <StartStory />
           </motion.div>
         ) : (
