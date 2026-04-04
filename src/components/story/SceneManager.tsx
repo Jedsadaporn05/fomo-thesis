@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Interaction, SceneConfig } from "./SceneConfig";
 import Navbar from "../layout/Navbar";
 import StartStory from "./StartStory";
-import { useVideoPreloader } from "@/src/hooks/useVideoPreloader";
+import { useVideoPreloader, useVideoUrl } from "@/src/hooks/useVideoPreloader";
 import SmallScreenOverlay from "../SmallScreenOverlay";
 import { useScreenDetection } from "@/src/hooks/useScreenDetection";
 import InteractiveManager from "./interactive/InteractiveManager";
@@ -50,9 +50,15 @@ export default function SceneManager() {
   const isVideoPaused = isPaused || isInteractionPaused;
 
   const currentScene = SceneConfig[currentSceneId];
+  const videoSrc = useVideoUrl(currentScene?.video);
   const nextSceneId = currentScene?.next;
   const nextScene = nextSceneId ? SceneConfig[nextSceneId] : null;
   const { autoNext } = currentScene;
+
+  const lockedVideoSrc = useMemo(() => {
+    return videoSrc;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentSceneId]);
 
   const getNextSceneByScore = useCallback(() => {
     const currentScore = useStoryStore.getState().score;
@@ -140,6 +146,17 @@ export default function SceneManager() {
     [setInteractionPaused],
   );
 
+  useEffect(() => {
+    if (!activeVideoNode) return;
+    syncVideoVolume(activeVideoNode);
+  }, [
+    videoVolume,
+    bgmEnabled,
+    currentSceneId,
+    activeVideoNode,
+    syncVideoVolume,
+  ]);
+
   const handleInteractionComplete = useCallback(() => {
     setInteractionPaused(false);
 
@@ -165,7 +182,7 @@ export default function SceneManager() {
 
     const urls = new Set<string>();
 
-    if (!isStoryStarted) {
+    if (currentScene.video) {
       urls.add(currentScene.video);
     }
 
@@ -200,7 +217,7 @@ export default function SceneManager() {
     });
 
     return Array.from(urls);
-  }, [currentScene, isStoryStarted, nextScene, score]);
+  }, [currentScene, nextScene, score]);
 
   useVideoPreloader(preloadUrls, 2000);
 
@@ -214,6 +231,11 @@ export default function SceneManager() {
       if (target) goToScene(target);
     }
   }, [autoNext, getNextSceneByScore, goToScene]);
+
+  const videoRefCallback = useCallback((el: HTMLVideoElement | null) => {
+    currentVideoRef.current = el;
+    setActiveVideoNode(el);
+  }, []);
 
   if (!currentScene) return null;
 
@@ -269,11 +291,9 @@ export default function SceneManager() {
                   </motion.div>
                 )}
                 <video
-                  ref={(el) => {
-                    currentVideoRef.current = el;
-                    setActiveVideoNode(el);
-                  }}
-                  src={currentScene.video}
+                  key={currentSceneId}
+                  ref={videoRefCallback}
+                  src={lockedVideoSrc}
                   style={{ opacity: isAutoplayBlocked ? 0.3 : 0 }}
                   autoPlay={!isVideoPaused}
                   playsInline
