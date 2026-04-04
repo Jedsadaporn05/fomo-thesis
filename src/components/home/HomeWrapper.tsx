@@ -11,6 +11,7 @@ import SmallScreenOverlay from "../SmallScreenOverlay";
 import SoundConsentModal from "../SoundConsentModal";
 import { useScreenDetection } from "@/src/hooks/useScreenDetection";
 import { useHomeAudio } from "@/src/hooks/useHomeAudio";
+import OrientationGuard from "../OrientationGuard";
 
 const KnowledgeSection = dynamic(
   () => import("@/src/components/home/KnowledgeSection"),
@@ -48,6 +49,7 @@ export default function HomeWrapper() {
   return (
     <>
       {preloaderActive && <Preloader onComplete={handlePreloaderComplete} />}
+      <OrientationGuard />
       <SoundConsentModal isReady={!preloaderActive} />
 
       <div

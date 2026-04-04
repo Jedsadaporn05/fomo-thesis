@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import SmoothScrolling from "@/src/components/SmoothScrolling";
-import OrientationGuard from "../components/OrientationGuard";
-import CustomCursor from "../components/CustomCursor";
+import CustomCursor from "@/src/components/CustomCursor";
 
 const ibmPlexSansThai = IBM_Plex_Sans_Thai({
   subsets: ["thai", "latin"],
@@ -110,7 +109,6 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <CustomCursor />
-        <OrientationGuard />
         <SmoothScrolling>
           <main>{children}</main>
         </SmoothScrolling>

@@ -70,7 +70,7 @@ export default function StartStory() {
         />
       </div>
       <div
-        className="relative container mx-auto w-auto h-fit flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10 bg-[#06122D]/80 rounded-[36px] pt-6 sm:pt-8 lg:pt-10 pb-8.75 sm:pb-10.75 lg:pb-12.75 z-10"
+        className="relative container mx-auto w-auto h-fit flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-8 lg:gap-10 bg-[#06122D]/80 rounded-4xl pt-6 sm:pt-8 lg:pt-10 pb-8.75 sm:pb-10.75 lg:pb-12.75 z-10 landscape:gap-4 landscape:lg:gap-10 landscape:pt-5 landscape:lg:pt-10 landscape:pb-5.75 landscape:lg:pb-12.75"
         aria-label="Start Story warning popup"
       >
         {/* Border layer */}
@@ -78,7 +78,7 @@ export default function StartStory() {
         {/* Warning Icon */}
         <div
           data-cursor-expand
-          className="w-full h-full flex flex-col items-center gap-4"
+          className="w-full h-full flex flex-col items-center gap-4 landscape:gap-2 landscape:lg:gap-4"
         >
           <Image
             src="https://cdn.fomo-gracie.com/image/story/IconWarning.png"
@@ -86,7 +86,7 @@ export default function StartStory() {
             width={400}
             height={400}
             priority
-            className="w-8 sm:w-13 md:w-15 lg:w-20 3xl:w-25 object-contain pointer-events-none animate-pulse"
+            className="w-8 sm:w-13 md:w-15 lg:w-20 3xl:w-25 object-contain pointer-events-none animate-pulse landscape:w-5 landscape:sm:w-7.5 landscape:lg:w-20"
           />
 
           <Image
@@ -95,15 +95,15 @@ export default function StartStory() {
             width={400}
             height={400}
             priority
-            className="w-35 sm:w-55 md:w-65 lg:w-75 xl:w-85 3xl:w-95 object-contain pointer-events-none"
+            className="w-35 sm:w-55 md:w-65 lg:w-75 xl:w-85 3xl:w-95 object-contain pointer-events-none landscape:w-25 landscape:sm:w-27 landscape:md:w-35 landscape:lg:w-75"
           />
         </div>
         {/* Content */}
         <div
           data-cursor-expand
-          className="w-full flex flex-col justify-center items-center gap-4 sm:gap-6 lg:gap-8 3xl:whitespace-nowrap"
+          className="w-full flex flex-col justify-center items-center gap-4 sm:gap-6 lg:gap-8 3xl:whitespace-nowrap landscape:gap-2 landscape:lg:gap-8"
         >
-          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
+          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">
             เว็บไซต์เชิงปฏิสัมพันธ์นี้จัดทำขึ้นเพื่อสะท้อนผลกระทบของภาวะความกลัวที่จะพลาด
             <br className="hidden sm:block" />
             บางอย่าง (FOMO) ผ่านตัวละครสมมุติ{" "}
@@ -111,7 +111,7 @@ export default function StartStory() {
               ไม่ใช่แบบทดสอบทางจิตวิทยาแต่อย่างใด
             </span>
           </p>
-          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center">
+          <p className="text-[11px] sm:text-sm md:text-base lg:text-lg xl:text-xl 3xl:text-2xl font-normal text-white leading-relaxed text-center landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">
             เรื่องราวของ Gracie กำลังจะเริ่มต้นขึ้น
             ระหว่างทางคุณจะได้ตัดสินใจแทนเธอ
             <br className="hidden sm:block" />
@@ -124,38 +124,38 @@ export default function StartStory() {
           </p>
         </div>
         {/* Buttons */}
-        <div className="w-full flex flex-row justify-around items-center gap-12 lg:gap-18">
+        <div className="w-full flex flex-row justify-around items-center gap-12 lg:gap-18 landscape:gap-8 landscape:lg:gap-18">
           <button
             onClick={onBack}
             aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
-            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 hover:animate-pulse transition-all duration-200 ease-in-out"
+            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 hover:animate-pulse transition-all duration-200 ease-in-out landscape:gap-1.75 landscape:lg:gap-4"
           >
             <div
-              className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
+              className="w-full h-[2.75px] sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent landscape:h-0.5 landscape:sm:h-[2.25px] landscape:lg:h-1.25"
               aria-hidden="true"
             />
-            <span className="text-xs sm:text-sm md:text-base lg:text-lg 2xl:text-xl 3xl:text-2xl font-bold text-white/90">
+            <span className="text-[11px] sm:text-sm md:text-base lg:text-lg 2xl:text-xl 3xl:text-2xl font-bold text-white/90 landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">
               ย้อนกลับ
             </span>
             <div
-              className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
+              className="w-full h-[2.75px] sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent landscape:h-0.5 landscape:sm:h-[2.25px] landscape:lg:h-1.25"
               aria-hidden="true"
             />
           </button>
           <button
             onClick={onStarted}
             aria-label="เริ่มเรื่องราวประสบการณ์ FOMO"
-            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 hover:animate-pulse transition-all duration-200 ease-in-out"
+            className="w-full sm:w-[40%] flex flex-col justify-center items-center gap-2 lg:gap-4 cursor-pointer hover:*:text-[#FF0B60] group bg-transparent border-none outline-none hover:-translate-y-2 hover:animate-pulse transition-all duration-200 ease-in-out landscape:gap-1.75 landscape:lg:gap-4"
           >
             <div
-              className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
+              className="w-full h-[2.75px] sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent landscape:h-0.5 landscape:sm:h-[2.25px] landscape:lg:h-1.25"
               aria-hidden="true"
             />
-            <span className="text-xs sm:text-sm md:text-base lg:text-lg 2xl:text-xl 3xl:text-2xl font-bold text-white/90">
+            <span className="text-[11px] sm:text-sm md:text-base lg:text-lg 2xl:text-xl 3xl:text-2xl font-bold text-white/90 landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">
               เข้าสู่เรื่องราว
             </span>
             <div
-              className="w-full h-0.75 sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent"
+              className="w-full h-[2.75px] sm:h-1 lg:h-1.25 rounded-md bg-linear-to-r from-transparent via-[#FF0B60] to-transparent landscape:h-0.5 landscape:sm:h-[2.25px] landscape:lg:h-1.25"
               aria-hidden="true"
             />
           </button>

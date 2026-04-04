@@ -390,7 +390,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Knowledge 1 */}
         <div
           id="Knowledge-1"
-          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
+          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-14 sm:pt-15 md:pt-20 lg:pt-0"
         >
           <div
             className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5"
@@ -456,7 +456,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Knowledge 2 */}
         <div
           id="Knowledge-2"
-          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
+          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-14 sm:pt-15 md:pt-20 lg:pt-0"
         >
           <div
             className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5"
@@ -520,7 +520,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         {/* Knowledge 3 */}
         <div
           id="Knowledge-3"
-          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-15 md:pt-20 lg:pt-0"
+          className="w-full h-dvh relative flex justify-center items-start lg:items-center pt-14 sm:pt-15 md:pt-20 lg:pt-0"
         >
           <div
             className="absolute top-0 w-full h-[5dvh] lg:h-[7dvh] pointer-events-none bg-linear-to-b from-[#0f1636] to-transparent z-5"
