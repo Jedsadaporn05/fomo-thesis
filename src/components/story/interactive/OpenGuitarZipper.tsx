@@ -142,7 +142,8 @@ export default function OpenGuitarZipper({
     const targetTime = progress * duration;
     const currentTime = zipper.seek() as number;
 
-    if (Math.abs(currentTime - targetTime) > 0.15) {
+    // Use a small epsilon to avoid micro-seeks
+    if (Math.abs(currentTime - targetTime) > 0.05) {
       zipper.seek(targetTime);
     }
 

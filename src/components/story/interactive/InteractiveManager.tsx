@@ -152,7 +152,6 @@ export default function InteractiveManager({
       if (processingRef.current === index) return;
       processingRef.current = index;
 
-      setIsExiting(true);
       completeInteraction(index);
 
       const currentInteraction = scene.interactions?.[index];
@@ -165,11 +164,14 @@ export default function InteractiveManager({
       }
 
       if (option.action === "restart") {
+        setIsExiting(true);
         resetStory();
         goToScene("scene-1");
       } else if (option.action === "home") {
+        setIsExiting(true);
         router.push("/");
       } else if (option.targetScene) {
+        setIsExiting(true);
         goToScene(option.targetScene);
       } else {
         checkAllCompleted(completedInteractions.length + 1);
