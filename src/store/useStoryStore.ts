@@ -10,6 +10,7 @@ type StoryState = {
   isInteractionPaused: boolean;
   score: number;
   history: SceneId[];
+  completedInteractions: number[];
 
   _hasHydrated: boolean;
 
@@ -18,6 +19,7 @@ type StoryState = {
   setInteractionPaused: (paused: boolean) => void;
   goToScene: (id: SceneId) => void;
   addScore: (amount: number) => void;
+  completeInteraction: (index: number) => void;
   resetStory: () => void;
 
   setHasHydrated: (state: boolean) => void;
@@ -32,6 +34,7 @@ export const useStoryStore = create<StoryState>()(
       isInteractionPaused: false,
       score: 0,
       history: [],
+      completedInteractions: [],
 
       _hasHydrated: false,
 
@@ -45,11 +48,17 @@ export const useStoryStore = create<StoryState>()(
         set((state) => ({
           currentSceneId: id,
           history: [...state.history, id],
+          completedInteractions: [],
         })),
 
       addScore: (amount) =>
         set((state) => ({
           score: state.score + amount,
+        })),
+
+      completeInteraction: (index) =>
+        set((state) => ({
+          completedInteractions: [...state.completedInteractions, index],
         })),
 
       resetStory: () => {
@@ -60,6 +69,7 @@ export const useStoryStore = create<StoryState>()(
           isPaused: false,
           score: 0,
           history: [],
+          completedInteractions: [],
         });
       },
 
