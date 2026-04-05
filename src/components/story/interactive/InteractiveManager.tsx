@@ -28,9 +28,15 @@ export default function InteractiveManager({
   const goToScene = useStoryStore((state) => state.goToScene);
   const addScore = useStoryStore((state) => state.addScore);
   const resetStory = useStoryStore((state) => state.resetStory);
+  const completedInteractions = useStoryStore(
+    (state) => state.completedInteractions,
+  );
+  const completeInteraction = useStoryStore(
+    (state) => state.completeInteraction,
+  );
 
-  const [completedIndices, setCompletedIndices] = useState<number[]>([]);
   const [triggeredIndices, setTriggeredIndices] = useState<number[]>([]);
+  const [isExiting, setIsExiting] = useState(false);
   const rafRef = useRef<number | null>(null);
 
   const triggeredSetRef = useRef<Set<number>>(new Set());
@@ -42,7 +48,7 @@ export default function InteractiveManager({
 
     const checkInteractionTime = () => {
       const video = videoRef.current;
-      if (!video) {
+      if (!video || video.paused || video.ended) {
         rafRef.current = requestAnimationFrame(checkInteractionTime);
         return;
       }
@@ -78,10 +84,10 @@ export default function InteractiveManager({
 
   const activeIndex = useMemo(() => {
     const active = triggeredIndices
-      .filter((idx) => !completedIndices.includes(idx))
+      .filter((idx) => !completedInteractions.includes(idx))
       .sort((a, b) => a - b)[0];
     return active !== undefined ? active : null;
-  }, [triggeredIndices, completedIndices]);
+  }, [triggeredIndices, completedInteractions]);
 
   const activeInteraction =
     activeIndex !== null && scene.interactions
@@ -95,9 +101,9 @@ export default function InteractiveManager({
   }, [activeInteraction, onInteractionTriggered]);
 
   const checkAllCompleted = useCallback(
-    (newCompletedIndices: number[]) => {
+    (newCompletedCount: number) => {
       if (!scene.interactions) return;
-      if (newCompletedIndices.length >= scene.interactions.length) {
+      if (newCompletedCount >= scene.interactions.length) {
         if (onAllComplete) onAllComplete();
       }
     },
@@ -109,8 +115,7 @@ export default function InteractiveManager({
       if (processingRef.current === index) return;
       processingRef.current = index;
 
-      const newCompleted = [...completedIndices, index];
-      setCompletedIndices(newCompleted);
+      completeInteraction(index);
 
       if (interaction.resumeVideo !== false) {
         if (onComplete) onComplete();
@@ -118,12 +123,20 @@ export default function InteractiveManager({
 
       if (interaction.score !== undefined) addScore(interaction.score);
       if (interaction.targetScene) {
+        setIsExiting(true);
         goToScene(interaction.targetScene);
       } else {
-        checkAllCompleted(newCompleted);
+        checkAllCompleted(completedInteractions.length + 1);
       }
     },
-    [onComplete, addScore, goToScene, completedIndices, checkAllCompleted],
+    [
+      onComplete,
+      addScore,
+      goToScene,
+      completeInteraction,
+      completedInteractions.length,
+      checkAllCompleted,
+    ],
   );
 
   const handleOptionClick = useCallback(
@@ -139,15 +152,17 @@ export default function InteractiveManager({
       if (processingRef.current === index) return;
       processingRef.current = index;
 
-      const newCompleted = [...completedIndices, index];
-      setCompletedIndices(newCompleted);
+      setIsExiting(true);
+      completeInteraction(index);
 
       const currentInteraction = scene.interactions?.[index];
-      if (currentInteraction?.resumeVideo !== false) {
-        if (onComplete) onComplete();
+      if (currentInteraction?.resumeVideo !== false && onComplete) {
+        onComplete();
       }
 
-      if (option.score !== undefined) addScore(option.score);
+      if (option.score !== undefined) {
+        addScore(option.score);
+      }
 
       if (option.action === "restart") {
         resetStory();
@@ -157,7 +172,7 @@ export default function InteractiveManager({
       } else if (option.targetScene) {
         goToScene(option.targetScene);
       } else {
-        checkAllCompleted(newCompleted);
+        checkAllCompleted(completedInteractions.length + 1);
       }
     },
     [
@@ -167,25 +182,37 @@ export default function InteractiveManager({
       scene.interactions,
       resetStory,
       router,
-      completedIndices,
+      completeInteraction,
+      completedInteractions.length,
       checkAllCompleted,
     ],
   );
 
   // Reset after Scene Change
   useEffect(() => {
-    setCompletedIndices([]);
     setTriggeredIndices([]);
     triggeredSetRef.current.clear();
     processingRef.current = null;
+    setIsExiting(false);
   }, [scene.id]);
+
+  // Check if all interactions are already completed (e.g. on refresh)
+  useEffect(() => {
+    if (
+      scene.interactions &&
+      scene.interactions.length > 0 &&
+      completedInteractions.length >= scene.interactions.length
+    ) {
+      if (onAllComplete) onAllComplete();
+    }
+  }, [scene.interactions, completedInteractions.length, onAllComplete]);
 
   const isDragDrop = activeInteraction?.type === "drag-drop";
 
   return (
     <div className="absolute inset-0 z-20 pointer-events-none">
       <AnimatePresence mode="wait">
-        {activeInteraction && activeIndex !== null && (
+        {activeInteraction && activeIndex !== null && !isExiting && (
           <>
             {isDragDrop && (
               <motion.div
@@ -291,6 +318,7 @@ export default function InteractiveManager({
                       <div className="w-full flex flex-row justify-between items-end gap-8 sm:gap-12 md:gap-16 lg:gap-20">
                         {activeInteraction.options.map((option, idx) => (
                           <motion.button
+                            type="button"
                             key={`${activeIndex}-${idx}`}
                             initial={{ y: 30, opacity: 0 }}
                             animate={{ y: 0, opacity: 1 }}
@@ -340,6 +368,7 @@ export default function InteractiveManager({
                       <div className="w-[55%] sm:w-[50%] flex flex-row justify-between items-end gap-4 min-[450px]:gap-8 sm:gap-12 md:gap-16 lg:gap-20 max-[449px]:-ms-2 min-[450px]:ms-0 sm:ms-2 lg:ms-6 xl:ms-10 landscape:gap-3 landscape:min-[450px]:gap-6 landscape:sm:gap-8 landscape:d:gap-12 landscape:lg:gap-20">
                         {activeInteraction.options.map((option, idx) => (
                           <motion.button
+                            type="button"
                             key={`end-${idx}`}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
