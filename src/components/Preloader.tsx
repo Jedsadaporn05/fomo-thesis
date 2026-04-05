@@ -278,7 +278,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
             />
           </div>
           <div className="flex justify-between items-start text-gray-300">
-            <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base font-medium tracking-widest uppercase landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm">
+            <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base font-medium tracking-widest uppercase landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-base">
               {statusText}
             </span>
             <span className="text-[10px] min-[400px]:text-xs sm:text-sm md:text-base lg:text-lg font-bold text-white leading-none tabular-nums mt-1 landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">

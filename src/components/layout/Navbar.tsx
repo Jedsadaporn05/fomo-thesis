@@ -277,13 +277,13 @@ export default function Navbar() {
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             exit={{ opacity: 0, scale: 0.8, rotate: -90 }}
             transition={{ type: "spring", stiffness: 260, damping: 20 }}
-            className="pointer-events-auto absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4"
+            className="pointer-events-auto absolute top-0 right-0 px-2 sm:px-3 md:px-4 lg:px-5 xl:px-6 2xl:px-7 w-fit h-20 z-40 cursor-pointer group flex justify-end items-start pt-2 sm:pt-3 md:pt-4 landscape:pt-1 landscape:sm:pt-2 landscape:md:pt-4"
             onClick={() => {
               setIsManualShow(true);
               playClickSound();
             }}
           >
-            <div className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]">
+            <div className="cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 landscape:w-6 landscape:sm:w-8 landscape:md:w-10 landscape:lg:w-13 landscape::h-6 landscape:sm:h-8 landscape:md:h-10 landscape:lg:h-13 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]">
               <Settings
                 strokeWidth={2}
                 className="size-3.25 sm:size-4 md:size-5 lg:size-6 3xl:size-7 text-white group-hover:text-[#E51E5A] transition-all duration-300"
@@ -305,7 +305,7 @@ export default function Navbar() {
         }}
         onMouseEnter={() => setIsHoveringNavbar(true)}
         onMouseLeave={() => setIsHoveringNavbar(false)}
-        className={`pointer-events-none ${isStoryPage ? "absolute" : "fixed"} top-0 left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6 2xl:left-7 right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6 2xl:right-7 z-50 pt-2 sm:pt-3 md:pt-4`}
+        className={`pointer-events-none ${isStoryPage ? "absolute" : "fixed"} top-0 left-2 sm:left-3 md:left-4 lg:left-5 xl:left-6 2xl:left-7 right-2 sm:right-3 md:right-4 lg:right-5 xl:right-6 2xl:right-7 z-50 pt-2 sm:pt-3 md:pt-4 landscape:pt-1 landscape:sm:pt-2 landscape:md:pt-4`}
       >
         {!isStoryPage && (
           <div
@@ -378,7 +378,7 @@ export default function Navbar() {
                   type="button"
                   aria-label="ตั้งค่าเสียงประกอบ"
                   onClick={playClickSound}
-                  className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                  className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 landscape:w-6 landscape:sm:w-8 landscape:md:w-10 landscape:lg:w-13 landscape::h-6 landscape:sm:h-8 landscape:md:h-10 landscape:lg:h-13 rounded-full bg-[#0a1635]/90 hover:bg-[#0a1635] text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
                 >
                   <div className="relative flex items-center justify-center">
                     <Music2
@@ -399,11 +399,11 @@ export default function Navbar() {
                   </div>
                 </button>
               </DialogTrigger>
-              <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-4 overflow-hidden outline-none">
+              <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-2 md:p-3 lg:p-4 overflow-hidden outline-none landscape:p-2 landscape:md:p-3 landscape:lg:p-4 landscape:xl:p-6 landscape:max-w-xs landscape:md:max-w-md landscape:rounded-2xl landscape:sm:rounded-3xl landscape:md:rounded-4xl">
                 <div className="relative px-3 lg:px-2 xl:px-1 pt-1">
-                  <div className="flex flex-row justify-between items-end border-white/10 mb-1">
+                  <div className="flex flex-row justify-between items-end border-white/10 mb-0 lg:mb-1">
                     <DialogHeader>
-                      <DialogTitle className="text-lg sm:text-xl md:text-2xl xl:text-[26px] font-black tracking-tight text-white">
+                      <DialogTitle className="text-base sm:text-lg md:text-2xl xl:text-[26px] font-black tracking-tight text-white landscape:text-sm landscape:sm:text-base landscape:md:text-2xl landscape:xl:text-[26px]">
                         การตั้งค่าเสียง
                       </DialogTitle>
                     </DialogHeader>
@@ -413,17 +413,16 @@ export default function Navbar() {
                     >
                       <XIcon
                         strokeWidth={2.5}
-                        size={24}
-                        className="text-white group-hover:text-[#FF2D77] group-hover:rotate-90 transition-all duration-300"
+                        className="text-white group-hover:text-[#FF2D77] group-hover:rotate-90 transition-all duration-300 size-4 md:size-5 lg:size-6 landscape:size-5 landscape:md:size-6"
                       />
                     </DialogClose>
                   </div>
                 </div>
-                <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-6">
+                <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-4 lg:space-y-6">
                   {/* BGM */}
                   <div className="relative group">
                     <div
-                      className={`p-4 sm:p-5 md:p-6 rounded-2xl bg-white/3 border border-white/10 transition-all duration-500 ${!bgmEnabled && "opacity-40 grayscale"}`}
+                      className={`p-3 sm:p-4 md:p-5 lg:p-6 rounded-2xl bg-white/3 border border-white/10 transition-all duration-500 ${!bgmEnabled && "opacity-40 grayscale"} landscape:p-2 landscape:sm:p-2.5 landscape:md:p-4 landscape:lg:p-6`}
                     >
                       <div className="flex justify-between items-center mb-0 xl:mb-6">
                         <button
@@ -435,16 +434,16 @@ export default function Navbar() {
                           className="w-full flex items-center gap-5 outline-none cursor-pointer"
                         >
                           <div
-                            className={`relative p-4 rounded-2xl transition-all duration-500 ${bgmEnabled ? "bg-[#FF2D77] shadow-[0_0_20px_rgba(255,45,119,0.4)]" : "bg-white/5"}`}
+                            className={`relative p-3 lg:p-4 rounded-lg lg:rounded-2xl landscape:rounded-xl landscape:lg:rounded-2xl transition-all duration-500 ${bgmEnabled ? "bg-[#FF2D77] shadow-[0_0_20px_rgba(255,45,119,0.4)]" : "bg-white/5"}`}
                           >
                             {bgmEnabled ? (
-                              <Music size={24} className="text-white" />
+                              <Music className="text-white size-4 md:size-5 lg:size-6 landscape:size-5 landscape:md:size-6" />
                             ) : (
-                              <VolumeX size={24} className="text-white/40" />
+                              <VolumeX className="text-white/40 size-4 md:size-5 lg:size-6 landscape:size-5 landscape:md:size-6" />
                             )}
                           </div>
                           <div>
-                            <h3 className="text-base sm:text-lg md:text-xl font-bold text-white tracking-wide">
+                            <h3 className="text-sm sm:text-base md:text-xl font-bold text-white tracking-wide landscape:text-xs landscape:sm:text-sm landscape:md:text-xl">
                               เสียงหลัก
                             </h3>
                           </div>
@@ -472,7 +471,7 @@ export default function Navbar() {
                   {/* SFX */}
                   <div className="relative group">
                     <div
-                      className={`p-4 sm:p-5 md:p-6 rounded-2xl bg-white/3 border border-white/10 transition-all duration-500 ${!sfxEnabled && "opacity-40 grayscale"}`}
+                      className={`p-3 sm:p-4 md:p-5 lg:p-6 rounded-2xl bg-white/3 border border-white/10 transition-all duration-500 ${!sfxEnabled && "opacity-40 grayscale"} landscape:p-2 landscape:sm:p-2.5 landscape:md:p-4 landscape:lg:p-6`}
                     >
                       <div className="flex justify-between items-center mb-0 xl:mb-6">
                         <button
@@ -484,16 +483,16 @@ export default function Navbar() {
                           className="w-full flex items-center gap-5 outline-none cursor-pointer"
                         >
                           <div
-                            className={`relative p-4 rounded-2xl transition-all duration-500 ${sfxEnabled ? "bg-[#FF2D77] shadow-[0_0_20px_rgba(255,45,119,0.4)]" : "bg-white/5"}`}
+                            className={`relative p-3 lg:p-4 rounded-lg lg:rounded-2xl landscape:rounded-xl landscape:lg:rounded-2xl transition-all duration-500 ${sfxEnabled ? "bg-[#FF2D77] shadow-[0_0_20px_rgba(255,45,119,0.4)]" : "bg-white/5"}`}
                           >
                             {sfxEnabled ? (
-                              <Speaker size={24} className="text-white" />
+                              <Speaker className="text-white size-4 md:size-5 lg:size-6 landscape:size-5 landscape:md:size-6" />
                             ) : (
-                              <VolumeX size={24} className="text-white/40" />
+                              <VolumeX className="text-white/40 size-4 md:size-5 lg:size-6 landscape:size-5 landscape:md:size-6" />
                             )}
                           </div>
                           <div>
-                            <h3 className="text-base sm:text-lg md:text-xl font-black text-white tracking-wide">
+                            <h3 className="text-sm sm:text-base md:text-xl font-black text-white tracking-wide landscape:text-xs landscape:sm:text-sm landscape:md:text-xl">
                               เอฟเฟกต์เสียง
                             </h3>
                           </div>
@@ -532,7 +531,7 @@ export default function Navbar() {
                     type="button"
                     aria-label={"ออกจากเรื่องราว"}
                     onClick={playClickSound}
-                    className={`pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
+                    className={`pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 landscape:w-6 landscape:sm:w-8 landscape:md:w-10 landscape:lg:w-13 landscape::h-6 landscape:sm:h-8 landscape:md:h-10 landscape:lg:h-13 rounded-full bg-[#0a1635]/90 ${isExitStory ? "text-[#E51E5A]" : "text-white"} shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]`}
                   >
                     <div className="relative flex items-center justify-center w-full h-full">
                       <LogOut
@@ -543,11 +542,11 @@ export default function Navbar() {
                     </div>
                   </button>
                 </DialogTrigger>
-                <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-4 overflow-hidden outline-none">
+                <DialogContent className="container mx-auto w-[85vw] sm:max-w-md rounded-3xl sm:rounded-4xl bg-[#0a1533]/80 backdrop-blur-sm border-2 border-white/10 text-white p-2 md:p-3 lg:p-4 overflow-hidden outline-none landscape:p-2 landscape:md:p-3 landscape:lg:p-4 landscape:xl:p-6 landscape:max-w-xs landscape:md:max-w-md landscape:rounded-2xl landscape:sm:rounded-3xl landscape:md:rounded-4xl">
                   <div className="relative px-3 lg:px-2 xl:px-1 pt-1">
                     <div className="flex flex-row justify-between items-end border-white/10">
                       <DialogHeader>
-                        <DialogTitle className="text-lg sm:text-xl md:text-2xl xl:text-[26px] font-black text-white">
+                        <DialogTitle className="text-base sm:text-lg md:text-2xl xl:text-[26px] font-black text-white landscape:text-sm landscape:sm:text-base landscape:md:text-2xl landscape:xl:text-[26px]">
                           ยืนยันการออกจากเรื่องราว
                         </DialogTitle>
                       </DialogHeader>
@@ -560,15 +559,14 @@ export default function Navbar() {
                       >
                         <XIcon
                           strokeWidth={2.5}
-                          size={24}
-                          className="text-white group-hover:text-[#FF2D77] group-hover:rotate-90 transition-all duration-300"
+                          className="text-white group-hover:text-[#FF2D77] group-hover:rotate-90 transition-all duration-300  size-4 md:size-5 lg:size-6 landscape:size-5 landscape:md:size-6"
                         />
                       </DialogClose>
                     </div>
                   </div>
-                  <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-6">
+                  <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-3 lg:space-y-6">
                     <div className="relative group">
-                      <p className="text-base sm:text-lg md:text-xl font-medium text-white/90 leading-relaxed">
+                      <p className="text-sm sm:text-base md:text-xl font-medium text-white/90 leading-relaxed landscape:text-xs landscape:sm:text-sm landscape:md:text-xl">
                         หากคุณออกจากเรื่องราวตอนนี้
                         <span className="font-semibold text-[#FF2D77] ">
                           <br />
@@ -576,13 +574,13 @@ export default function Navbar() {
                         </span>
                       </p>
                     </div>
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-row gap-2 md:gap-3 lg:gap-4">
                       <button
                         onClick={() => {
                           onCancelExit();
                           playClickSound();
                         }}
-                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-base sm:text-lg md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm sm:text-base md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20 landscape:text-xs landscape:sm:text-sm landscape:md:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-4"
                       >
                         เล่นต่อ
                       </button>
@@ -591,7 +589,7 @@ export default function Navbar() {
                           onConfirmExit();
                           playClickSound();
                         }}
-                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-base sm:text-lg md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group"
+                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-sm sm:text-base md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group landscape:text-xs landscape:sm:text-sm landscape:md:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-4"
                       >
                         ยืนยันการออก
                       </button>
@@ -682,7 +680,7 @@ export default function Navbar() {
                   setIsManualShow(false);
                   playClickSound();
                 }}
-                className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
+                className="pointer-events-auto cursor-pointer group flex items-center justify-center w-6.25 h-6.25 sm:w-10 sm:h-10 md:w-12 md:h-12 lg:w-13 2xl:w-12 3xl:w-14 lg:h-13 2xl:h-12 3xl:h-14 landscape:w-6 landscape:sm:w-8 landscape:md:w-10 landscape:lg:w-13 landscape::h-6 landscape:sm:h-8 landscape:md:h-10 landscape:lg:h-13 rounded-full bg-[#0a1635]/90 text-white shadow-lg backdrop-blur-sm transition-all duration-300 hover:scale-110 active:scale-95 border border-white/10 outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77]"
               >
                 <XIcon
                   strokeWidth={2.5}
