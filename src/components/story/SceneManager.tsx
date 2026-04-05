@@ -304,11 +304,13 @@ export default function SceneManager() {
                   onPlaying={(e) => {
                     setIsVideoLoaded(true);
                     syncVideoVolume(e.currentTarget);
-                    gsap.to(e.currentTarget, {
-                      opacity: 1,
-                      duration: 0.8,
-                      ease: "power2.out",
-                    });
+                    if (!isAutoplayBlocked) {
+                      gsap.to(e.currentTarget, {
+                        opacity: 1,
+                        duration: 0.8,
+                        ease: "power2.out",
+                      });
+                    }
                   }}
                   className="absolute inset-0 w-full h-full object-contain object-center transition-opacity duration-500"
                 />
