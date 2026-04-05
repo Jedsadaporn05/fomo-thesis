@@ -284,7 +284,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   // Bad Way
   "bad-scene-1": {
     id: "bad-scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1-v3.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-scene-1-v4.mp4",
     next: "bad-ending",
     autoNext: true,
   },
