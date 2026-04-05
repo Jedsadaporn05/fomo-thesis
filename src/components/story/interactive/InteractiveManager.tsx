@@ -282,7 +282,7 @@ export default function InteractiveManager({
                               ease: "easeOut",
                             }}
                             data-cursor-expand
-                            className="landscape:max-w-xs landscape:md:max-w-none text-xs min-[450px]:text-sm min-[520px]:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl 3xl:text-5xl font-semibold text-white text-center drop-shadow-[0_0_15px_rgba(255,45,119,0.3)] select-none px-6 landscape:text-[10px] landscape:min-[450px]:text-[11px] landscape:min-[520px]:text-xs landscape:sm:text-sm landscape:md:text-base landscape:lg:text-2xl"
+                            className="landscape:max-w-82.5 landscape:md:max-w-none text-xs min-[450px]:text-sm min-[520px]:text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl 3xl:text-5xl font-semibold text-white text-center drop-shadow-[0_0_15px_rgba(255,45,119,0.3)] select-none px-6 landscape:text-[10px] landscape:min-[450px]:text-[11px] landscape:min-[520px]:text-xs landscape:sm:text-sm landscape:md:text-base landscape:lg:text-2xl"
                           >
                             {activeInteraction.question}
                           </motion.h2>
@@ -314,7 +314,7 @@ export default function InteractiveManager({
                               className="w-2/3 lg:w-1/2 h-0.5 min-[450px]:h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent landscape:h-0.5 landscape:sm:h-[2.25px] landscape:lg:h-1.25"
                               aria-hidden="true"
                             />
-                            <span className="text-[10px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90 landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">
+                            <span className="text-[9px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90 landscape:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-lg">
                               {option.label}
                             </span>
                             <div
@@ -361,7 +361,7 @@ export default function InteractiveManager({
                               className="w-full h-0.5 min-[450px]:h-0.75 sm:h-1 md:h-1.25 lg:h-1.5 3xl:h-1.75 rounded-md bg-linear-to-r from-transparent via-[#FF2D77] to-transparent landscape:h-0.5 landscape:sm:h-[2.25px] landscape:lg:h-1.25"
                               aria-hidden="true"
                             />
-                            <span className="text-[8px] min-[450px]:text-[10px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90 landscape:text-[8px] landscape:min-[450px]:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-xl">
+                            <span className="text-[8px] min-[450px]:text-[9px] sm:text-sm md:text-base lg:text-xl 2xl:text-2xl 3xl:text-3xl font-semibold text-white/90 landscape:text-[8px] landscape:min-[450px]:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-xl">
                               {option.label}
                             </span>
                             <div
