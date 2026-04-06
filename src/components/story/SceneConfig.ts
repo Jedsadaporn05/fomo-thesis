@@ -68,7 +68,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-2": {
     id: "scene-2",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-2-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-2-v3.mp4",
     next: "scene-3",
     autoNext: true,
   },
@@ -177,7 +177,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "scene-5": {
     id: "scene-5",
-    video: "https://cdn.fomo-gracie.com/video/story/scene-5-v3.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/scene-5-v4.mp4",
     next: "scene-6",
     autoNext: true,
   },
@@ -254,13 +254,13 @@ export const SceneConfig: Record<SceneId, Scene> = {
   // Good Way
   "good-scene-1": {
     id: "good-scene-1",
-    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1-v3.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/good-scene-1-v4.mp4",
     next: "good-ending",
     autoNext: true,
   },
   "good-ending": {
     id: "good-ending",
-    video: "https://cdn.fomo-gracie.com/video/story/good-ending-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/good-ending-v3.mp4",
     loop: true,
     interactions: [
       {
@@ -290,7 +290,7 @@ export const SceneConfig: Record<SceneId, Scene> = {
   },
   "bad-ending": {
     id: "bad-ending",
-    video: "https://cdn.fomo-gracie.com/video/story/bad-ending-v2.mp4",
+    video: "https://cdn.fomo-gracie.com/video/story/bad-ending-v3.mp4",
     loop: true,
     interactions: [
       {
