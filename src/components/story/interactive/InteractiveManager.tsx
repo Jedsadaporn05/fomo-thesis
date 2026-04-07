@@ -7,6 +7,7 @@ import { useState, useEffect, useMemo, useRef, useCallback } from "react";
 import OpenGuitarZipper from "./OpenGuitarZipper";
 import { useRouter } from "next/navigation";
 import { useClickSound } from "@/src/hooks/useClickSound";
+import EvaluationForm from "../../EvaluationForm";
 
 interface InteractiveManagerProps {
   scene: Scene;
@@ -405,6 +406,7 @@ export default function InteractiveManager({
                     </div>
                   </div>
                 )}
+              {activeInteraction.type === "ending" && <EvaluationForm />}
             </motion.div>
           </>
         )}
