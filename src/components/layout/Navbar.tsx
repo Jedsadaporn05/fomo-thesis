@@ -403,7 +403,7 @@ export default function Navbar() {
                 <div className="relative px-3 lg:px-2 xl:px-1 pt-1">
                   <div className="flex flex-row justify-between items-end border-white/10 mb-0 lg:mb-1">
                     <DialogHeader>
-                      <DialogTitle className="text-base sm:text-lg md:text-2xl xl:text-[26px] font-black tracking-tight text-white landscape:text-sm landscape:sm:text-base landscape:md:text-2xl landscape:xl:text-[26px]">
+                      <DialogTitle className="text-base sm:text-lg md:text-2xl xl:text-[26px] font-black tracking-tight text-white landscape:text-sm landscape:sm:text-base landscape:md:text-xl landscape:xl:text-[26px]">
                         การตั้งค่าเสียง
                       </DialogTitle>
                     </DialogHeader>
@@ -443,7 +443,7 @@ export default function Navbar() {
                             )}
                           </div>
                           <div>
-                            <h3 className="text-sm sm:text-base md:text-xl font-bold text-white tracking-wide landscape:text-xs landscape:sm:text-sm landscape:md:text-xl">
+                            <h3 className="text-sm sm:text-base md:text-xl font-bold text-white tracking-wide landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl">
                               เสียงหลัก
                             </h3>
                           </div>
@@ -492,7 +492,7 @@ export default function Navbar() {
                             )}
                           </div>
                           <div>
-                            <h3 className="text-sm sm:text-base md:text-xl font-black text-white tracking-wide landscape:text-xs landscape:sm:text-sm landscape:md:text-xl">
+                            <h3 className="text-sm sm:text-base md:text-xl font-black text-white tracking-wide landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl">
                               เอฟเฟกต์เสียง
                             </h3>
                           </div>
@@ -546,7 +546,7 @@ export default function Navbar() {
                   <div className="relative px-3 lg:px-2 xl:px-1 pt-1">
                     <div className="flex flex-row justify-between items-end border-white/10">
                       <DialogHeader>
-                        <DialogTitle className="text-base sm:text-lg md:text-2xl xl:text-[26px] font-black text-white landscape:text-sm landscape:sm:text-base landscape:md:text-2xl landscape:xl:text-[26px]">
+                        <DialogTitle className="text-base sm:text-lg md:text-2xl xl:text-[26px] font-black text-white landscape:text-sm landscape:sm:text-base landscape:md:text-xl landscape:xl:text-[26px]">
                           ยืนยันการออกจากเรื่องราว
                         </DialogTitle>
                       </DialogHeader>
@@ -566,7 +566,7 @@ export default function Navbar() {
                   </div>
                   <div className="px-3 lg:px-2 xl:px-1 pb-2 space-y-3 lg:space-y-6">
                     <div className="relative group">
-                      <p className="text-sm sm:text-base md:text-xl font-medium text-white/90 leading-relaxed landscape:text-xs landscape:sm:text-sm landscape:md:text-xl">
+                      <p className="text-sm sm:text-base md:text-xl font-medium text-white/90 leading-relaxed landscape:text-xs landscape:sm:text-sm landscape:md:text-lg">
                         หากคุณออกจากเรื่องราวตอนนี้
                         <span className="font-semibold text-[#FF2D77] ">
                           <br />
@@ -580,7 +580,7 @@ export default function Navbar() {
                           onCancelExit();
                           playClickSound();
                         }}
-                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm sm:text-base md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20 landscape:text-xs landscape:sm:text-sm landscape:md:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-4"
+                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm sm:text-base md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20 landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-3 landscape:lg:py-4"
                       >
                         เล่นต่อ
                       </button>
@@ -589,7 +589,7 @@ export default function Navbar() {
                           onConfirmExit();
                           playClickSound();
                         }}
-                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-sm sm:text-base md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group landscape:text-xs landscape:sm:text-sm landscape:md:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-4"
+                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-sm sm:text-base md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-3 landscape:lg:py-4"
                       >
                         ยืนยันการออก
                       </button>

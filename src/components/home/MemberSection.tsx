@@ -9,7 +9,8 @@ import Ohm from "@/public/home/member-section/Ohm.png";
 import New from "@/public/home/member-section/New.png";
 import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
 import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
-import { Github, Instagram } from "lucide-react";
+import { Github, Instagram, Mail } from "lucide-react";
+import { BehanceIcon, TwitterXIcon } from "../Icons";
 import Link from "next/link";
 
 const cards = [
@@ -26,7 +27,14 @@ const cards = [
     name: "Danuphon\nChaiyakham",
     position: "Graphic Designer",
     image: Q,
-    contacts: [{ icon: Instagram, link: "/", label: "Instagram" }],
+    contacts: [
+      {
+        icon: Instagram,
+        link: "https://www.instagram.com/q_nuphon",
+        label: "Instagram",
+      },
+      // { icon: Mail, link: "mailto:q@example.com", label: "Email" },
+    ],
   },
   {
     id: 3,
@@ -34,7 +42,23 @@ const cards = [
     name: "Teerapob\nProngrastme",
     position: "Graphic Designer",
     image: Ohm,
-    contacts: [{ icon: Instagram, link: "/", label: "Instagram" }],
+    contacts: [
+      {
+        icon: Instagram,
+        link: "https://www.instagram.com/zoexzone_",
+        label: "Instagram",
+      },
+      {
+        icon: TwitterXIcon,
+        link: "https://x.com/zoexzone_?s=21&t=JudINDm1QwOEVZMPg_xG6w",
+        label: "Twitter",
+      },
+      {
+        icon: BehanceIcon,
+        link: "https://www.behance.net/teerao1",
+        label: "Behance",
+      },
+    ],
   },
   {
     id: 4,
@@ -43,8 +67,11 @@ const cards = [
     position: "Developer",
     image: New,
     contacts: [
-      { icon: Instagram, link: "/", label: "Instagram" },
-      { icon: Github, link: "/", label: "GitHub" },
+      {
+        icon: Github,
+        link: "https://github.com/Jedsadaporn05",
+        label: "GitHub",
+      },
     ],
   },
 ];
@@ -175,7 +202,7 @@ export default function MemberSection() {
                       {card.position}
                     </p>
                     {/* Social Links */}
-                    {/* <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
+                    <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
                       {card.contacts?.map((contact, index) => {
                         const Icon = contact.icon;
 
@@ -188,13 +215,13 @@ export default function MemberSection() {
                             className="text-white/85 hover:text-[#FF3279] transition-colors duration-300 ease-in-out"
                           >
                             <Icon
-                              strokeWidth={1.5}
-                              className="size-4 sm:size-4.5 md:size-6 lg:size-5.5 xl:size-6 2xl:size-6.5 3xl:size-7"
+                              strokeWidth={1.75}
+                              className={`${contact.icon === Mail ? "size-4.25 sm:size-4.75 md:size-6.25 lg:size-5.75 xl:size-6.25 2xl:size-6.75 3xl:size-7.5" : "size-4 sm:size-4.5 md:size-6 lg:size-5.5 xl:size-6 2xl:size-6.5 3xl:size-7"}`}
                             />
                           </Link>
                         );
                       })}
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </motion.article>
