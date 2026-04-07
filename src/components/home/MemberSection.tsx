@@ -11,6 +11,7 @@ import MembersBgImg from "@/public/home/member-section/MembersBg-Mockup.png";
 import MembersBgMobileImg from "@/public/home/member-section/MembersBg-Mobile-Mockup.png";
 import { Github, Instagram, Mail } from "lucide-react";
 import { BehanceIcon, TwitterXIcon } from "../Icons";
+import Link from "next/link";
 
 const cards = [
   {
@@ -32,7 +33,7 @@ const cards = [
         link: "https://www.instagram.com/q_nuphon",
         label: "Instagram",
       },
-      { icon: Mail, link: "mailto:q@example.com", label: "Email" },
+      // { icon: Mail, link: "mailto:q@example.com", label: "Email" },
     ],
   },
   {
@@ -44,11 +45,19 @@ const cards = [
     contacts: [
       {
         icon: Instagram,
-        link: "https://www.instagram.com/ohm_tp.c",
+        link: "https://www.instagram.com/zoexzone_",
         label: "Instagram",
       },
-      { icon: TwitterXIcon, link: "/", label: "Twitter" },
-      { icon: BehanceIcon, link: "/", label: "Behance" },
+      {
+        icon: TwitterXIcon,
+        link: "https://x.com/zoexzone_?s=21&t=JudINDm1QwOEVZMPg_xG6w",
+        label: "Twitter",
+      },
+      {
+        icon: BehanceIcon,
+        link: "https://www.behance.net/teerao1",
+        label: "Behance",
+      },
     ],
   },
   {
@@ -58,11 +67,6 @@ const cards = [
     position: "Developer",
     image: New,
     contacts: [
-      {
-        icon: Instagram,
-        link: "https://www.instagram.com/4tarashii_",
-        label: "Instagram",
-      },
       {
         icon: Github,
         link: "https://github.com/Jedsadaporn05",
@@ -198,7 +202,7 @@ export default function MemberSection() {
                       {card.position}
                     </p>
                     {/* Social Links */}
-                    {/* <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
+                    <div className="flex flex-row justify-start items-start gap-2.5 sm:gap-3 md:gap-3.5 lg:gap-4">
                       {card.contacts?.map((contact, index) => {
                         const Icon = contact.icon;
 
@@ -217,7 +221,7 @@ export default function MemberSection() {
                           </Link>
                         );
                       })}
-                    </div> */}
+                    </div>
                   </div>
                 </div>
               </motion.article>
