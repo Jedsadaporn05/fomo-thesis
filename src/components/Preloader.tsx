@@ -27,7 +27,7 @@ const ASSETS_TO_LOAD = {
     "/home/member-section/Ohm.png",
     "/home/member-section/New.png",
   ],
-  interface: ["/logo/LogoGracie.png", "/logo/LogoGracie.webm"],
+  interface: ["/logo/LogoGracie.png"],
   heroVideo: {
     desktop: "https://cdn.fomo-gracie.com/video/hero/hero-video.mp4",
     mobile: "https://cdn.fomo-gracie.com/video/hero/hero-video-mobile.mp4",
@@ -252,15 +252,22 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     >
       <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-8 w-full max-w-70 min-[400px]:max-w-[320px] sm:max-w-100 md:max-w-125 3xl:max-w-150 px-6">
         <video
-          src="/logo/LogoGracie.webm"
           muted
           autoPlay
           loop
           playsInline
-          preload="metadata"
+          preload="auto"
           aria-hidden="true"
           className="hidden xl:block w-full h-auto max-w-40 min-[400px]:max-w-50 sm:max-w-70 md:max-w-80 3xl:max-w-100 object-contain pointer-events-none landscape:w-30 landscape:sm:w-40 landscape:md:w-60 landscape:lg:w-100"
-        />
+        >
+          {/* Safari */}
+          <source
+            src="https://cdn.fomo-gracie.com/image/logo/LogoGracie.mov"
+            type='video/quicktime; codecs="hvc1"'
+          />
+          {/* Chrome, Edge, Firefox */}
+          <source src="/logo/LogoGracie.webm" type="video/webm" />
+        </video>
         <Image
           src={Logo}
           alt="FOMO The Missing Out - Loading Logo"
