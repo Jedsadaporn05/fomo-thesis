@@ -285,9 +285,12 @@ export default function SceneManager() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="absolute inset-0 flex items-center justify-center z-10 pointer-events-none"
+                    className="absolute inset-0 flex flex-col items-center justify-center gap-1 md:gap-2 lg:gap-3 z-10 pointer-events-none"
                   >
                     <div className="size-3 sm:size-5 md:size-6 lg:size-8 xl:size-10 2xl:size-12 border-2 lg:border-3 2xl:border-4 border-white/20 border-t-white rounded-full animate-spin" />
+                    <p className="text-white text-[8px] min-[450px]:text-[9px] sm:text-sm md:text-base lg:text-xl font-medium tracking-widest animate-pulse landscape:text-[8px] landscape:min-[450px]:text-[9px] landscape:sm:text-[10px] landscape:md:text-sm landscape:lg:text-xl">
+                      Loading...
+                    </p>
                   </motion.div>
                 )}
                 <video

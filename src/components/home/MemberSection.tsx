@@ -33,7 +33,11 @@ const cards = [
         link: "https://www.instagram.com/q_nuphon",
         label: "Instagram",
       },
-      // { icon: Mail, link: "mailto:q@example.com", label: "Email" },
+      {
+        icon: Mail,
+        link: "mailto:danuphonchaiyakham@gmail.com",
+        label: "Email",
+      },
     ],
   },
   {
@@ -50,7 +54,7 @@ const cards = [
       },
       {
         icon: TwitterXIcon,
-        link: "https://x.com/zoexzone_?s=21&t=JudINDm1QwOEVZMPg_xG6w",
+        link: "https://x.com/zoexzone_",
         label: "Twitter",
       },
       {
@@ -67,6 +71,11 @@ const cards = [
     position: "Developer",
     image: New,
     contacts: [
+      {
+        icon: Instagram,
+        link: "https://www.instagram.com/4tarashii_",
+        label: "Instagram",
+      },
       {
         icon: Github,
         link: "https://github.com/Jedsadaporn05",
@@ -216,7 +225,7 @@ export default function MemberSection() {
                           >
                             <Icon
                               strokeWidth={1.75}
-                              className={`${contact.icon === Mail ? "size-4.25 sm:size-4.75 md:size-6.25 lg:size-5.75 xl:size-6.25 2xl:size-6.75 3xl:size-7.5" : "size-4 sm:size-4.5 md:size-6 lg:size-5.5 xl:size-6 2xl:size-6.5 3xl:size-7"}`}
+                              className={`${contact.icon === Mail ? "size-4.5 sm:size-5.75 md:size-6.25 lg:size-5.75 xl:size-6.25 2xl:size-6.75 3xl:size-7.5" : "size-4.25 sm:size-5.25 md:size-6 lg:size-5.5 xl:size-6 2xl:size-6.5 3xl:size-7"}`}
                             />
                           </Link>
                         );
