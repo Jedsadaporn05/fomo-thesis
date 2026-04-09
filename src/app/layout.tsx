@@ -84,12 +84,6 @@ export default function RootLayout({
         <link
           rel="preload"
           as="video"
-          href="/logo/LogoGracie.webm"
-          type="video/webm"
-        />
-        <link
-          rel="preload"
-          as="video"
           href="https://cdn.fomo-gracie.com/video/hero/hero-video.mp4"
           type="video/mp4"
           media="(min-width: 1024px)"
