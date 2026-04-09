@@ -162,7 +162,7 @@ export default function MemberSection() {
           <motion.h2
             variants={titleVariants}
             data-cursor-expand
-            className="text-2xl sm:text-3xl md:text-[40px] lg:text-4xl 2xl:text-[40px] 3xl:text-6xl font-bold text-white text-center"
+            className="w-fit mx-auto text-2xl sm:text-3xl md:text-[40px] lg:text-4xl 2xl:text-[40px] 3xl:text-6xl font-bold text-white text-center"
           >
             ทีมงานของเรา
           </motion.h2>

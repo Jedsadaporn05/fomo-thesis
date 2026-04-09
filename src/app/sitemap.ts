@@ -6,12 +6,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: baseUrl,
-      lastModified: "2026-04-09",
+      lastModified: new Date(),
       priority: 1,
     },
     {
       url: `${baseUrl}/story`,
-      lastModified: "2026-04-09",
+      lastModified: new Date(),
       priority: 0.8,
     },
   ];
