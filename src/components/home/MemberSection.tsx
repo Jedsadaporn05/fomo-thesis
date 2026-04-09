@@ -54,7 +54,7 @@ const cards = [
       },
       {
         icon: TwitterXIcon,
-        link: "https://x.com/zoexzone_?s=21&t=JudINDm1QwOEVZMPg_xG6w",
+        link: "https://x.com/zoexzone_",
         label: "Twitter",
       },
       {

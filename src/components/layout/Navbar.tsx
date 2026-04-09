@@ -336,7 +336,7 @@ export default function Navbar() {
                   height={400}
                   draggable="false"
                   priority
-                  className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 3xl:w-45 object-contain cursor-pointer"
+                  className="w-20 sm:w-25 md:w-30 lg:w-35 xl:w-40 3xl:w-45 h-auto object-contain cursor-pointer"
                 />
               </button>
             )}
@@ -580,7 +580,7 @@ export default function Navbar() {
                           onCancelExit();
                           playClickSound();
                         }}
-                        className="flex-1 order-2 sm:order-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm sm:text-base md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20 landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-3 landscape:lg:py-4"
+                        className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-sm sm:text-base md:text-xl font-semibold transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-white/20 landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-3 landscape:lg:py-4"
                       >
                         เล่นต่อ
                       </button>
@@ -589,7 +589,7 @@ export default function Navbar() {
                           onConfirmExit();
                           playClickSound();
                         }}
-                        className="flex-1 order-1 sm:order-2 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-sm sm:text-base md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-3 landscape:lg:py-4"
+                        className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-[#E51E5A] hover:bg-[#cf1d56] text-white text-sm sm:text-base md:text-xl font-semibold shadow-[0_0_20px_rgba(255,45,119,0.3)] transition-all duration-300 active:scale-95 cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[#FF2D77] relative overflow-hidden group landscape:text-xs landscape:sm:text-sm landscape:md:text-lg landscape:lg:text-xl landscape:py-2 landscape:sm:py-2.75 landscape:md:py-3 landscape:lg:py-4"
                       >
                         ยืนยันการออก
                       </button>

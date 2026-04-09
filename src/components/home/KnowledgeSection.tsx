@@ -198,6 +198,9 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     h2: 150,
   });
 
+  const rafIdRef = useRef<number | null>(null);
+  const refreshTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   // IntersectionObserver for lazy loading videos
   useEffect(() => {
     const section = containerRef.current;
@@ -226,13 +229,8 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
 
     videoRefs.current.forEach((video) => {
       if (!video) return;
-
-      video.load();
-
-      if (startAnimation) {
-        video.play().catch(() => {
-          // ignore autoplay block
-        });
+      if (startAnimation && video.paused) {
+        video.play().catch(() => {});
       }
     });
   }, [isNearViewport, startAnimation, isDesktop]);
@@ -241,13 +239,28 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
   useEffect(() => {
     if (!isDesktop) return;
 
-    let rafId: number | null = null;
+    const getRawRect = (el: HTMLElement) => {
+      const rect = el.getBoundingClientRect();
+      const yTransform = (gsap.getProperty(el, "y") as number) || 0;
+      const parent = el.closest(".knowledge-block-container") as HTMLElement;
+      const py =
+        parent && parent !== el
+          ? (gsap.getProperty(parent, "y") as number) || 0
+          : 0;
+      return {
+        left: rect.left,
+        top: rect.top - yTransform - py,
+        bottom: rect.bottom - yTransform - py,
+        width: rect.width,
+        height: rect.height,
+      };
+    };
 
     const updateCoords = () => {
-      if (rafId) return;
+      if (rafIdRef.current) return;
 
-      rafId = requestAnimationFrame(() => {
-        rafId = null;
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null;
 
         if (
           !measureContainerRef.current ||
@@ -257,13 +270,12 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
         )
           return;
 
-        const containerRect =
-          measureContainerRef.current.getBoundingClientRect();
-        const r1 = block1Ref.current.getBoundingClientRect();
-        const r2 = block2Ref.current.getBoundingClientRect();
-        const r3 = block3Ref.current.getBoundingClientRect();
+        const r1 = getRawRect(block1Ref.current);
+        const r2 = getRawRect(block2Ref.current);
+        const r3 = getRawRect(block3Ref.current);
+        const containerRect = getRawRect(measureContainerRef.current);
 
-        const centerPercent = (rect: DOMRect) =>
+        const centerPercent = (rect: { left: number; width: number }) =>
           ((rect.left + rect.width / 2 - containerRect.left) /
             containerRect.width) *
           100;
@@ -278,12 +290,11 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
 
         setLineCoords((prev) => {
           const isChanged =
-            Math.abs(prev.b1 - next.b1) > 1 ||
-            Math.abs(prev.b2 - next.b2) > 1 ||
-            Math.abs(prev.b3 - next.b3) > 1 ||
-            Math.abs(prev.h1 - next.h1) > 5 ||
-            Math.abs(prev.h2 - next.h2) > 5;
-
+            Math.abs(prev.b1 - next.b1) > 0.1 ||
+            Math.abs(prev.b2 - next.b2) > 0.1 ||
+            Math.abs(prev.b3 - next.b3) > 0.1 ||
+            Math.abs(prev.h1 - next.h1) > 1 ||
+            Math.abs(prev.h2 - next.h2) > 1;
           return isChanged ? next : prev;
         });
       });
@@ -292,6 +303,7 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     const observer = new ResizeObserver(updateCoords);
     if (measureContainerRef.current)
       observer.observe(measureContainerRef.current);
+    if (block1Ref.current) observer.observe(block1Ref.current);
     if (block2Ref.current) observer.observe(block2Ref.current);
     if (block3Ref.current) observer.observe(block3Ref.current);
 
@@ -299,16 +311,29 @@ export default function KnowledgeSection({ startAnimation }: KnowledgeProps) {
     document.addEventListener("fullscreenchange", updateCoords);
 
     updateCoords();
+    const timeoutId = setTimeout(updateCoords, 500);
 
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", updateCoords);
       document.removeEventListener("fullscreenchange", updateCoords);
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
-      }
+      clearTimeout(timeoutId);
+      if (rafIdRef.current !== null) cancelAnimationFrame(rafIdRef.current);
     };
   }, [isDesktop]);
+
+  useEffect(() => {
+    if (!isDesktop) return;
+
+    if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
+    refreshTimeoutRef.current = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => {
+      if (refreshTimeoutRef.current) clearTimeout(refreshTimeoutRef.current);
+    };
+  }, [lineCoords, isDesktop]);
 
   // GSAP Parallax and Animations
   useGSAP(
