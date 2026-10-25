@@ -25,7 +25,7 @@ Before setting up the project locally, make sure you have the following installe
 - **bun (Recommended) :** `v1.2.0` or higher - This repository uses Bun's text-based lockfile (`bun.lock`).
 - **Node.js :** `v20.0.0` or higher (LTS recommended) - Required by Next.js 15 and React 19, and needed if you prefer using `npm`.
 - **npm (Optional alternative) :** `v10.0.0` or higher (comes bundled with Node.js v20+).
-- **Internet Connection :** Required during local development to stream remote video, audio, and image assets from the project CDN (`https://cdn.fomo-gracie.com`).
+- **Internet Connection:** Required during local development to stream remote video, audio, and image assets from the project CDN.
 
 > **Note :** No `.env` file is required to run this project locally.
 
