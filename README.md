@@ -4,8 +4,6 @@
 
 **Gracie - The Missing Out** is a high-performance, interactive 2D animation storytelling website created as a thesis project exploring the psychological impact of **FOMO (Fear Of Missing Out)**. Users experience the story through the main character, **Gracie**, making interactive decisions that directly influence the narrative progression and determine the story's ending.
 
-- **Live Website:** [https://www.fomo-gracie.com](https://www.fomo-gracie.com)
-
 ---
 
 ## Tech Stack
@@ -22,7 +20,7 @@
 
 ## Requirements
 
-Before setting up the project locally, make sure you have the following installed:
+Before setting up the project locally, make sure you have the following installed :
 
 - **bun (Recommended) :** `v1.2.0` or higher - This repository uses Bun's text-based lockfile (`bun.lock`).
 - **Node.js :** `v20.0.0` or higher (LTS recommended) - Required by Next.js 15 and React 19, and needed if you prefer using `npm`.
@@ -44,7 +42,7 @@ cd fomo-thesis
 
 ### 2. Install dependencies
 
-You can install dependencies using either **Bun** or **npm** :
+You can install dependencies using either **bun** or **npm** :
 
 #### Option A : Using bun (Recommended)
 
@@ -69,7 +67,7 @@ npm install
 Start the local development server (powered by **Turbopack**) :
 
 ```bash
-# Using Bun (Recommended)
+# Using bun (Recommended)
 bun dev
 
 # Or using npm
@@ -169,7 +167,7 @@ Once started, the production server will be available at [http://localhost:3000]
 
 ### Production Configuration Highlights
 
-- **Remote Media CDN :** `next.config.ts` whitelists `https://cdn.fomo-gracie.com/**` under `images.remotePatterns` so `next/image` can optimize CDN images.
+- **Remote Media CDN :** `next.config.ts` whitelists the configured CDN domain under `images.remotePatterns` so `next/image` can optimize CDN images.
 - **Hero Video Preload :** The root layout (`src/app/layout.tsx`) adds `<link rel="preload">` hints for the desktop and mobile hero videos.
 - **Console Stripping :** In production builds (`NODE_ENV === "production"`), `console.log` statements are automatically removed via Next.js compiler options while retaining `console.error` and `console.warn`.
 
